@@ -1,4 +1,4 @@
 hubway-team-viz
 ===============
 
-View at https://kennknowles.github.com/hubway-team-viz
+View at http://kennknowles.github.com/hubway-team-viz
