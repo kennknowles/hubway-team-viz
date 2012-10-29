@@ -1,16 +1,26 @@
 <html>
   <head>
-    <link rel="stylesheet" href="reset.css" />
-    <link rel="stylesheet" href="viz.css" />
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />
+    <!-- Compass boilerplate -->
+    <link href="stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+    <link href="stylesheets/print.css" media="print" rel="stylesheet" type="text/css" />
+  <!--[if IE]>
+      <link href="stylesheets/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <![endif]-->
 
+    <!-- Our stylesheet, generated from sass/viz.scss -->
+    <link rel="stylesheet" href="stylesheets/viz.css" />
+
+    <!-- Leaflet code and stylesheets -->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />
     <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
     <script type="text/javascript" src="http://tiles.mapc.org/layers.js"></script>
 
-    <script src="jquery.js"></script>
-    <script src="underscore.js"></script>
-    <script src="d3.v2.js"></script>
+    <!-- Misc vendor javascript libs -->
+    <script src="vendor/jquery.js"></script>
+    <script src="vendor/underscore.js"></script>
+    <script src="vendor/d3.v2.js"></script>
 
+    <!-- Our javascript -->
     <script src="stations.js"></script>
     <script src="hourlyAverage.js"></script>
     <script src="viz.js"></script>
