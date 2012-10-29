@@ -108,21 +108,35 @@ $(document).ready(function() {
 	.attr("height", 100)
 
     
-    var chart_svg = d3.select('#station-chart').append('svg').attr('width', '100%').attr('height', 600);
+    // Begin Graphical Elements for Station Chart
+    // sc for station_chart
+    // Margin convention from here: http://bl.ocks.org/3019563
+    var margin = {top:40, right: 0, bottom:20, left:0};
+    var sc_width = 225;    // TODO how to make width '100%' again dynamically?, use width of parent?
+    var sc_height = 300;
+    var width = sc_width - margin.left - margin.right;
+    var height = sc_height - margin.top - margin.bottom;
+    sc_pa = 50 // for axis labels etc
+    var chart_svg = d3.select('#station-chart')
+	.append('svg')
+ 	.attr('width', sc_width)
+	.attr('height', sc_height)
+	.append("g")
+	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     chart_svg.selectAll();
 
-    var x = d3.scale.ordinal()
+    var x_scale = d3.scale.ordinal()
         .domain(_.range(0, 23))
-        .rangeRoundBands([0, 250]);
+        .rangeRoundBands([0, width]);
 
-    var y = d3.scale.linear() 
+    var y_scale = d3.scale.linear() 
         .domain([0, one_station_max])
-        .range([500, 100]);
+        .range([height, 0]);
 
     var line = d3.svg.line()
-        .x(function(d, i) { return x(i); })
-        .y(function(d) { return y(d); });
+        .x(function(d, i) { return x_scale(i); })
+        .y(function(d) { return y_scale(d); });
 
     console.log(line);
 
@@ -134,4 +148,38 @@ $(document).ready(function() {
         .datum(one_station_data_departures)
         .attr("class", "line departures")
         .attr("d", line);
+
+    sc_x_axis = d3.svg.axis()
+	.scale(x_scale)
+	.orient("bottom")
+	//.ticks(d3.time.hours,2);
+	.tickValues([0,4,8,12,16, 20]); // TODO, should wrap data so that you can see continuity over midnight - 2am?
+
+    sc_y_axis = d3.svg.axis()
+	.scale(y_scale)
+	.orient("right")
+	.ticks(5);
+
+    chart_svg.append("g")
+	.attr("class", "axis")
+	.attr("transform", "translate(0,"+ height + ")")
+	.call(sc_x_axis);
+
+    chart_svg.append("g")
+	.attr("class", "y axis")
+	.call(sc_y_axis)
+	.append("text")
+	.attr("transform", "rotate(-90)")
+          .attr("y", 30) // Does this make sense?
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Average Weekday Trips");
+    // TITLE
+    var title = chart_svg.append("g")
+	.attr("text-anchor", "start")
+	.attr("transform", "translate(10,"+ (-margin.top/2) +")");
+
+    title.append("text")
+	.attr("class", "title")
+	.text(function(d) { return stations_by_id[current_station_id].name; });
 });
