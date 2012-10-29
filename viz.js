@@ -1,3 +1,84 @@
+
+/* The station accumulation bars */
+function set_up_station_accumulations() {
+    var width = $('#aggregates').width();
+    var height = $('#aggregates').height();
+
+    var svg = d3.select("#aggregates").append("svg")
+	  .attr("width", width)
+	  .attr("height", height);
+
+    return svg;
+}
+
+function bind_station_accumulation_data(svg, data) {
+    var width = $('#aggregates').width();
+    var height = $('#aggregates').height();
+
+    var min_acc = _.min(_(data).map(function(d) { return d.accumulation;} ))
+    var max_acc = _.max(_(data).map(function(d) { return d.accumulation;} ))
+    var y_max = Math.max(-min_acc, max_acc);
+    
+    // Y scale keep 0 at exactly the midpoint of the SVG canvas
+    var y = d3.scale.linear()
+	    .domain([-y_max, y_max])
+	    .range([0, height])
+	    .nice();
+
+    // X scale allocates fixed-size rectangles for stations in order. 
+    // FIXME: I think it should be by index, not station id, since it stays sorted. We'll see when things get dynamic
+    var x = d3.scale.ordinal()
+	    .domain(_(data).map(function(d) { return d.station_id; }))
+	    .rangeRoundBands([0, width]);
+
+    // FIXME: I don't see this appearing
+    var yAxis = d3.svg.axis()
+	    .scale(y)
+	    .orient("top");
+
+    // Actually bind the data
+    var accumulation_enter = svg.selectAll(".station-accumulation").data(data).enter() 
+        .append("g").attr("class", "station-accumulation");
+    
+    /* The visible bar */
+    accumulation_enter.append("rect")
+	    .attr("class", function(d) { return d.accumulation > 0 ? "bar negative" : "bar positive"; })
+	    .attr("data-station", function(d) { return d.station_id; })
+	    .attr("data-accum", function(d) { return d.accumulation; })
+	    .attr("x", function(d, i) { return x(d.station_id); })
+	    .attr("y", function(d) { return y(Math.min(0, d.accumulation)) })
+	    .attr("width", x.rangeBand())
+	    .attr("height", function(d) { return Math.abs(y(d.accumulation) - y(0)); });
+
+    /* The station name*/
+    accumulation_enter.append("g").attr("transform", function(d) { return "translate(" + ( x(d.station_id) + x.rangeBand()*2/3 )+ ", " + y(0) + ")," + "rotate(270)" })
+	    .append("text")
+          .attr("class", function(d) { return d.accumulation > 0 ? "bar-label negative" : "bar-label positive"; })
+          .attr("dx", function(d) { return d.accumulation > 0 ? "0.6em" : "-0.6em" })
+	      .text(function(d) { return d.station.short_name });
+
+    /* An invisible rectangle over everything to receive selection */
+    accumulation_enter.append("rect")
+	    .attr("class", "activator")
+	    .attr("data-station", function(d) { return d.station_id; })
+	    .attr("data-accum", function(d) { return d.accumulation; })
+	    .attr("x", function(d, i) { return x(d.station_id); })
+	    .attr("y", 0)
+	    .attr("width", x.rangeBand())
+	    .attr("height", height);
+
+    // FIXME: This is triggering with the right stuff, but the addClass / removeClass seemingly do nothing
+    $('#aggregates').on("mouseover mouseout", ".activator", function(event) {
+        console.log(event.type, " on ", $(this));
+        if (event.type == "mouseover") {
+            $(this).addClass("active");
+            console.log("Changed to", $(this))
+        } else if (event.type == "mouseout") {
+            $(this).removeClass("active");
+        }
+    });
+}
+
 $(document).ready(function() {
 
     current_station_id = 38 // FIX ME: Hard coded what station to look at for now!
@@ -66,76 +147,9 @@ $(document).ready(function() {
             .bindPopup(stations_by_id[d.station_id].name);
     });
 
-    var width = $('#aggregates').width() 
-    height = $('#aggregates').height();
-
-    var min_acc = _.min(_(current_hour_data).map(function(d) { return d.accumulation;} ))
-    var max_acc = _.max(_(current_hour_data).map(function(d) { return d.accumulation;} ))
-    var y_max = Math.max(-min_acc, max_acc); // So the zero line always goes down the middle
-    
-    var y = d3.scale.linear()
-	.domain([-y_max, y_max])
-	.range([0, height])
-	.nice();
-
-    var x = d3.scale.ordinal()
-	.domain(_(current_hour_data).map(function(d) { return d.station_id; }))
-	.rangeRoundBands([0, width]);
-
-    var yAxis = d3.svg.axis()
-	.scale(y)
-	.orient("top");
-
-    var svg = d3.select("#aggregates").append("svg")
-	.attr("width", width)
-	.attr("height", height)
-
-    svg.selectAll(".bar")
-	.data(current_hour_data)
-	.enter().append("rect")
-	.attr("class", function(d) { return d.accumulation > 0 ? "bar negative" : "bar positive"; })
-	.attr("data-station", function(d) { return d.station_id; })
-	.attr("data-accum", function(d) { return d.accumulation; })
-	.attr("x", function(d, i) { return x(d.station_id); })
-	.attr("y", function(d) { return y(Math.min(0, d.accumulation)) })
-	.attr("width", x.rangeBand())
-	.attr("height", function(d) { return Math.abs(y(d.accumulation) - y(0)); });
-
-    svg.selectAll("text")
-	.data(current_hour_data)
-	.enter()
-    .append("g").attr("transform", function(d) { 
-        return "translate(" + ( x(d.station_id) + x.rangeBand()*2/3 )+ ", " + y(0) + ")," 
-        + "rotate(270)";
-    })
-	.append("text")
-	.attr("class", function(d) { return d.accumulation > 0 ? "bar-label negative" : "bar-label positive"; })
-    .attr("dx", function(d) { return d.accumulation > 0 ? "0.6em" : "-0.6em" })
-	.text(function(d) { return d.station.name });
-    
-    svg.selectAll(".activator")
-        .data(current_hour_data)
-	    .enter().append("rect")
-	    .attr("class", "activator")
-	    .attr("data-station", function(d) { return d.station_id; })
-	    .attr("data-accum", function(d) { return d.accumulation; })
-	    .attr("x", function(d, i) { return x(d.station_id); })
-	    .attr("y", 0)
-	    .attr("width", x.rangeBand())
-	    .attr("height", height);
-
-
-    // FIXME: This is triggering with the right stuff, but the addClass / removeClass seemingly do nothing
-    $('#aggregates').on("mouseover mouseout", ".activator", function(event) {
-        console.log(event.type, " on ", $(this));
-        if (event.type == "mouseover") {
-            $(this).addClass("active");
-            console.log("Changed to", $(this))
-        } else if (event.type == "mouseout") {
-            $(this).removeClass("active");
-        }
-    })
-
+    // Set up the station accumulation chart with some initial data
+    var accumulations_svg = set_up_station_accumulations();
+    bind_station_accumulation_data(accumulations_svg, current_hour_data); // FIXME: the default should be a sum, not the current hour
     
     // Begin Graphical Elements for Station Chart
     // sc for station_chart
