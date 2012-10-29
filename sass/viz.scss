@@ -5,23 +5,24 @@
 $positive-color : #36ac9c;
 $negative-color : #f9a72b;
 $active-color: #fddf24;
+$selected-color: #fddf24;
 $border-radius: 20px;
 
 /* Easier to measure things with this */
-* {
+div {
     @include box-sizing(border-box);
+    font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
 }
 
 /* The nested page components */
 #container {
-    margin: 20px 20px 20px 20px;
+    margin: 5px 20px 20px 20px;
     width: 1100px;
 
     #titlebar {
         padding-left: 30px;
         margin-bottom: -3px; /* To lay exactly on the border of the body */
         font-size: 20pt;
-        font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
     }
 
     #body {
@@ -31,9 +32,22 @@ $border-radius: 20px;
 
         #aggregates {
             height: 150px;
-            border: 1px dashed grey;
+            border: 1px dashed gray;
+
+            .bar-label {
+                font-size: 6pt;
+            }
+
+            .bar-label.positive {
+                text-anchor: end;
+            }
+            .bar-label.negative {
+                text-anchor: start;
+            }
 
             .bar {
+                stroke: black;
+                stroke-width: 1px;
                 border: 1px solid black;
             }
 
@@ -43,6 +57,20 @@ $border-radius: 20px;
             
             .bar.negative {
                 fill: $negative-color;
+            }
+            .bar.active {
+                fill: $active-color;
+                stroke-width:2px;
+            }
+
+            .activator {
+                stroke-width: 0px;
+                fill-opacity: 0.0;
+            }
+            /* TODO: we actually need to bind to hover with jQuery so we can modify the rect & label, not the activator bar*/
+            .activator:hover {
+                fill-opacity: 0.5;
+                fill: #ffffff;
             }
         }
 
