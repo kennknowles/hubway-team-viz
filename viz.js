@@ -232,7 +232,7 @@ $(document).ready(function() {
         step: 1,
         change: function(event, ui){
             console.log(ui.value);
-            current_station_id(ui.value);
+            current_hour_selected(ui.value);
         }
     });
 
