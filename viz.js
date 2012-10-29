@@ -88,7 +88,7 @@ $(document).ready(function() {
 	min: 0,
 	max: 23,
 	step: 1,
-	slide: function(event, ui){
+	change: function(event, ui){
 	    console.log(ui.value);
 	    current_station_id = ui.value;
 	}
@@ -131,14 +131,14 @@ $(document).ready(function() {
     
     var one_station_data_arrivals = _.chain(hourly_data)
 	.filter(function(d) { return d.station_id == current_station_id;})
+	.sortBy(function(d) { return d.hour })
 	.map(function(d) { return d.arrivals;})
-    .sortBy(function(d) { return d.hour })
 	.value();
 
     var one_station_data_departures = _.chain(hourly_data)
 	.filter(function(d) { return d.station_id == current_station_id;})
+	.sortBy(function(d) { return d.hour })
 	.map(function(d) { return d.departures;})
-    .sortBy(function(d) { return d.hour })
 	.value();
 
     var one_station_max = Math.max(_.max(one_station_data_departures),
