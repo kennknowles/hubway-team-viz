@@ -149,7 +149,10 @@ $(document).ready(function() {
         //.attr('style', 'border: 1px solid red') // For debugging
         .attr('width', width)
         .attr('height', height);
-    
+    $('#title-hourly')
+	.text('Hourly Traffic for '+
+	      stations_by_id[current_station_id].name);
+
 
     chart_svg.selectAll();
 
