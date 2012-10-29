@@ -1,3 +1,7 @@
+   
+/* Global page state defaults */ 
+current_station_id = 38 // FIX ME: Hard coded what station to look at for now!
+current_hour_selected = 17 // FIX ME: This should be based on user input too. How to handle aggregate?
 
 /* Colors found in sass/viz.scss but if there's a clever way to automate extraction */
 var positive_color = '#36ac9c';
@@ -71,14 +75,11 @@ function bind_station_accumulation_data(svg, data) {
 	    .attr("width", x.rangeBand())
 	    .attr("height", height);
 
-    // FIXME: This is triggering with the right stuff, but the addClass / removeClass seemingly do nothing
     $('#aggregates').on("mouseover mouseout", ".activator", function(event) {
-        console.log(event.type, " on ", $(this));
         if (event.type == "mouseover") {
-            $(this).addClass("active");
-            console.log("Changed to", $(this))
+            $(this).attr("class", "activator active");
         } else if (event.type == "mouseout") {
-            $(this).removeClass("active");
+            $(this).attr("class", "activator");
         }
     });
 }
@@ -91,13 +92,17 @@ function accumulation_data_for_hour(hour) {
             .value();
     } else {
         // moderate hack: no hour selected: add them all up
-        return _.chain(hourly_data)
+        var result = _.chain(hourly_data)
             .groupBy(function(d) { return d.station.id; })
             .map(function(ds, station_id) {
-                var template = ds.first();
-                template.accumulation = ds.map(function(d) { return d.accumulation; }).sum();
+                var template = _(ds).first();
+                template.accumulation = _(ds).reduce(function(accum, d) { return accum + d.accumulation; }, 0);
+                return template;
             })
-            .sortBy(function(d) { return d.accumulation; });
+            .sortBy(function(d) { return d.accumulation; })
+            .value();
+        console.log(result);
+        return result;
     }
 }
 
@@ -126,6 +131,7 @@ function bind_map_data(map, data) {
     // TODO: keep circles around and use .setStyle() to change the color and .setRadius()
 
     _(data).each(function(d) {
+        console.log(d);
         d.circle = L.circle([d.station.lat, d.station.lng],
 			                // TBD how to handle size and color to indicate total traffic
 			                // and net imbance
@@ -141,9 +147,9 @@ function bind_map_data(map, data) {
 $(document).ready(function() {
 
     /* Page View State Variables */
-    // TODO: use $.url() to pull them from the querystring, and when they are changed put them back, for easy linking
-    current_station_id = 38 // FIX ME: Hard coded what station to look at for now!
-    current_hour_selected = 17 // FIX ME: This should be based on user input too. How to handle aggregate?
+    current_station_id = $.url().param('station') || current_station_id;
+    current_hour_selected = $.url().param('hour') || current_hour_selected; 
+    console.log('Current station / hour:', current_station_id, current_hour_selected);
     
     /* Massage the initial data to make life a little easier */
     stations = _(stations).filter(function(station) { return !station.temporary });
