@@ -1,3 +1,4 @@
+@import "compass/css3";
 @import "compass/css3/box";
 
 /* Overall color scheme, etc */
@@ -5,6 +6,11 @@ $positive-color : #36ac9c;
 $negative-color : #f9a72b;
 $active-color: #fddf24;
 $border-radius: 20px;
+
+/* Easier to measure things with this */
+* {
+    @include box-sizing(border-box);
+}
 
 /* The nested page components */
 #container {
@@ -26,6 +32,10 @@ $border-radius: 20px;
         #aggregates {
             height: 150px;
             border: 1px dashed grey;
+
+            .bar {
+                border: 1px solid black;
+            }
 
             .bar.positive {
                 fill: $positive-color;

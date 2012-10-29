@@ -1,12 +1,20 @@
 @charset "UTF-8";
 /* Overall color scheme, etc */
+/* Easier to measure things with this */
+/* line 11, ../sass/viz.scss */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 /* The nested page components */
-/* line 10, ../sass/viz.scss */
+/* line 16, ../sass/viz.scss */
 #container {
   margin: 20px 20px 20px 20px;
   width: 1100px;
 }
-/* line 14, ../sass/viz.scss */
+/* line 20, ../sass/viz.scss */
 #container #titlebar {
   padding-left: 30px;
   margin-bottom: -3px;
@@ -14,26 +22,30 @@
   font-size: 20pt;
   font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
 }
-/* line 21, ../sass/viz.scss */
+/* line 27, ../sass/viz.scss */
 #container #body {
   border: 1px solid black;
   border-radius: 20px;
   background-color: #f4f4f4;
 }
-/* line 26, ../sass/viz.scss */
+/* line 32, ../sass/viz.scss */
 #container #body #aggregates {
   height: 150px;
   border: 1px dashed grey;
 }
-/* line 30, ../sass/viz.scss */
+/* line 36, ../sass/viz.scss */
+#container #body #aggregates .bar {
+  border: 1px solid black;
+}
+/* line 40, ../sass/viz.scss */
 #container #body #aggregates .bar.positive {
   fill: #36ac9c;
 }
-/* line 34, ../sass/viz.scss */
+/* line 44, ../sass/viz.scss */
 #container #body #aggregates .bar.negative {
   fill: #f9a72b;
 }
-/* line 39, ../sass/viz.scss */
+/* line 49, ../sass/viz.scss */
 #container #body #hourly {
   display: -webkit-box;
   display: -moz-box;
@@ -45,17 +57,17 @@
   box-orient: horizontal;
   /* The label above, outside the border */
 }
-/* line 43, ../sass/viz.scss */
+/* line 53, ../sass/viz.scss */
 #container #body #hourly > div {
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 10px;
 }
-/* line 49, ../sass/viz.scss */
+/* line 59, ../sass/viz.scss */
 #container #body #hourly .label {
   height: 40px;
 }
-/* line 53, ../sass/viz.scss */
+/* line 63, ../sass/viz.scss */
 #container #body #hourly .content {
   height: 450px;
   /* The rounded border bit */
@@ -65,53 +77,53 @@
   /* To round the corner of the map */
   /* The label within the rounded border */
 }
-/* line 59, ../sass/viz.scss */
+/* line 69, ../sass/viz.scss */
 #container #body #hourly .content .header {
   padding-top: 10px;
   padding-left: 30px;
   height: 30px;
   border-bottom: 1px solid black;
 }
-/* line 67, ../sass/viz.scss */
+/* line 77, ../sass/viz.scss */
 #container #body #hourly #station-chart {
   width: 400px;
 }
-/* line 70, ../sass/viz.scss */
+/* line 80, ../sass/viz.scss */
 #container #body #hourly #station-chart #line-chart {
   height: 340px;
   margin-top: 40px;
   /* Outside the border */
 }
-/* line 75, ../sass/viz.scss */
+/* line 85, ../sass/viz.scss */
 #container #body #hourly #station-chart .line {
   fill: none;
   stroke-width: 1.5px;
 }
-/* line 79, ../sass/viz.scss */
+/* line 89, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.arrivals {
   stroke: #36ac9c;
 }
-/* line 82, ../sass/viz.scss */
+/* line 92, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.departures {
   stroke: #f9a72b;
 }
-/* line 86, ../sass/viz.scss */
+/* line 96, ../sass/viz.scss */
 #container #body #hourly #station-chart .axis path,
 #container #body #hourly #station-chart .axis line {
   fill: none;
   stroke: black;
   shape-rendering: crispEdges;
 }
-/* line 92, ../sass/viz.scss */
+/* line 102, ../sass/viz.scss */
 #container #body #hourly #station-chart .axis text {
   font-family: sans-serif;
   font-size: 11px;
 }
-/* line 96, ../sass/viz.scss */
+/* line 106, ../sass/viz.scss */
 #container #body #hourly #station-chart .y.axis path {
   display: none;
 }
-/* line 101, ../sass/viz.scss */
+/* line 111, ../sass/viz.scss */
 #container #body #hourly #map {
   width: 660px;
   height: 410px;
