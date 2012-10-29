@@ -111,17 +111,20 @@ $(document).ready(function() {
 	.attr("height", 100)
 
     
-    var chart_svg = d3.select('#station-chart').append('svg').attr('width', '100%').attr('height', 600);
+    var chart_svg = d3.select('#line-chart').append('svg').attr('width', '100%').attr('height', '100%');
 
     chart_svg.selectAll();
 
+    var chart_width = $('#line-chart').width(),
+        chart_height = $('#line-chart').height();
+
     var x = d3.scale.ordinal()
         .domain(_.range(0, 23))
-        .rangeRoundBands([0, 250]);
+        .rangeRoundBands([0, chart_width]);
 
     var y = d3.scale.linear() 
         .domain([0, one_station_max])
-        .range([500, 100]);
+        .range([chart_height - 50, 50]);
 
     var line = d3.svg.line()
         .x(function(d, i) { return x(i); })
