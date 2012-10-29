@@ -153,6 +153,7 @@ function set_up_station_chart() {
         //.attr('style', 'border: 1px solid red') // For debugging
         .attr('width', width)
         .attr('height', height);
+    
 
     return chart_svg;
 }
@@ -295,6 +296,17 @@ $(document).ready(function() {
     var map = set_up_map(stations);
     var dummy = ko.computed(function() { bind_map_data(map, current_hour_data()); });
     
+
+    /* Set up the station line chart header */
+    var dummy = ko.computed(function() {
+        var station_id = current_station_id();
+        if (station_id) {
+            $('#title-hourly').text('Hourly Traffic for '+ stations_by_id[station_id].name);
+        } else {
+            $('#title-hourly').text('Click around to explore hour-by-hour activity.');
+        }
+    });
+    
     /* Set up the station chart and subscribe to data changes */
     var station_chart_svg = null; // This will start blank and be added when data is ready
     var dummy = ko.computed(function() { 
@@ -309,7 +321,7 @@ $(document).ready(function() {
             }
             bind_station_chart_data(station_chart_svg, arrivals, departures);
         } else {
-            $('#line-chart').text('Choose a station to see details.');
+            $('#line-chart').text('You are seeing typical weekday activity showing the total number of bikes checked in and out of Hubway stations [above] and total station activity [right]');
         }
     });
 
