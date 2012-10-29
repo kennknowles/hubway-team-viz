@@ -1,4 +1,8 @@
 
+/* Colors found in sass/viz.scss but if there's a clever way to automate extraction */
+var positive_color = '#36ac9c';
+var negative_color = '#f9a72b';
+
 /* The station accumulation bars */
 function set_up_station_accumulations() {
     var width = $('#aggregates').width();
@@ -79,13 +83,25 @@ function bind_station_accumulation_data(svg, data) {
     });
 }
 
-$(document).ready(function() {
+function accumulation_data_for_hour(hour) {
+    if (_(hour).isNumber()) {
+        return _.chain(hourly_data)
+            .filter(function(d) { return d.hour == hour; })
+            .sortBy(function(d) { return d.accumulation; })
+            .value();
+    } else {
+        // moderate hack: no hour selected: add them all up
+        return _.chain(hourly_data)
+            .groupBy(function(d) { return d.station.id; })
+            .map(function(ds, station_id) {
+                var template = ds.first();
+                template.accumulation = ds.map(function(d) { return d.accumulation; }).sum();
+            })
+            .sortBy(function(d) { return d.accumulation; });
+    }
+}
 
-    current_station_id = 38 // FIX ME: Hard coded what station to look at for now!
-    current_hour_selected = 17 // FIX ME: This should be based on user input too. How to handle aggregate?
-    
-    stations = _(stations).filter(function(station) { return !station.temporary });
-
+function set_up_map(stations) {
     // Center coords, and zoomlevel 13
     var map = L.map('map', {
         scrollWheelZoom: false
@@ -94,29 +110,56 @@ $(document).ready(function() {
     var layer = new L.MAPCTileLayer("basemap");
     map.addLayer(layer);
     
+    var min_lat = _.chain(stations).map(function(s) { return s.lat }).min().value();
+    var max_lat = _.chain(stations).map(function(s) { return s.lat }).max().value();
+    var min_lng = _.chain(stations).map(function(s) { return s.lng }).min().value();
+    var max_lng = _.chain(stations).map(function(s) { return s.lng }).max().value();
+
+    // Currently this zooms out too far map.fitBounds(L.latLngBounds([min_lat, min_lng], [max_lat, max_lng]));
+    map.setView([42.355, -71.095], 13);
+
+    return map;
+}
+
+function bind_map_data(map, data) {
+    var circle_scale = 27;
+    // TODO: keep circles around and use .setStyle() to change the color and .setRadius()
+
+    _(data).each(function(d) {
+        d.circle = L.circle([d.station.lat, d.station.lng],
+			                // TBD how to handle size and color to indicate total traffic
+			                // and net imbance
+                            circle_scale * Math.sqrt(Math.abs(d.arrivals+d.departures)),
+                            {color: (d.arrivals > d.departures ? positive_color : negative_color), 
+			                 weight: 2, opacity: 1.0, fillOpacity: 0.5})
+            .addTo(map)
+            .bindPopup(d.station.name);
+    });
+    // TODO: bind on click to mutate selected station id
+}
+
+$(document).ready(function() {
+
+    /* Page View State Variables */
+    // TODO: use $.url() to pull them from the querystring, and when they are changed put them back, for easy linking
+    current_station_id = 38 // FIX ME: Hard coded what station to look at for now!
+    current_hour_selected = 17 // FIX ME: This should be based on user input too. How to handle aggregate?
+    
+    /* Massage the initial data to make life a little easier */
+    stations = _(stations).filter(function(station) { return !station.temporary });
+    
     var stations_by_id = {};
     _(stations).each(function(station) {
         //station.flow = { in: 0, out: 0 };
         stations_by_id[station.id] = station;
     });
 
-    // May as well tack a pointer to the station on each datum
     _(hourly_data).each(function(d) {
         d.station = stations_by_id[d.station_id];
     });
 
-    var min_lat = _.chain(stations).map(function(s) { return s.lat }).min().value();
-    var max_lat = _.chain(stations).map(function(s) { return s.lat }).max().value();
-    var min_lng = _.chain(stations).map(function(s) { return s.lng }).min().value();
-    var max_lng = _.chain(stations).map(function(s) { return s.lng }).max().value();
-
-    map.fitBounds(L.latLngBounds([min_lat, min_lng], [max_lat, max_lng]));
-
-    var current_hour_data = _.chain(hourly_data)
-        .filter(function(item) { return item.hour == current_hour_selected; })
-        .sortBy(function(d) { return d.accumulation; })
-        .value();
-
+    /* Initial data */
+    var current_hour_data = accumulation_data_for_hour(current_hour_selected);
     
     var one_station_data_arrivals = _.chain(hourly_data)
 	.filter(function(d) { return d.station_id == current_station_id;})
@@ -132,24 +175,14 @@ $(document).ready(function() {
 
     var one_station_max = Math.max(_.max(one_station_data_departures),
 				   _.max(one_station_data_arrivals))
-    var circle_scale = 20;
-    function getStationCoords(id){
-	    return [stations_by_id[id].lat, stations_by_id[id].lng];
-    }
-    _(current_hour_data).each(function(d) {
-        d.circle = L.circle(getStationCoords(d.station_id),
-			    // TBD how to handle size and color to indicate total traffic
-			    // and net imbance
-                            circle_scale * Math.sqrt(Math.abs(d.arrivals+d.departures)),
-                            {color: (d.arrivals > d.departures?'steelBlue':'brown'),
-			     weight: 2, opacity: 1.0, fillOpacity: 0.5})
-            .addTo(map)
-            .bindPopup(stations_by_id[d.station_id].name);
-    });
 
-    // Set up the station accumulation chart with some initial data
+    /* Set up the station accumulation chart with some initial data */
     var accumulations_svg = set_up_station_accumulations();
     bind_station_accumulation_data(accumulations_svg, current_hour_data); // FIXME: the default should be a sum, not the current hour
+    
+    /* Set up the Map with initial data */
+    var map = set_up_map(stations);
+    bind_map_data(map, current_hour_data);
     
     // Begin Graphical Elements for Station Chart
     // sc for station_chart
@@ -157,16 +190,12 @@ $(document).ready(function() {
     var width = $('#line-chart').width();    // TODO how to make width '100%' again dynamically?, use width of parent?
     var height = $('#line-chart').height();
     var margin_bottom = 30; // This has to be within the SVG, to make room for x axis labels, but nothing else does
-    console.log(width, height);
 
     var chart_svg = d3.select('#line-chart').append('svg')
         //.attr('style', 'border: 1px solid red') // For debugging
         .attr('width', width)
         .attr('height', height);
-    $('#title-hourly')
-	.text('Hourly Traffic for '+
-	      stations_by_id[current_station_id].name);
-
+    
 
     chart_svg.selectAll();
 
