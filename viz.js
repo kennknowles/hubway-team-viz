@@ -122,7 +122,7 @@ $(document).ready(function() {
     $('#title-hourly')
 	.text('Hourly Traffic for '+
 	      stations_by_id[current_station_id].name);
-    console.log($('#title-hourly').text())
+
 
     chart_svg.selectAll();
 
