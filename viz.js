@@ -1,5 +1,8 @@
 $(document).ready(function() {
 
+    current_station_id = 38 // FIX ME: Hard coded what station to look at for now!
+    current_hour_selected = 17 // FIX ME: This should be based on user input too. How to handle aggregate?
+    
     stations = _(stations).filter(function(station) { return !station.temporary });
 
     // Center coords, and zoomlevel 13
@@ -13,7 +16,7 @@ $(document).ready(function() {
     
     var stations_by_id = {};
     _(stations).each(function(station) {
-        station.flow = { in: 0, out: 0 };
+        //station.flow = { in: 0, out: 0 };
         stations_by_id[station.id] = station;
     });
 
@@ -24,54 +27,47 @@ $(document).ready(function() {
 
     map.fitBounds(L.latLngBounds([min_lat, min_lng], [max_lat, max_lng]));
 
-    var fake_data = _.chain(stations)
-        .map(function(station) {
-            return _(_.range(0, 23)).map(function(hour) {
-                return {
-                    lat: station.lat,
-                    lng: station.lng,
-                    station: station,
-                    station_id: station.id,
-                    station_name: station.name,
-                    hour: hour,
-                    arrivals: Math.floor(100 * Math.random()),
-                    departures: Math.floor(100 * Math.random()),
-                }
-            });
-        })
-        .flatten()
-        .value();
-
-    var current_hour_data = _.chain(fake_data)
-        .filter(function(item) { return item.hour == 0; })
-        .map(function(d) { 
-            d.accumulation = d.arrivals - d.departures;
-            return d;
-        })
+    var current_hour_data = _.chain(hourly_data)
+        .filter(function(item) { return item.hour == current_hour_selected; })
         .sortBy(function(d) { return d.accumulation; })
         .value();
 
-    var fake_one_station_data = _.range(0, 23).map(function(d) {
-        return Math.min(d, Math.abs(11 - d), Math.abs(23 - d));
-    });
+    
+    // FIX ME: not checking the hours explicitly, assuming in order!
+    var one_station_data_arrivals = _.chain(hourly_data)
+	.filter(function(d) { return d.station_id == current_station_id;})
+	.map(function(d) { return d.arrivals;})
+	.value();
 
-    var circle_scale = 0.5;
+    var one_station_data_departures = _.chain(hourly_data)
+	.filter(function(d) { return d.station_id == current_station_id;})
+	.map(function(d) { return d.departures;})
+	.value();
 
+    var one_station_max = Math.max(_.max(one_station_data_departures),
+				   _.max(one_station_data_arrivals))
+    var circle_scale = 20;
+    function getStationCoords(id){
+	return [stations_by_id[id].lat, stations_by_id[id].lng];
+    }
     _(current_hour_data).each(function(d) {
-        d.circle = L.circle([d.lat, d.lng], 
-                            100, //circle_scale * Math.sqrt(Math.abs(d.arrivals - d.departures)),
-                            {color: '#ff0000', weight: 2, opacity: 1.0, fillOpacity: 0.5})
+        d.circle = L.circle(getStationCoords(d.station_id),
+			    // TBD how to handle size and color to indicate total traffic
+			    // and net imbance
+                            circle_scale * Math.sqrt(Math.abs(d.arrivals+d.departures)),
+                            {color: (d.arrivals > d.departures?'steelBlue':'brown'), weight: 2, opacity: 1.0, fillOpacity: 0.5})
             .addTo(map)
-            .bindPopup(d.station_name);
+            .bindPopup(stations_by_id[d.station_id].name);
     });
 
 var width = $('#aggregates').width() 
     height = 200; //$('#aggregate').height() 
 
-var x0 = 100; //Math.max(-d3.min(_(fake_data).map(function(data) { } )), d3.max(data));
-
+var min_acc = _.min(_(current_hour_data).map(function(d) { return d.accumulation;} ))
+var max_acc = _.max(_(current_hour_data).map(function(d) { return d.accumulation;} ))
+    
 var y = d3.scale.linear()
-    .domain([-x0, x0])
+    .domain([min_acc, max_acc])
     .range([0, height])
     .nice();
 
@@ -106,7 +102,7 @@ svg.selectAll("text")
     .attr("class", "label")
     .text(function(d) { return d.station_name })
     .attr("x", function(d, i) { return x(d.station_id); })
-    .attr("y", function(d, i) { return -y(Math.min(0, (d.arrivals - d.departures))); })
+    .attr("y", function(d, i) { return -y(Math.min(0, (d.accumulation))); })
     .attr("width", x.rangeBand())
     .attr("height", 100)
 
@@ -120,7 +116,7 @@ chart_svg.selectAll();
         .rangeRoundBands([0, 250]);
 
     var y = d3.scale.linear() 
-        .domain([0, 50])
+        .domain([0, one_station_max])
         .range([500, 100]);
 
     var line = d3.svg.line()
@@ -130,7 +126,11 @@ chart_svg.selectAll();
     console.log(line);
 
     chart_svg.append("path")
-        .datum(fake_one_station_data)
-        .attr("class", "line")
+        .datum(one_station_data_arrivals)
+        .attr("class", "line arrivals")
+        .attr("d", line);
+    chart_svg.append("path")
+        .datum(one_station_data_departures)
+        .attr("class", "line departures")
         .attr("d", line);
 });

@@ -11,6 +11,7 @@
     <script src="d3.v2.js"></script>
 
     <script src="stations.js"></script>
+    <script src="hourlyAverage.js"></script>
     <script src="viz.js"></script>
 
     <style>
@@ -51,11 +52,17 @@ div {
     fill: brown;
 }
 
-.line {
+.line.arrivals {
   fill: none;
   stroke: steelblue;
   stroke-width: 1.5px;
 }
+.line.departures {
+  fill: none;
+  stroke: brown;
+  stroke-width: 1.5px;
+}
+
 
     </style>
   </head>
