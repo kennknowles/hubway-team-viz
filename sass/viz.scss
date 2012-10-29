@@ -3,6 +3,7 @@
 /* Overall color scheme, etc */
 $positive-color : steelBlue;
 $negative-color : brown;
+$active-color: #fddf24;
 
 /* The nested page components */
 #container {
@@ -22,7 +23,6 @@ $negative-color : brown;
         background-color: #f4f4f4;
 
         #aggregates {
-            width: 100%;
             height: 200px;
 
             .bar.positive {

@@ -1,12 +1,12 @@
 @charset "UTF-8";
 /* Overall color scheme, etc */
 /* The nested page components */
-/* line 8, ../sass/viz.scss */
+/* line 9, ../sass/viz.scss */
 #container {
   margin: 20px 20px 20px 20px;
   width: 1100px;
 }
-/* line 12, ../sass/viz.scss */
+/* line 13, ../sass/viz.scss */
 #container #titlebar {
   padding-left: 30px;
   margin-bottom: -3px;
@@ -14,15 +14,14 @@
   font-size: 20pt;
   font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
 }
-/* line 19, ../sass/viz.scss */
+/* line 20, ../sass/viz.scss */
 #container #body {
   border: 1px solid black;
   border-radius: 20px;
   background-color: #f4f4f4;
 }
-/* line 24, ../sass/viz.scss */
+/* line 25, ../sass/viz.scss */
 #container #body #aggregates {
-  width: 100%;
   height: 200px;
 }
 /* line 28, ../sass/viz.scss */
