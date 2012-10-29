@@ -1,12 +1,12 @@
 @charset "UTF-8";
 /* Overall color scheme, etc */
 /* The nested page components */
-/* line 9, ../sass/viz.scss */
+/* line 10, ../sass/viz.scss */
 #container {
   margin: 20px 20px 20px 20px;
   width: 1100px;
 }
-/* line 13, ../sass/viz.scss */
+/* line 14, ../sass/viz.scss */
 #container #titlebar {
   padding-left: 30px;
   margin-bottom: -3px;
@@ -14,54 +14,83 @@
   font-size: 20pt;
   font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
 }
-/* line 20, ../sass/viz.scss */
+/* line 21, ../sass/viz.scss */
 #container #body {
   border: 1px solid black;
   border-radius: 20px;
   background-color: #f4f4f4;
 }
-/* line 25, ../sass/viz.scss */
+/* line 26, ../sass/viz.scss */
 #container #body #aggregates {
   height: 200px;
 }
-/* line 28, ../sass/viz.scss */
+/* line 29, ../sass/viz.scss */
 #container #body #aggregates .bar.positive {
   fill: #36ac9c;
 }
-/* line 32, ../sass/viz.scss */
+/* line 33, ../sass/viz.scss */
 #container #body #aggregates .bar.negative {
   fill: #f9a72b;
 }
-/* line 37, ../sass/viz.scss */
+/* line 38, ../sass/viz.scss */
 #container #body #hourly {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-box;
   display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  box-orient: horizontal;
+  /* The label above, outside the border */
 }
-/* line 40, ../sass/viz.scss */
-#container #body #hourly .header {
+/* line 42, ../sass/viz.scss */
+#container #body #hourly > div {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+/* line 48, ../sass/viz.scss */
+#container #body #hourly .label {
   height: 40px;
 }
-/* line 44, ../sass/viz.scss */
-#container #body #hourly #station-chart {
-  width: 300px;
+/* line 52, ../sass/viz.scss */
+#container #body #hourly .content {
+  height: 450px;
+  /* The rounded border bit */
+  border: 1px solid black;
+  border-radius: 20px;
+  overflow: hidden;
+  /* To round the corner of the map */
+  /* The label within the rounded border */
 }
-/* line 47, ../sass/viz.scss */
+/* line 58, ../sass/viz.scss */
+#container #body #hourly .content .header {
+  padding-top: 10px;
+  padding-left: 30px;
+  height: 30px;
+  border-bottom: 1px solid black;
+}
+/* line 66, ../sass/viz.scss */
+#container #body #hourly #station-chart {
+  width: 400px;
+}
+/* line 69, ../sass/viz.scss */
 #container #body #hourly #station-chart .line {
   fill: none;
   stroke-width: 1.5px;
 }
-/* line 51, ../sass/viz.scss */
+/* line 73, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.arrivals {
   stroke: #36ac9c;
 }
-/* line 54, ../sass/viz.scss */
+/* line 76, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.departures {
   stroke: #f9a72b;
 }
-/* line 59, ../sass/viz.scss */
+/* line 81, ../sass/viz.scss */
 #container #body #hourly #map {
-  width: 700px;
-  height: 600px;
+  width: 660px;
+  height: 410px;
+  /* Leaflet requires this to know how tall */
 }

@@ -4,6 +4,7 @@
 $positive-color : #36ac9c;
 $negative-color : #f9a72b;
 $active-color: #fddf24;
+$border-radius: 20px;
 
 /* The nested page components */
 #container {
@@ -19,7 +20,7 @@ $active-color: #fddf24;
 
     #body {
         border: 1px solid black;
-        border-radius: 20px;
+        border-radius: $border-radius;
         background-color: #f4f4f4;
 
         #aggregates {
@@ -36,13 +37,34 @@ $active-color: #fddf24;
 
         #hourly {
             @include display-box;
-            
-            .header {
-                height: 40px;
+            @include box-orient(horizontal);
+
+            >div {
+                margin-left: 10px;
+                margin-right: 10px;
+                margin-bottom: 10px;
+            }
+
+            .label { 
+                height: 40px; 
+            } /* The label above, outside the border */
+
+            .content { 
+                height: 450px; /* The rounded border bit */
+                border: 1px solid black;
+                border-radius: $border-radius;
+                overflow: hidden; /* To round the corner of the map */
+                
+                .header { 
+                    padding-top: 10px;
+                    padding-left: 30px;
+                    height: 30px; 
+                    border-bottom: 1px solid black;
+                } /* The label within the rounded border */
             }
 
             #station-chart {
-                width: 300px;
+                width: 400px;
 
                 .line {
                     fill: none;
@@ -57,8 +79,8 @@ $active-color: #fddf24;
             }
 
             #map { 
-                width: 700px;
-                height: 600px; 
+                width: 660px;
+                height: 410px; /* Leaflet requires this to know how tall */
             }
         }
     }
