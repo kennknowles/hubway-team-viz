@@ -6,7 +6,10 @@ $(document).ready(function() {
     stations = _(stations).filter(function(station) { return !station.temporary });
 
     // Center coords, and zoomlevel 13
-    var map = L.map('map');
+    var map = L.map('map', {
+        scrollWheelZoom: false
+    });
+
     map.on('moveend', function(e) {
         console.log(map.getCenter());
     });
