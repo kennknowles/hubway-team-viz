@@ -208,6 +208,10 @@ $(document).ready(function() {
         .attr('width', width)
         .attr('height', height);
     
+    // Update the title of the hourly plot to say which station
+    $('#title-hourly') 
+	.text('Hourly Traffic for '+
+	      stations_by_id[current_station_id].name);
 
     chart_svg.selectAll();
 
