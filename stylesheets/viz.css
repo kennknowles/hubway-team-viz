@@ -26,11 +26,11 @@
 }
 /* line 28, ../sass/viz.scss */
 #container #body #aggregates .bar.positive {
-  fill: steelblue;
+  fill: #36ac9c;
 }
 /* line 32, ../sass/viz.scss */
 #container #body #aggregates .bar.negative {
-  fill: brown;
+  fill: #f9a72b;
 }
 /* line 37, ../sass/viz.scss */
 #container #body #hourly {
@@ -54,11 +54,11 @@
 }
 /* line 51, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.arrivals {
-  stroke: steelblue;
+  stroke: #36ac9c;
 }
 /* line 54, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.departures {
-  stroke: brown;
+  stroke: #f9a72b;
 }
 /* line 59, ../sass/viz.scss */
 #container #body #hourly #map {
