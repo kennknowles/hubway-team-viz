@@ -2,7 +2,18 @@ $(document).ready(function() {
 
     current_station_id = 38 // FIX ME: Hard coded what station to look at for now!
     current_hour_selected = 17 // FIX ME: This should be based on user input too. How to handle aggregate?
-    
+    $("#slider").slider({
+	value: 8,
+	min: 0,
+	max: 23,
+	step: 1,
+	slide: function(event, ui){
+	    console.log(ui.value);
+	    current_station_id = ui.value;
+	}
+    });
+
+
     stations = _(stations).filter(function(station) { return !station.temporary });
 
     // Center coords, and zoomlevel 13
