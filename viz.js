@@ -112,6 +112,29 @@ $(document).ready(function() {
 	.attr("class", function(d) { return d.accumulation > 0 ? "bar-label negative" : "bar-label positive"; })
     .attr("dx", function(d) { return d.accumulation > 0 ? "0.6em" : "-0.6em" })
 	.text(function(d) { return d.station.name });
+    
+    svg.selectAll(".activator")
+        .data(current_hour_data)
+	    .enter().append("rect")
+	    .attr("class", "activator")
+	    .attr("data-station", function(d) { return d.station_id; })
+	    .attr("data-accum", function(d) { return d.accumulation; })
+	    .attr("x", function(d, i) { return x(d.station_id); })
+	    .attr("y", 0)
+	    .attr("width", x.rangeBand())
+	    .attr("height", height);
+
+
+    // FIXME: This is triggering with the right stuff, but the addClass / removeClass seemingly do nothing
+    $('#aggregates').on("mouseover mouseout", ".activator", function(event) {
+        console.log(event.type, " on ", $(this));
+        if (event.type == "mouseover") {
+            $(this).addClass("active");
+            console.log("Changed to", $(this))
+        } else if (event.type == "mouseout") {
+            $(this).removeClass("active");
+        }
+    })
 
     
     // Begin Graphical Elements for Station Chart

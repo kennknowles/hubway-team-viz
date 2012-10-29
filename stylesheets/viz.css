@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* Overall color scheme, etc */
 /* Easier to measure things with this */
-/* line 11, ../sass/viz.scss */
+/* line 12, ../sass/viz.scss */
 div {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -10,56 +10,72 @@ div {
 }
 
 /* The nested page components */
-/* line 17, ../sass/viz.scss */
+/* line 18, ../sass/viz.scss */
 #container {
   margin: 5px 20px 20px 20px;
   width: 1100px;
 }
-/* line 21, ../sass/viz.scss */
+/* line 22, ../sass/viz.scss */
 #container #titlebar {
   padding-left: 30px;
   margin-bottom: -3px;
   /* To lay exactly on the border of the body */
   font-size: 20pt;
 }
-/* line 27, ../sass/viz.scss */
+/* line 28, ../sass/viz.scss */
 #container #body {
   border: 1px solid black;
   border-radius: 20px;
   background-color: #f4f4f4;
 }
-/* line 32, ../sass/viz.scss */
+/* line 33, ../sass/viz.scss */
 #container #body #aggregates {
   height: 150px;
   border: 1px dashed gray;
+  /* TODO: we actually need to bind to hover with jQuery so we can modify the rect & label, not the activator bar*/
 }
-/* line 36, ../sass/viz.scss */
+/* line 37, ../sass/viz.scss */
 #container #body #aggregates .bar-label {
   font-size: 6pt;
 }
-/* line 40, ../sass/viz.scss */
+/* line 41, ../sass/viz.scss */
 #container #body #aggregates .bar-label.positive {
   text-anchor: end;
 }
-/* line 43, ../sass/viz.scss */
+/* line 44, ../sass/viz.scss */
 #container #body #aggregates .bar-label.negative {
   text-anchor: start;
 }
-/* line 47, ../sass/viz.scss */
+/* line 48, ../sass/viz.scss */
 #container #body #aggregates .bar {
   stroke: black;
   stroke-width: 1px;
   border: 1px solid black;
 }
-/* line 53, ../sass/viz.scss */
+/* line 54, ../sass/viz.scss */
 #container #body #aggregates .bar.positive {
   fill: #36ac9c;
 }
-/* line 57, ../sass/viz.scss */
+/* line 58, ../sass/viz.scss */
 #container #body #aggregates .bar.negative {
   fill: #f9a72b;
 }
-/* line 62, ../sass/viz.scss */
+/* line 61, ../sass/viz.scss */
+#container #body #aggregates .bar.active {
+  fill: #fddf24;
+  stroke-width: 2px;
+}
+/* line 66, ../sass/viz.scss */
+#container #body #aggregates .activator {
+  stroke-width: 0px;
+  fill-opacity: 0.0;
+}
+/* line 71, ../sass/viz.scss */
+#container #body #aggregates .activator:hover {
+  fill-opacity: 0.5;
+  fill: #ffffff;
+}
+/* line 77, ../sass/viz.scss */
 #container #body #hourly {
   display: -webkit-box;
   display: -moz-box;
@@ -71,17 +87,17 @@ div {
   box-orient: horizontal;
   /* The label above, outside the border */
 }
-/* line 66, ../sass/viz.scss */
+/* line 81, ../sass/viz.scss */
 #container #body #hourly > div {
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 10px;
 }
-/* line 72, ../sass/viz.scss */
+/* line 87, ../sass/viz.scss */
 #container #body #hourly .label {
   height: 40px;
 }
-/* line 76, ../sass/viz.scss */
+/* line 91, ../sass/viz.scss */
 #container #body #hourly .content {
   height: 450px;
   /* The rounded border bit */
@@ -91,53 +107,53 @@ div {
   /* To round the corner of the map */
   /* The label within the rounded border */
 }
-/* line 82, ../sass/viz.scss */
+/* line 97, ../sass/viz.scss */
 #container #body #hourly .content .header {
   padding-top: 10px;
   padding-left: 30px;
   height: 30px;
   border-bottom: 1px solid black;
 }
-/* line 90, ../sass/viz.scss */
+/* line 105, ../sass/viz.scss */
 #container #body #hourly #station-chart {
   width: 400px;
 }
-/* line 93, ../sass/viz.scss */
+/* line 108, ../sass/viz.scss */
 #container #body #hourly #station-chart #line-chart {
   height: 340px;
   margin-top: 40px;
   /* Outside the border */
 }
-/* line 98, ../sass/viz.scss */
+/* line 113, ../sass/viz.scss */
 #container #body #hourly #station-chart .line {
   fill: none;
   stroke-width: 1.5px;
 }
-/* line 102, ../sass/viz.scss */
+/* line 117, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.arrivals {
   stroke: #36ac9c;
 }
-/* line 105, ../sass/viz.scss */
+/* line 120, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.departures {
   stroke: #f9a72b;
 }
-/* line 109, ../sass/viz.scss */
+/* line 124, ../sass/viz.scss */
 #container #body #hourly #station-chart .axis path,
 #container #body #hourly #station-chart .axis line {
   fill: none;
   stroke: black;
   shape-rendering: crispEdges;
 }
-/* line 115, ../sass/viz.scss */
+/* line 130, ../sass/viz.scss */
 #container #body #hourly #station-chart .axis text {
   font-family: sans-serif;
   font-size: 11px;
 }
-/* line 119, ../sass/viz.scss */
+/* line 134, ../sass/viz.scss */
 #container #body #hourly #station-chart .y.axis path {
   display: none;
 }
-/* line 124, ../sass/viz.scss */
+/* line 139, ../sass/viz.scss */
 #container #body #hourly #map {
   width: 660px;
   height: 410px;

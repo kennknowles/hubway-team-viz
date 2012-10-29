@@ -5,6 +5,7 @@
 $positive-color : #36ac9c;
 $negative-color : #f9a72b;
 $active-color: #fddf24;
+$selected-color: #fddf24;
 $border-radius: 20px;
 
 /* Easier to measure things with this */
@@ -56,6 +57,20 @@ div {
             
             .bar.negative {
                 fill: $negative-color;
+            }
+            .bar.active {
+                fill: $active-color;
+                stroke-width:2px;
+            }
+
+            .activator {
+                stroke-width: 0px;
+                fill-opacity: 0.0;
+            }
+            /* TODO: we actually need to bind to hover with jQuery so we can modify the rect & label, not the activator bar*/
+            .activator:hover {
+                fill-opacity: 0.5;
+                fill: #ffffff;
             }
         }
 
