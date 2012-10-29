@@ -8,7 +8,7 @@ $active-color: #fddf24;
 $border-radius: 20px;
 
 /* Easier to measure things with this */
-* {
+div {
     @include box-sizing(border-box);
     font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
 }

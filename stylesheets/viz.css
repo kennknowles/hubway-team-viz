@@ -2,7 +2,7 @@
 /* Overall color scheme, etc */
 /* Easier to measure things with this */
 /* line 11, ../sass/viz.scss */
-* {
+div {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
