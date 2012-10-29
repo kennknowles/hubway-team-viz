@@ -101,7 +101,7 @@ stations = _(stations_raw).map(function (station_raw) {
         id: station_raw[0],
         terminalName: station_raw[1],
         name: station_raw[2],
-        short_name: stations_raw[3],
+        short_name: station_raw[3],
         installed: station_raw[4] == 'TRUE',
         locked: station_raw[5] == 'TRUE',
         temporary: station_raw[6] == 'TRUE',
