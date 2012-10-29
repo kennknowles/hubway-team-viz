@@ -19,6 +19,11 @@ $(document).ready(function() {
         stations_by_id[station.id] = station;
     });
 
+    // May as well tack a pointer to the station on each datum
+    _(hourly_data).each(function(d) {
+        d.station = stations_by_id[d.station_id];
+    });
+
     var min_lat = _.chain(stations).map(function(s) { return s.lat }).min().value();
     var max_lat = _.chain(stations).map(function(s) { return s.lat }).max().value();
     var min_lng = _.chain(stations).map(function(s) { return s.lng }).min().value();
@@ -32,22 +37,23 @@ $(document).ready(function() {
         .value();
 
     
-    // FIX ME: not checking the hours explicitly, assuming in order!
     var one_station_data_arrivals = _.chain(hourly_data)
 	.filter(function(d) { return d.station_id == current_station_id;})
 	.map(function(d) { return d.arrivals;})
+    .sortBy(function(d) { return d.hour })
 	.value();
 
     var one_station_data_departures = _.chain(hourly_data)
 	.filter(function(d) { return d.station_id == current_station_id;})
 	.map(function(d) { return d.departures;})
+    .sortBy(function(d) { return d.hour })
 	.value();
 
     var one_station_max = Math.max(_.max(one_station_data_departures),
 				   _.max(one_station_data_arrivals))
     var circle_scale = 20;
     function getStationCoords(id){
-	return [stations_by_id[id].lat, stations_by_id[id].lng];
+	    return [stations_by_id[id].lat, stations_by_id[id].lng];
     }
     _(current_hour_data).each(function(d) {
         d.circle = L.circle(getStationCoords(d.station_id),
@@ -65,15 +71,16 @@ $(document).ready(function() {
 
     var min_acc = _.min(_(current_hour_data).map(function(d) { return d.accumulation;} ))
     var max_acc = _.max(_(current_hour_data).map(function(d) { return d.accumulation;} ))
+    var y_max = Math.max(-min_acc, max_acc); // So the zero line always goes down the middle
     
     var y = d3.scale.linear()
-	.domain([min_acc, max_acc])
+	.domain([-y_max, y_max])
 	.range([0, height])
 	.nice();
 
     var x = d3.scale.ordinal()
 	.domain(_(current_hour_data).map(function(d) { return d.station_id; }))
-	.rangeRoundBands([0, width], .2);
+	.rangeRoundBands([0, width]);
 
     var yAxis = d3.svg.axis()
 	.scale(y)
@@ -97,14 +104,14 @@ $(document).ready(function() {
     svg.selectAll("text")
 	.data(current_hour_data)
 	.enter()
-    //.append("g").attr("transform", function(d) { return "rotate(270, " + x(d.station_id) + "," + -y(Math.min(0, (d.arrivals - d.departures))) + ")" })
+    .append("g").attr("transform", function(d) { 
+        return "translate(" + ( x(d.station_id) + x.rangeBand()*2/3 )+ ", " + y(0) + ")," 
+        + "rotate(270)";
+    })
 	.append("text")
-	.attr("class", "label")
-	.text(function(d) { return d.station_name })
-	.attr("x", function(d, i) { return x(d.station_id); })
-	.attr("y", function(d, i) { return -y(Math.min(0, (d.accumulation))); })
-	.attr("width", x.rangeBand())
-	.attr("height", 100)
+	.attr("class", function(d) { return d.accumulation > 0 ? "bar-label negative" : "bar-label positive"; })
+    .attr("dx", function(d) { return d.accumulation > 0 ? "0.6em" : "-0.6em" })
+	.text(function(d) { return d.station.name });
 
     
     // Begin Graphical Elements for Station Chart

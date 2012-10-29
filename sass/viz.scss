@@ -10,18 +10,18 @@ $border-radius: 20px;
 /* Easier to measure things with this */
 * {
     @include box-sizing(border-box);
+    font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
 }
 
 /* The nested page components */
 #container {
-    margin: 20px 20px 20px 20px;
+    margin: 5px 20px 20px 20px;
     width: 1100px;
 
     #titlebar {
         padding-left: 30px;
         margin-bottom: -3px; /* To lay exactly on the border of the body */
         font-size: 20pt;
-        font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
     }
 
     #body {
@@ -31,9 +31,22 @@ $border-radius: 20px;
 
         #aggregates {
             height: 150px;
-            border: 1px dashed grey;
+            border: 1px dashed gray;
+
+            .bar-label {
+                font-size: 6pt;
+            }
+
+            .bar-label.positive {
+                text-anchor: end;
+            }
+            .bar-label.negative {
+                text-anchor: start;
+            }
 
             .bar {
+                stroke: black;
+                stroke-width: 1px;
                 border: 1px solid black;
             }
 
