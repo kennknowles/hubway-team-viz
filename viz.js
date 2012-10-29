@@ -55,61 +55,62 @@ $(document).ready(function() {
 			    // TBD how to handle size and color to indicate total traffic
 			    // and net imbance
                             circle_scale * Math.sqrt(Math.abs(d.arrivals+d.departures)),
-                            {color: (d.arrivals > d.departures?'steelBlue':'brown'), weight: 2, opacity: 1.0, fillOpacity: 0.5})
+                            {color: (d.arrivals > d.departures?'steelBlue':'brown'),
+			     weight: 2, opacity: 1.0, fillOpacity: 0.5})
             .addTo(map)
             .bindPopup(stations_by_id[d.station_id].name);
     });
 
-var width = $('#aggregates').width() 
+    var width = $('#aggregates').width() 
     height = 200; //$('#aggregate').height() 
 
-var min_acc = _.min(_(current_hour_data).map(function(d) { return d.accumulation;} ))
-var max_acc = _.max(_(current_hour_data).map(function(d) { return d.accumulation;} ))
+    var min_acc = _.min(_(current_hour_data).map(function(d) { return d.accumulation;} ))
+    var max_acc = _.max(_(current_hour_data).map(function(d) { return d.accumulation;} ))
     
-var y = d3.scale.linear()
-    .domain([min_acc, max_acc])
-    .range([0, height])
-    .nice();
+    var y = d3.scale.linear()
+	.domain([min_acc, max_acc])
+	.range([0, height])
+	.nice();
 
-var x = d3.scale.ordinal()
-    .domain(_(current_hour_data).map(function(d) { return d.station_id; }))
-    .rangeRoundBands([0, width], .2);
+    var x = d3.scale.ordinal()
+	.domain(_(current_hour_data).map(function(d) { return d.station_id; }))
+	.rangeRoundBands([0, width], .2);
 
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("top");
+    var yAxis = d3.svg.axis()
+	.scale(y)
+	.orient("top");
 
-var svg = d3.select("#aggregates").append("svg")
-    .attr("width", width)
-    .attr("height", height)
+    var svg = d3.select("#aggregates").append("svg")
+	.attr("width", width)
+	.attr("height", height)
 
-svg.selectAll(".bar")
-    .data(current_hour_data)
-  .enter().append("rect")
-    .attr("class", function(d) { return d.accumulation > 0 ? "bar negative" : "bar positive"; })
-    .attr("data-station", function(d) { return d.station_id; })
-    .attr("data-accum", function(d) { return d.accumulation; })
-    .attr("x", function(d, i) { return x(d.station_id); })
-    .attr("y", function(d) { return y(Math.min(0, d.accumulation)) })
-    .attr("width", x.rangeBand())
-    .attr("height", function(d) { return Math.abs(y(d.accumulation) - y(0)); });
+    svg.selectAll(".bar")
+	.data(current_hour_data)
+	.enter().append("rect")
+	.attr("class", function(d) { return d.accumulation > 0 ? "bar negative" : "bar positive"; })
+	.attr("data-station", function(d) { return d.station_id; })
+	.attr("data-accum", function(d) { return d.accumulation; })
+	.attr("x", function(d, i) { return x(d.station_id); })
+	.attr("y", function(d) { return y(Math.min(0, d.accumulation)) })
+	.attr("width", x.rangeBand())
+	.attr("height", function(d) { return Math.abs(y(d.accumulation) - y(0)); });
 
-svg.selectAll("text")
-    .data(current_hour_data)
-  .enter()
+    svg.selectAll("text")
+	.data(current_hour_data)
+	.enter()
     //.append("g").attr("transform", function(d) { return "rotate(270, " + x(d.station_id) + "," + -y(Math.min(0, (d.arrivals - d.departures))) + ")" })
-  .append("text")
-    .attr("class", "label")
-    .text(function(d) { return d.station_name })
-    .attr("x", function(d, i) { return x(d.station_id); })
-    .attr("y", function(d, i) { return -y(Math.min(0, (d.accumulation))); })
-    .attr("width", x.rangeBand())
-    .attr("height", 100)
+	.append("text")
+	.attr("class", "label")
+	.text(function(d) { return d.station_name })
+	.attr("x", function(d, i) { return x(d.station_id); })
+	.attr("y", function(d, i) { return -y(Math.min(0, (d.accumulation))); })
+	.attr("width", x.rangeBand())
+	.attr("height", 100)
 
     
-var chart_svg = d3.select('#station-chart').append('svg').attr('width', '100%').attr('height', 600);
+    var chart_svg = d3.select('#station-chart').append('svg').attr('width', '100%').attr('height', 600);
 
-chart_svg.selectAll();
+    chart_svg.selectAll();
 
     var x = d3.scale.ordinal()
         .domain(_.range(0, 23))
