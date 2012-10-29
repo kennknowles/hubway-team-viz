@@ -10,10 +10,6 @@ $(document).ready(function() {
         scrollWheelZoom: false
     });
 
-    map.on('moveend', function(e) {
-        console.log(map.getCenter());
-    });
-
     var layer = new L.MAPCTileLayer("basemap");
     map.addLayer(layer);
     
@@ -111,26 +107,33 @@ $(document).ready(function() {
 	.attr("height", 100)
 
     
-    var chart_svg = d3.select('#line-chart').append('svg').attr('width', '100%').attr('height', '100%');
+    // Begin Graphical Elements for Station Chart
+    // sc for station_chart
+    // Margin convention from here: http://bl.ocks.org/3019563
+    var width = $('#line-chart').width();    // TODO how to make width '100%' again dynamically?, use width of parent?
+    var height = $('#line-chart').height();
+    var margin_bottom = 30; // This has to be within the SVG, to make room for x axis labels, but nothing else does
+    console.log(width, height);
+
+    var chart_svg = d3.select('#line-chart').append('svg')
+        //.attr('style', 'border: 1px solid red') // For debugging
+        .attr('width', width)
+        .attr('height', height);
+    
 
     chart_svg.selectAll();
 
-    var chart_width = $('#line-chart').width(),
-        chart_height = $('#line-chart').height();
-
-    var x = d3.scale.ordinal()
+    var x_scale = d3.scale.ordinal()
         .domain(_.range(0, 23))
-        .rangeRoundBands([0, chart_width]);
+        .rangeRoundBands([0, width]);
 
-    var y = d3.scale.linear() 
+    var y_scale = d3.scale.linear() 
         .domain([0, one_station_max])
-        .range([chart_height - 50, 50]);
+        .range([height-margin_bottom, 0]);
 
     var line = d3.svg.line()
-        .x(function(d, i) { return x(i); })
-        .y(function(d) { return y(d); });
-
-    console.log(line);
+        .x(function(d, i) { return x_scale(i); })
+        .y(function(d) { return y_scale(d); });
 
     chart_svg.append("path")
         .datum(one_station_data_arrivals)
@@ -140,4 +143,30 @@ $(document).ready(function() {
         .datum(one_station_data_departures)
         .attr("class", "line departures")
         .attr("d", line);
+
+    sc_x_axis = d3.svg.axis()
+	.scale(x_scale)
+	.orient("bottom")
+	//.ticks(d3.time.hours,2);
+	.tickValues([0,4,8,12,16, 20]); // TODO, should wrap data so that you can see continuity over midnight - 2am?
+
+    sc_y_axis = d3.svg.axis()
+	.scale(y_scale)
+	.orient("right")
+	.ticks(5);
+
+    chart_svg.append("g")
+	.attr("class", "axis")
+	.attr("transform", "translate(0,"+ (height - margin_bottom) + ")")
+	.call(sc_x_axis);
+
+    chart_svg.append("g")
+	.attr("class", "y axis")
+	.call(sc_y_axis)
+	.append("text")
+	.attr("transform", "rotate(-90)")
+          .attr("y", 30) // Does this make sense?
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Average Weekday Trips");
 });

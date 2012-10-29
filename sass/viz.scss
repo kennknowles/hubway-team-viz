@@ -66,6 +66,11 @@ $border-radius: 20px;
             #station-chart {
                 width: 400px;
 
+                #line-chart {
+                    height: 360px;
+                    margin: 20px; /* Outside the border */
+                }
+
                 .line {
                     fill: none;
                     stroke-width: 1.5px;
@@ -76,8 +81,22 @@ $border-radius: 20px;
                 .line.departures {
                     stroke: $negative-color;
                 }
+                .axis path,
+                .axis line {
+                    fill: none;
+                    stroke: black;
+                    shape-rendering: crispEdges;
+                }
+                
+                .axis text {
+                    font-family: sans-serif;
+                    font-size: 11px;
+                }
+                .y.axis path {
+                    display: none;
+                }
             }
-
+            
             #map { 
                 width: 660px;
                 height: 410px; /* Leaflet requires this to know how tall */

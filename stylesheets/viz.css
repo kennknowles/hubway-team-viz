@@ -76,19 +76,41 @@
   width: 400px;
 }
 /* line 69, ../sass/viz.scss */
+#container #body #hourly #station-chart #line-chart {
+  height: 360px;
+  margin: 20px;
+  /* Outside the border */
+}
+/* line 74, ../sass/viz.scss */
 #container #body #hourly #station-chart .line {
   fill: none;
   stroke-width: 1.5px;
 }
-/* line 73, ../sass/viz.scss */
+/* line 78, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.arrivals {
   stroke: #36ac9c;
 }
-/* line 76, ../sass/viz.scss */
+/* line 81, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.departures {
   stroke: #f9a72b;
 }
-/* line 81, ../sass/viz.scss */
+/* line 85, ../sass/viz.scss */
+#container #body #hourly #station-chart .axis path,
+#container #body #hourly #station-chart .axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+/* line 91, ../sass/viz.scss */
+#container #body #hourly #station-chart .axis text {
+  font-family: sans-serif;
+  font-size: 11px;
+}
+/* line 95, ../sass/viz.scss */
+#container #body #hourly #station-chart .y.axis path {
+  display: none;
+}
+/* line 100, ../sass/viz.scss */
 #container #body #hourly #map {
   width: 660px;
   height: 410px;
