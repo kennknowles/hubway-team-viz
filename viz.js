@@ -154,6 +154,12 @@ function set_up_station_chart() {
         .attr('width', width)
         .attr('height', height);
     
+    chart_svg.append("path")
+        .attr("class", "line arrivals")
+    
+    chart_svg.append("path")
+        .attr("class", "line departures")
+    
 
     return chart_svg;
 }
@@ -177,14 +183,14 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
     var line = d3.svg.line()
         .x(function(d, i) { return x_scale(i); })
         .y(function(d) { return y_scale(d); });
-    
-    chart_svg.append("path")
+
+    // TODO: a smooth transition
+    chart_svg.selectAll("path.line.arrivals")
         .datum(one_station_arrivals)
-        .attr("class", "line arrivals")
         .attr("d", line);
-    chart_svg.append("path")
+    
+    chart_svg.selectAll("path.line.departures")
         .datum(one_station_departures)
-        .attr("class", "line departures")
         .attr("d", line);
     
     sc_x_axis = d3.svg.axis()
@@ -197,7 +203,10 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
 	    .scale(y_scale)
 	    .orient("right")
 	    .ticks(5);
-    
+
+    // TODO: mutate axis if it is too ugly
+    chart_svg.selectAll('g.axis').remove();
+
     chart_svg.append("g")
 	    .attr("class", "axis")
 	    .attr("transform", "translate(0,"+ (height - margin_bottom) + ")")
@@ -252,7 +261,7 @@ $(document).ready(function() {
     /* Derived data */
     var current_hour_data = ko.computed(function() {
         var result = accumulation_data_for_hour(current_hour_selected);
-        console.log('Accumulation data:', result);
+        //console.log('Accumulation data:', result);
         return result;
     });
     
@@ -267,7 +276,7 @@ $(document).ready(function() {
                 .sortBy(function(d) { return d.hour })
                 .map(function(d) { return d.arrivals;})
                 .value();
-            console.log('Station departures:', result);
+            //console.log('Station arrivals:', result);
             return result;
         }
     });
@@ -283,7 +292,7 @@ $(document).ready(function() {
                 .sortBy(function(d) { return d.hour })
                 .map(function(d) { return d.departures;})
                 .value();
-            console.log('Station departures:', result);
+            //console.log('Station departures:', result);
             return result;
         }
     });
@@ -301,7 +310,7 @@ $(document).ready(function() {
     var dummy = ko.computed(function() {
         var station_id = current_station_id();
         if (station_id) {
-            $('#title-hourly').text('Hourly Traffic for '+ stations_by_id[station_id].name);
+            $('#title-hourly').text('Hourly Traffic for '+ stations_by_id[station_id].short_name);
         } else {
             $('#title-hourly').text('Click around to explore hour-by-hour activity.');
         }
@@ -312,16 +321,17 @@ $(document).ready(function() {
     var dummy = ko.computed(function() { 
         var arrivals = one_station_data_arrivals();
         var departures = one_station_data_departures();
-        console.log('Rebinding');
 
         if (arrivals && departures) {
-            $('#line-chart').text();
             if (!station_chart_svg) {
                 station_chart_svg = set_up_station_chart();
             }
             bind_station_chart_data(station_chart_svg, arrivals, departures);
         } else {
-            $('#line-chart').text('You are seeing typical weekday activity showing the total number of bikes checked in and out of Hubway stations [above] and total station activity [right]');
+            // TODO: hide a static div with the intro text and show the line chart via css
+
+            // TO NOT DO:
+            //$('#line-chart').text('You are seeing typical weekday activity showing the total number of bikes checked in and out of Hubway stations [above] and total station activity [right]');
         }
     });
 
