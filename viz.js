@@ -61,7 +61,7 @@ $(document).ready(function() {
     });
 
     var width = $('#aggregates').width() 
-    height = 200; //$('#aggregate').height() 
+    height = $('#aggregates').height();
 
     var min_acc = _.min(_(current_hour_data).map(function(d) { return d.accumulation;} ))
     var max_acc = _.max(_(current_hour_data).map(function(d) { return d.accumulation;} ))

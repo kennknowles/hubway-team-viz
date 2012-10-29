@@ -24,7 +24,8 @@ $border-radius: 20px;
         background-color: #f4f4f4;
 
         #aggregates {
-            height: 200px;
+            height: 150px;
+            border: 1px dashed grey;
 
             .bar.positive {
                 fill: $positive-color;
@@ -67,8 +68,8 @@ $border-radius: 20px;
                 width: 400px;
 
                 #line-chart {
-                    height: 360px;
-                    margin: 20px; /* Outside the border */
+                    height: 340px;
+                    margin-top: 40px; /* Outside the border */
                 }
 
                 .line {

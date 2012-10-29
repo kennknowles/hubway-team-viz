@@ -22,17 +22,18 @@
 }
 /* line 26, ../sass/viz.scss */
 #container #body #aggregates {
-  height: 200px;
+  height: 150px;
+  border: 1px dashed grey;
 }
-/* line 29, ../sass/viz.scss */
+/* line 30, ../sass/viz.scss */
 #container #body #aggregates .bar.positive {
   fill: #36ac9c;
 }
-/* line 33, ../sass/viz.scss */
+/* line 34, ../sass/viz.scss */
 #container #body #aggregates .bar.negative {
   fill: #f9a72b;
 }
-/* line 38, ../sass/viz.scss */
+/* line 39, ../sass/viz.scss */
 #container #body #hourly {
   display: -webkit-box;
   display: -moz-box;
@@ -44,17 +45,17 @@
   box-orient: horizontal;
   /* The label above, outside the border */
 }
-/* line 42, ../sass/viz.scss */
+/* line 43, ../sass/viz.scss */
 #container #body #hourly > div {
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 10px;
 }
-/* line 48, ../sass/viz.scss */
+/* line 49, ../sass/viz.scss */
 #container #body #hourly .label {
   height: 40px;
 }
-/* line 52, ../sass/viz.scss */
+/* line 53, ../sass/viz.scss */
 #container #body #hourly .content {
   height: 450px;
   /* The rounded border bit */
@@ -64,53 +65,53 @@
   /* To round the corner of the map */
   /* The label within the rounded border */
 }
-/* line 58, ../sass/viz.scss */
+/* line 59, ../sass/viz.scss */
 #container #body #hourly .content .header {
   padding-top: 10px;
   padding-left: 30px;
   height: 30px;
   border-bottom: 1px solid black;
 }
-/* line 66, ../sass/viz.scss */
+/* line 67, ../sass/viz.scss */
 #container #body #hourly #station-chart {
   width: 400px;
 }
-/* line 69, ../sass/viz.scss */
+/* line 70, ../sass/viz.scss */
 #container #body #hourly #station-chart #line-chart {
-  height: 360px;
-  margin: 20px;
+  height: 340px;
+  margin-top: 40px;
   /* Outside the border */
 }
-/* line 74, ../sass/viz.scss */
+/* line 75, ../sass/viz.scss */
 #container #body #hourly #station-chart .line {
   fill: none;
   stroke-width: 1.5px;
 }
-/* line 78, ../sass/viz.scss */
+/* line 79, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.arrivals {
   stroke: #36ac9c;
 }
-/* line 81, ../sass/viz.scss */
+/* line 82, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.departures {
   stroke: #f9a72b;
 }
-/* line 85, ../sass/viz.scss */
+/* line 86, ../sass/viz.scss */
 #container #body #hourly #station-chart .axis path,
 #container #body #hourly #station-chart .axis line {
   fill: none;
   stroke: black;
   shape-rendering: crispEdges;
 }
-/* line 91, ../sass/viz.scss */
+/* line 92, ../sass/viz.scss */
 #container #body #hourly #station-chart .axis text {
   font-family: sans-serif;
   font-size: 11px;
 }
-/* line 95, ../sass/viz.scss */
+/* line 96, ../sass/viz.scss */
 #container #body #hourly #station-chart .y.axis path {
   display: none;
 }
-/* line 100, ../sass/viz.scss */
+/* line 101, ../sass/viz.scss */
 #container #body #hourly #map {
   width: 660px;
   height: 410px;
