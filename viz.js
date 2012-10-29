@@ -101,7 +101,6 @@ function accumulation_data_for_hour(hour) {
             })
             .sortBy(function(d) { return d.accumulation; })
             .value();
-        console.log(result);
         return result;
     }
 }
@@ -131,7 +130,6 @@ function bind_map_data(map, data) {
     // TODO: keep circles around and use .setStyle() to change the color and .setRadius()
 
     _(data).each(function(d) {
-        console.log(d);
         d.circle = L.circle([d.station.lat, d.station.lng],
 			                // TBD how to handle size and color to indicate total traffic
 			                // and net imbance
@@ -145,6 +143,17 @@ function bind_map_data(map, data) {
 }
 
 $(document).ready(function() {
+
+    $("#slider").slider({
+        value: 8,
+        min: 0,
+        max: 23,
+        step: 1,
+        change: function(event, ui){
+            console.log(ui.value);
+            current_station_id = ui.value;
+        }
+    });
 
     /* Page View State Variables */
     current_station_id = $.url().param('station') || current_station_id;
@@ -169,14 +178,14 @@ $(document).ready(function() {
     
     var one_station_data_arrivals = _.chain(hourly_data)
 	.filter(function(d) { return d.station_id == current_station_id;})
+	.sortBy(function(d) { return d.hour })
 	.map(function(d) { return d.arrivals;})
-    .sortBy(function(d) { return d.hour })
 	.value();
 
     var one_station_data_departures = _.chain(hourly_data)
 	.filter(function(d) { return d.station_id == current_station_id;})
+	.sortBy(function(d) { return d.hour })
 	.map(function(d) { return d.departures;})
-    .sortBy(function(d) { return d.hour })
 	.value();
 
     var one_station_max = Math.max(_.max(one_station_data_departures),

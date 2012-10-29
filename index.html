@@ -14,12 +14,16 @@
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />
     <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
     <script type="text/javascript" src="http://tiles.mapc.org/layers.js"></script>
-
+ 
     <!-- Misc vendor javascript libs -->
-    <script src="vendor/jquery.js"></script>
+    <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
     <script src="vendor/jquery.url.js"></script>
     <script src="vendor/underscore.js"></script>
     <script src="vendor/d3.v2.js"></script>
+
+    <!-- Slider related -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css">
+    <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 
     <!-- Our javascript -->
     <script src="stations-abbreviated.js"></script>
@@ -38,7 +42,7 @@
           <div>
             <div class="label">&nbsp;</div>
             <div class="content" id="station-chart">
-              <div class="header" id="title-hourly">24 hours in South Station **</div>
+              <div class="header" id="title-hourly">24 Hr data</div>
               <div id="line-chart"> </div>
             </div>
           </div>
@@ -46,7 +50,13 @@
           <div>
             <div class="label">Total bike station activity</div>
             <div class="content">
-              <div class="header">am 12 1 2 3 4 5 6 7 8 9 10 11 noon 1 2 3 4 5 6 7 8 9 10 11 pm</div>
+              <div class="header"> 
+		<div id="slider">12 1 2 3 4 5 6 7 8 9 10 11 noon 1 2 3 4 5 6 7 8 9 10 11 pm</div>
+		
+		
+	      
+	      </div>
+	
               <div id="map"> </div>
             </div>
           </div>
