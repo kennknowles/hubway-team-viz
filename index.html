@@ -1,6 +1,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="viz.css" />
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />
 
     <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
@@ -13,68 +14,18 @@
     <script src="stations.js"></script>
     <script src="hourlyAverage.js"></script>
     <script src="viz.js"></script>
-
-    <style>
-div {
-    border: 1px solid black;
-}
-
-#container {
-    margin: 20px 20px 20px 20px;
-    width: 1000px;
-}
-
-#aggregates {
-    width: 100%;
-    height: 200px;
-}
-
-#body {
-    width: 100%;
-}
-
-
-#station-chart {
-    float: left;
-    width: 25%;
-}
-
-#map { 
-    width: auto;
-    height: 600px; 
-}
-
-.bar.positive {
-    fill: steelBlue;
-}
-
-.bar.negative {
-    fill: brown;
-}
-
-.line.arrivals {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-.line.departures {
-  fill: none;
-  stroke: brown;
-  stroke-width: 1.5px;
-}
-
-
-    </style>
   </head>
   <body>
     <div id="container">
-      <div class="titlebar">Hubway station bike accumulation</div>
+      <div id="titlebar">Balance of Hubway Bicycle Departures and Arrivals</div>
+
+      <div id="body">
+        <div id="aggregates"> </div>
       
-      <div id="aggregates"> </div>
-      
-      <div id="body" style="display: box; box-orient: horizontal">
-        <div id="station-chart"> </div>
-        <div id="map"> </div>
+        <div id="hourly" style="display: box; box-orient: horizontal">
+          <div id="station-chart"> </div>
+          <div id="map"> </div>
+        </div>
       </div>
     </div>
   </body>
