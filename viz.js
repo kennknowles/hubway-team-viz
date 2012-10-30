@@ -75,6 +75,10 @@ function bind_station_accumulation_data(svg, data) {
     $('#aggregates').on("mouseover mouseout click", "rect", function(event) {
         if (event.type == "mouseover") {
             $(this).attr("class", "activator active");
+	    // Zia prefer's just mouse over for exploring the data
+	    // Would be nice to click and latch perhaps to make it easier
+	    // to mouse out of this area 
+	    current_station_id( $(this).attr("data-station") );
         } else if (event.type == "mouseout") {
             $(this).attr("class", "activator");
         } else if (event.type == "click") {
@@ -173,7 +177,7 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
 				                   _.max(one_station_arrivals))
     
     var x_scale = d3.scale.ordinal()
-        .domain(_.range(0, 23))
+        .domain(_.range(24))
         .rangeRoundBands([0, width]);
     
     var y_scale = d3.scale.linear() 
@@ -196,8 +200,7 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
     sc_x_axis = d3.svg.axis()
 	    .scale(x_scale)
 	    .orient("bottom")
-	//.ticks(d3.time.hours,2);
-	    .tickValues([0,4,8,12,16, 20]); // TODO, should wrap data so that you can see continuity over midnight - 2am?
+      	    .tickValues([0,4,8,12,16, 20]); // TODO, should wrap data so that you can see continuity over midnight - 2am?
     
     sc_y_axis = d3.svg.axis()
 	    .scale(y_scale)
