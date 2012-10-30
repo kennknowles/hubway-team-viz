@@ -5,7 +5,7 @@
 $positive-color : #36ac9c;
 $negative-color : #f9a72b;
 $highlighted-color: #fddf24;
-$selected-color: #fddf24;
+$selected-color: #d9c702;
 $border-radius: 20px;
 
 /* Easier to measure things with this */
@@ -202,9 +202,10 @@ div {
                         background-color: $highlighted-color;
                     }
                     .hour.selected {
-                        border: 1px solid black;
+                        border: 2px solid black;
                         margin: -1px;
                         background-color: $selected-color;
+			//fill-opacity: 0.5; //does doesn't do opacity, but leaves just an outline which I like okay 			
                     }
                 }
 

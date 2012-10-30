@@ -239,11 +239,11 @@ div {
 }
 /* line 204, ../sass/viz.scss */
 #container #body #hourly #map-container .header #hours .hour.selected {
-  border: 1px solid black;
+  border: 2px solid black;
   margin: -1px;
-  background-color: #fddf24;
+  background-color: #d9c702;
 }
-/* line 211, ../sass/viz.scss */
+/* line 212, ../sass/viz.scss */
 #container #body #hourly #map-container #map {
   width: 770px;
   height: 390px;
