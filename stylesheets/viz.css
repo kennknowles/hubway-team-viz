@@ -127,7 +127,7 @@ div {
 /* line 113, ../sass/viz.scss */
 #container #body #hourly #station-chart .line {
   fill: none;
-  stroke-width: 1.5px;
+  stroke-width: 2px;
 }
 /* line 117, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.arrivals {
