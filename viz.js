@@ -18,10 +18,12 @@ function set_up_station_accumulations() {
 function bind_station_accumulation_data(svg, data) {
     var width = $('#aggregates').width();
     var height = $('#aggregates').height();
-
+    
     var min_acc = _.min(_(data).map(function(d) { return d.accumulation;} ))
     var max_acc = _.max(_(data).map(function(d) { return d.accumulation;} ))
     var y_max = Math.max(-min_acc, max_acc);
+
+    //console.log("bind_station_accumulation_data" + y_max);
     
     // Y scale keep 0 at exactly the midpoint of the SVG canvas
     var y = d3.scale.linear()
@@ -263,7 +265,7 @@ $(document).ready(function() {
 
     /* Derived data */
     var current_hour_data = ko.computed(function() {
-        var result = accumulation_data_for_hour(current_hour_selected);
+        var result = accumulation_data_for_hour(current_hour_selected());
         //console.log('Accumulation data:', result);
         return result;
     });
