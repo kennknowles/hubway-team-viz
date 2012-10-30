@@ -56,6 +56,12 @@ function bind_station_accumulation_data(svg, data) {
 	    .attr("width", x.rangeBand())
 	    .attr("height", function(d) { return Math.abs(y(d.accumulation) - y(0)); });
 
+    svg.selectAll('g.axis').remove();
+    svg.append("g")
+	.attr("class", "axis")
+	.attr("transform", "rotate(90)")
+	.call(yAxis);
+
     /* The station name*/
     accumulation_enter.append("g").attr("transform", function(d) { return "translate(" + ( x(d.station_id) + x.rangeBand()*2/3 )+ ", " + y(0) + ")," + "rotate(270)" })
 	    .append("text")
