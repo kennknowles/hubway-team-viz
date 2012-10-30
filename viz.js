@@ -274,13 +274,18 @@ function set_up_map(view_model) {
         var data = view_model.accumulation_data();
 	var black = "#000000";
 	var gray = "#5f5e5e";
+	var excessFactor = 1.5;
+	var neutral_color = "#ac9faa"
         _(data).each(function(d) {
+
+	    var fillColor =
+		(d.arrivals > excessFactor*d.departures) ? positive_color :
+		(d.departures > excessFactor*d.arrivals) ?  negative_color:
+		neutral_color;
             var color =
 		(d.station.id == highlighted_station) ? gray:
 		(d.station.id == selected_station) ? black :
-		(d.arrivals > d.departures) ? positive_color : negative_color;
-	    var fillColor =
-		(d.arrivals > d.departures) ? positive_color : negative_color;
+		fillColor;
 	    var weight = 
                 (d.station.id == highlighted_station) ? 4 : 2;
 	    var fillOpacity =
