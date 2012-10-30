@@ -2,21 +2,23 @@
 /* Colors found in sass/viz.scss but if there's a clever way to automate extraction */
 var positive_color = '#36ac9c';
 var negative_color = '#f9a72b';
-
+var acc_y_ax_pad = 50
 /* The station accumulation bars */
 function set_up_station_accumulations() {
-    var width = $('#aggregates').width();
+    var width = $('#aggregates').width() - acc_y_ax_pad;
     var height = $('#aggregates').height();
 
     var svg = d3.select("#aggregates").append("svg")
-	  .attr("width", width)
-	  .attr("height", height);
+	  .attr("width", width+acc_y_ax_pad)
+	.attr("height", height)
+	.append("g")
+	.attr("transform", "translate(" + acc_y_ax_pad + ",0)");
 
     return svg;
 }
 
 function bind_station_accumulation_data(svg, data) {
-    var width = $('#aggregates').width();
+    var width = $('#aggregates').width() - acc_y_ax_pad;
     var height = $('#aggregates').height();
     
     var min_acc = _.min(_(data).map(function(d) { return d.accumulation;} ))
@@ -28,7 +30,7 @@ function bind_station_accumulation_data(svg, data) {
     // Y scale keep 0 at exactly the midpoint of the SVG canvas
     var y = d3.scale.linear()
 	    .domain([-y_max, y_max])
-	    .range([0, height])
+	    .range([height, 0])
 	    .nice();
 
     // X scale allocates fixed-size rectangles for stations in order. 
@@ -40,7 +42,7 @@ function bind_station_accumulation_data(svg, data) {
     // FIXME: I don't see this appearing
     var yAxis = d3.svg.axis()
 	    .scale(y)
-	    .orient("top");
+	    .orient("left");
 
     // Actually bind the data
     var accumulation_enter = svg.selectAll(".station-accumulation").data(data).enter() 
@@ -52,15 +54,24 @@ function bind_station_accumulation_data(svg, data) {
 	    .attr("data-station", function(d) { return d.station_id; })
 	    .attr("data-accum", function(d) { return d.accumulation; })
 	    .attr("x", function(d, i) { return x(d.station_id); })
-	    .attr("y", function(d) { return y(Math.min(0, d.accumulation)) })
+	.attr("y", function(d) { return y(0);})//Math.min(0, d.accumulation)) })
 	    .attr("width", x.rangeBand())
-	    .attr("height", function(d) { return Math.abs(y(d.accumulation) - y(0)); });
+	    .attr("height", function(d) { return y(d.accumulation); });
 
-    svg.selectAll('g.axis').remove();
+    svg.selectAll('g.axis').
+	remove();
     svg.append("g")
-	.attr("class", "axis")
-	.attr("transform", "rotate(90)")
-	.call(yAxis);
+	.attr("class", "bar axis")// TODO: create a style for this
+	.attr("transform", "rotate(0)")
+    	.attr("transform", "translate(0,0)")
+	.call(yAxis)
+    	.append("text")
+	.attr("transform", "rotate(-90)")
+        .attr("y", -40)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("# of bikes");
+
 
     /* The station name*/
     accumulation_enter.append("g").attr("transform", function(d) { return "translate(" + ( x(d.station_id) + x.rangeBand()*2/3 )+ ", " + y(0) + ")," + "rotate(270)" })
