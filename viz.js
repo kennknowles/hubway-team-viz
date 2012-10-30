@@ -2,6 +2,7 @@
 /* Colors found in sass/viz.scss but if there's a clever way to automate extraction */
 var positive_color = '#36ac9c';
 var negative_color = '#f9a72b';
+var acc_y_ax_pad = 50
 var highlighted_color = '#fddf24';
 var selected_color = '#fddf24';
 
@@ -43,7 +44,7 @@ function ViewModel(stations, hourly_data) {
     self.accumulation_data = ko.computed(function() {
         var selected_hour = self.selected_hour();
         var highlighted_hour = self.highlighted_hour();
-        var hour = _(selected_hour).isNumber() ? selected_hour : highlighted_hour;
+        var hour = _(highlighted_hour).isNumber() ? highlighted_hour : selected_hour;
         console.log('Computing new accumulation data for hour', hour);
 
         if (_(hour).isNumber()) {
@@ -87,8 +88,6 @@ function ViewModel(stations, hourly_data) {
         return one_station_data(self.hourly_data, function(d) { return d.departures; }, self.station_chart_station());
     });
 }
-
-var acc_y_ax_pad = 50
 
 /* The station accumulation bars */
 function set_up_station_accumulations() {
@@ -225,7 +224,7 @@ function accumulation_data_for_hour(hour) {
 }
 
 function set_up_map(view_model) {
-    var circle_scale = 27;
+    var circle_scale = 45;
 
     // Center coords, and zoomlevel 13
     var map = L.map('map', {
@@ -367,10 +366,6 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
 
 $(document).ready(function() {
 
-    /* Page View State Variables */
-    current_station_id = ko.observable();
-    current_hour_selected = ko.observable();
-
     /* Massage the initial data to make life a little easier */
     stations = _(stations).filter(function(station) { return !station.temporary });
     
@@ -391,18 +386,23 @@ $(document).ready(function() {
                                                                        "selected_hour",
                                                                        "highlighted_station")));
     });
-    
-    $("#slider").slider({
-        value: 8,
-        min: 0,
-        max: 23,
-        step: 1,
-        change: function(event, ui){
-            console.log(ui.value);
-            view_model.selected_hour(ui.value);
+
+    $('#hours').on('mouseover mouseout click', '.hour', function(event) {
+        if (event.type == "mouseover") {
+            view_model.highlighted_hour(parseInt($(this).attr('data-hour')));
+        } else if (event.type == "mouseout") {
+            view_model.highlighted_hour(null);
+        } else if (event.type == "click") {
+            view_model.selected_hour(parseInt($(this).attr('data-hour')));
+            $('#hours .selected').removeClass('selected');
+            $(this).addClass('selected');
         }
     });
 
+    $('#hour-deselect').click(function() {
+        view_model.selected_hour(null);
+        $('#hours .selected').removeClass('selected');
+    })
 
     /* Set up the station accumulation chart and subscribe to data changes */
     var accumulations_svg = set_up_station_accumulations();
@@ -455,5 +455,5 @@ $(document).ready(function() {
 
     /* Now that everything is ready, load from querystring */
     view_model.selected_station($.url().param('station'));
-    view_model.selected_hour($.url().param('hour'));
+    view_model.selected_hour($.url().param('hour') ? parseInt($.url().param('hour')) : null);
 });
