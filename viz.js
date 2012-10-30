@@ -108,8 +108,6 @@ function bind_station_accumulation_data(svg, data) {
     var max_acc = _.max(_(data).map(function(d) { return d.accumulation;} ))
     var y_max = Math.max(-min_acc, max_acc);
 
-    //console.log("bind_station_accumulation_data" + y_max);
-    
     // Y scale keep 0 at exactly the midpoint of the SVG canvas
     var y = d3.scale.linear()
 	    .domain([-y_max, y_max])
@@ -128,7 +126,13 @@ function bind_station_accumulation_data(svg, data) {
 	    .orient("top");
 
     // Actually bind the data
-    var accumulation_enter = svg.selectAll(".station-accumulation").data(data).enter() 
+    svg.selectAll(".station-accumulation").remove();
+    var svg_data = svg.selectAll(".station-accumulation")
+        .data(data) 
+
+    svg_data.exit().remove();
+
+    var accumulation_enter = svg_data.enter() 
         .append("g").attr("class", "station-accumulation");
     
     /* The visible bar */
@@ -422,7 +426,9 @@ $(document).ready(function() {
 
     /* Set up the station accumulation chart and subscribe to data changes */
     var accumulations_svg = set_up_station_accumulations();
-    var dummy = ko.computed(function() { bind_station_accumulation_data(accumulations_svg, current_hour_data()); })
+    ko.computed(function() { 
+        bind_station_accumulation_data(accumulations_svg, view_model.accumulation_data()); 
+    });
     
     /* Set up the Map and subscribe to data changes */
     var map = set_up_map(view_model);
