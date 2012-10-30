@@ -25,6 +25,7 @@ function ViewModel(stations, hourly_data) {
      * Derived fields 
      */
 
+    /* Just one or the other of the highlighted stations from different UI controls */
     self.highlighted_station = ko.computed(function() {
         var map_station = self.highlighted_map_station();
         var accum_station = self.highlighted_accum_station();
@@ -56,6 +57,33 @@ function ViewModel(stations, hourly_data) {
                 .value();
             return result;
         }
+    });
+    
+    /* Extracts either the arrival or departure data for a particular station id */
+    function one_station_data(hourly_data, accessor, station_id) {
+        if (!station_id) {
+            return null
+        } else {
+            return _.chain(hourly_data)
+                .filter(function(d) { return d.station_id == station_id;})
+                .sortBy(function(d) { return d.hour })
+                .map(accessor) // Either d.arrivals or d.departures, basically
+                .value();
+        }
+    }
+
+    self.one_station_arrivals = ko.computed(function() {
+        var selected_station = self.selected_station();
+        var highlighted_station = self.highlighted_station();
+
+        return one_station_data(self.hourly_data, function(d) { return d.arrivals; }, highlighted_station || selected_station);
+    });
+    
+    self.one_station_arrivals = ko.computed(function() {
+        var selected_station = self.selected_station();
+        var highlighted_station = self.highlighted_station();
+
+        return one_station_data(self.hourly_data, function(d) { return d.departures; }, highlighted_station || selected_station);
     });
 }
 
@@ -231,9 +259,6 @@ function set_up_map(view_model) {
             });
         });
     });
-
-    
-    // TODO: bind on click to mutate selected station id
 }
 
 function set_up_station_chart() {
