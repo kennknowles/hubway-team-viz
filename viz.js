@@ -3,6 +3,55 @@
 var positive_color = '#36ac9c';
 var negative_color = '#f9a72b';
 
+/* Abstract representation of the state of the UI (a la Model-View-ViewModel) */
+function ViewModel(stations, hourly_data) {
+    var self = this;
+
+    /* Static data, attaching to this object */
+    self.stations = stations;
+    self.hourly_data = hourly_data;
+
+    /* Key view state */
+    self.selected_station = ko.observable();
+    self.selected_hour = ko.observable();
+
+    self.highlighted_hour = ko.observable();
+    self.highlighted_map_station = ko.observable();
+    self.highlighted_accum_station = ko.observable();
+
+    /* 
+     * Derived fields 
+     */
+
+    /* Accumulation computed from the highlighted/selected hour, otherwise overall. */
+    self.accumulation_data = ko.computed(function() {
+        var selected_hour = self.selected_hour();
+        var highlighted_hour = self.highlighted_hour();
+        var hour = _(selected_hour).isNumber() ? selected_hour : highlighted_hour;
+        console.log('Computing new accumulation data for hour', hour);
+
+        if (_(hour).isNumber()) {
+            return _.chain(hourly_data)
+                .filter(function(d) { return d.hour == hour; })
+                .sortBy(function(d) { return d.accumulation; })
+                .value();
+        } else {
+            // moderate hack: no hour selected: add them all up
+            var result = _.chain(hourly_data)
+                .groupBy(function(d) { return d.station.id; })
+                .map(function(ds, station_id) {
+                    var template = _(ds).first();
+                    template.accumulation = _(ds).reduce(function(accum, d) { return accum + d.accumulation; }, 0);
+                    return template;
+                })
+                .sortBy(function(d) { return d.accumulation; })
+                .value();
+            return result;
+        }
+    });
+}
+
+
 /* The station accumulation bars */
 function set_up_station_accumulations() {
     var width = $('#aggregates').width();
@@ -116,7 +165,9 @@ function accumulation_data_for_hour(hour) {
     }
 }
 
-function set_up_map(stations) {
+function set_up_map(view_model) {
+    var circle_scale = 27;
+
     // Center coords, and zoomlevel 13
     var map = L.map('map', {
         scrollWheelZoom: false
@@ -130,25 +181,25 @@ function set_up_map(stations) {
     var min_lng = _.chain(stations).map(function(s) { return s.lng }).min().value();
     var max_lng = _.chain(stations).map(function(s) { return s.lng }).max().value();
 
-    // Currently this zooms out too far map.fitBounds(L.latLngBounds([min_lat, min_lng], [max_lat, max_lng]));
+    // Currently this zooms out too far: map.fitBounds(L.latLngBounds([min_lat, min_lng], [max_lat, max_lng]));
     map.setView([42.355, -71.095], 13);
+    
+    var circles = {};
+    _(view_model.stations).each(function(station) {
+        circles[station.id] = L.circle([station.lat, station.lng], 0).addTo(map);
+    });
 
-    return map;
-}
+    var dummy = ko.computed(function() {
+        var data = view_model.accumulation_data();
+        console.log('Updating map with new accumulation data:', data);
 
-function bind_map_data(map, data) {
-    var circle_scale = 27;
-    // TODO: keep circles around and use .setStyle() to change the color and .setRadius()
-
-    _(data).each(function(d) {
-        d.circle = L.circle([d.station.lat, d.station.lng],
-			                // TBD how to handle size and color to indicate total traffic
-			                // and net imbance
-                            circle_scale * Math.sqrt(Math.abs(d.arrivals+d.departures)),
-                            {color: (d.arrivals > d.departures ? positive_color : negative_color), 
-			                 weight: 2, opacity: 1.0, fillOpacity: 0.5})
-            .addTo(map)
-            .bindPopup(d.station.name);
+        _(data).each(function(d) {
+            circles[d.station.id].setRadius(circle_scale * Math.sqrt(Math.abs(d.arrivals + d.departures)));
+            circles[d.station.id].setStyle({
+                color: (d.arrivals > d.departures ? positive_color : negative_color), 
+			    weight: 2, opacity: 1.0, fillOpacity: 0.5
+            });
+        });
     });
     // TODO: bind on click to mutate selected station id
 }
@@ -236,17 +287,6 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
 
 $(document).ready(function() {
 
-    $("#slider").slider({
-        value: 8,
-        min: 0,
-        max: 23,
-        step: 1,
-        change: function(event, ui){
-            console.log(ui.value);
-            current_hour_selected(ui.value);
-        }
-    });
-
     /* Page View State Variables */
     current_station_id = ko.observable();
     current_hour_selected = ko.observable();
@@ -268,6 +308,21 @@ $(document).ready(function() {
     _(hourly_data).each(function(d) {
         d.station = stations_by_id[d.station_id];
     });
+
+    var view_model = new ViewModel(stations, hourly_data);
+    
+    $("#slider").slider({
+        value: 8,
+        min: 0,
+        max: 23,
+        step: 1,
+        change: function(event, ui){
+            console.log(ui.value);
+            current_hour_selected(ui.value);
+            view_model.selected_hour(ui.value);
+        }
+    });
+
 
     /* Derived data */
     var current_hour_data = ko.computed(function() {
@@ -313,9 +368,7 @@ $(document).ready(function() {
     var dummy = ko.computed(function() { bind_station_accumulation_data(accumulations_svg, current_hour_data()); })
     
     /* Set up the Map and subscribe to data changes */
-    var map = set_up_map(stations);
-    var dummy = ko.computed(function() { bind_map_data(map, current_hour_data()); });
-    
+    var map = set_up_map(view_model);
 
     /* Set up the station line chart header */
     var dummy = ko.computed(function() {
