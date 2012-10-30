@@ -88,7 +88,6 @@ function ViewModel(stations, hourly_data) {
     });
 }
 
-
 var acc_y_ax_pad = 50
 
 /* The station accumulation bars */
