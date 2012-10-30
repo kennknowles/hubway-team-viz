@@ -50,7 +50,7 @@ function ViewModel(stations, hourly_data) {
         if (_(hour).isNumber()) {
             return _.chain(hourly_data)
                 .filter(function(d) { return d.hour == hour; })
-                .sortBy(function(d) { return d.accumulation; })
+                .sortBy(function(d) { return -d.accumulation; })
                 .value();
         } else {
             // moderate hack: no hour selected: add them all up
@@ -61,7 +61,7 @@ function ViewModel(stations, hourly_data) {
                     template.accumulation = _(ds).reduce(function(accum, d) { return accum + d.accumulation; }, 0);
                     return template;
                 })
-                .sortBy(function(d) { return d.accumulation; })
+                .sortBy(function(d) { return -d.accumulation; })
                 .value();
             return result;
         }
