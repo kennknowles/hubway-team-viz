@@ -13,7 +13,7 @@ div {
 /* line 18, ../sass/viz.scss */
 #container {
   margin: 5px 20px 20px 20px;
-  width: 1100px;
+  width: 1220px;
 }
 /* line 22, ../sass/viz.scss */
 #container #titlebar {
@@ -35,7 +35,7 @@ div {
 }
 /* line 36, ../sass/viz.scss */
 #container #body #aggregates .bar-label {
-  font-size: 6pt;
+  font-size: 8pt;
 }
 /* line 40, ../sass/viz.scss */
 #container #body #aggregates .bar-label.positive {
@@ -172,9 +172,13 @@ div {
 #container #body #hourly #station-chart .y.axis path {
   display: none;
 }
-/* line 155, ../sass/viz.scss */
-#container #body #hourly #map {
-  width: 660px;
-  height: 410px;
+/* line 156, ../sass/viz.scss */
+#container #body #hourly #map-container .header #hours {
+  text-align: center;
+}
+/* line 160, ../sass/viz.scss */
+#container #body #hourly #map-container #map {
+  width: 770px;
+  height: 400px;
   /* Leaflet requires this to know how tall */
 }

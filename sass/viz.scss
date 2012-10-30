@@ -17,7 +17,7 @@ div {
 /* The nested page components */
 #container {
     margin: 5px 20px 20px 20px;
-    width: 1100px;
+    width: 1220px;
 
     #titlebar {
         padding-left: 30px;
@@ -34,7 +34,7 @@ div {
             height: 150px;
 
             .bar-label {
-                font-size: 6pt;
+                font-size: 8pt;
             }
 
             .bar-label.positive {
@@ -152,9 +152,15 @@ div {
                 }
             }
             
-            #map { 
-                width: 660px;
-                height: 410px; /* Leaflet requires this to know how tall */
+            #map-container {
+                .header #hours {
+                    text-align: center;
+                }
+
+                #map { 
+                    width: 770px;
+                    height: 400px; /* Leaflet requires this to know how tall */
+                }
             }
         }
     }

@@ -226,7 +226,7 @@ function accumulation_data_for_hour(hour) {
 }
 
 function set_up_map(view_model) {
-    var circle_scale = 27;
+    var circle_scale = 45;
 
     // Center coords, and zoomlevel 13
     var map = L.map('map', {
@@ -392,18 +392,10 @@ $(document).ready(function() {
                                                                        "selected_hour",
                                                                        "highlighted_station")));
     });
-    
-    $("#slider").slider({
-        value: 8,
-        min: 0,
-        max: 23,
-        step: 1,
-        change: function(event, ui){
-            console.log(ui.value);
-            view_model.selected_hour(ui.value);
-        }
-    });
 
+    $('#hours').on('mouseover mouseout click', '.hour', function(event) {
+        console.log('event on hour');
+    });
 
     /* Set up the station accumulation chart and subscribe to data changes */
     var accumulations_svg = set_up_station_accumulations();
