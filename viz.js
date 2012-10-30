@@ -3,7 +3,7 @@
 var positive_color = '#36ac9c';
 var negative_color = '#f9a72b';
 var acc_y_ax_pad = 50
-var highlighted_color = '#fddf24';
+var highlighted_color = '#ff0000';
 var selected_color = '#fddf24';
 
 /* Abstract representation of the state of the UI (a la Model-View-ViewModel) */
@@ -230,7 +230,7 @@ function accumulation_data_for_hour(hour) {
 }
 
 function set_up_map(view_model) {
-    var circle_scale = 45;
+    var circle_scale = 60;
 
     // Center coords, and zoomlevel 13
     var map = L.map('map', {
@@ -272,18 +272,26 @@ function set_up_map(view_model) {
         var highlighted_station = view_model.highlighted_station();
         var selected_station = view_model.selected_station();
         var data = view_model.accumulation_data();
-
+	var black = "#000000";
+	var gray = "#5f5e5e";
         _(data).each(function(d) {
-            var color = 
-                (d.station.id == highlighted_station) ? highlighted_color : 
-                (d.station.id == selected_station) ? selected_color :
-                (d.arrivals > d.departures) ? positive_color : negative_color;
+            var color =
+		(d.station.id == highlighted_station) ? gray:
+		(d.station.id == selected_station) ? black :
+		(d.arrivals > d.departures) ? positive_color : negative_color;
+	    var fillColor =
+		(d.arrivals > d.departures) ? positive_color : negative_color;
+	    var weight = 
+                (d.station.id == highlighted_station) ? 4 : 2;
+	    var fillOpacity =
+		(d.station.id == selected_station) ? 1.0: 0.5;
+                
 
             circles[d.station.id].setRadius(circle_scale * Math.sqrt(Math.abs(d.arrivals + d.departures)));
 
             circles[d.station.id].setStyle({
-                color: color,
-			    weight: 2, opacity: 1.0, fillOpacity: 0.5
+                color: color, fillColor: fillColor,
+		weight: weight, opacity: 1.0, fillOpacity: fillOpacity
             });
         });
     });
