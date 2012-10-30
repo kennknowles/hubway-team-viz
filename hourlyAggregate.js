@@ -1,5 +1,5 @@
 
-// Hourly aggregate accumulation data for weekedays from 2012-08-01 00:00:00 to 2012-09-30 23:59:59
+// Hourly dayly average accumulation data for weekedays from 2012-08-01 00:00:00 to 2012-09-30 23:59:59
 // 43 weekedays in total
 
 hourly_data = [
@@ -142,6 +142,12 @@ hourly_data = [
     departures: 32.00,
     accumulation: 8.00,
   },  {
+    station_id: 25,
+    hour: 23,
+    arrivals: 32.00,
+    departures: 13.00,
+    accumulation: 19.00,
+  },  {
     station_id: 12,
     hour: 0,
     arrivals: 13.00,
@@ -279,6 +285,12 @@ hourly_data = [
     arrivals: 24.00,
     departures: 28.00,
     accumulation: -4.00,
+  },  {
+    station_id: 12,
+    hour: 23,
+    arrivals: 12.00,
+    departures: 11.00,
+    accumulation: 1.00,
   },  {
     station_id: 56,
     hour: 0,
@@ -418,6 +430,12 @@ hourly_data = [
     departures: 4.00,
     accumulation: 15.00,
   },  {
+    station_id: 56,
+    hour: 23,
+    arrivals: 9.00,
+    departures: 1.00,
+    accumulation: 8.00,
+  },  {
     station_id: 4,
     hour: 0,
     arrivals: 12.00,
@@ -555,6 +573,12 @@ hourly_data = [
     arrivals: 52.00,
     departures: 39.00,
     accumulation: 13.00,
+  },  {
+    station_id: 4,
+    hour: 23,
+    arrivals: 30.00,
+    departures: 25.00,
+    accumulation: 5.00,
   },  {
     station_id: 27,
     hour: 0,
@@ -694,6 +718,12 @@ hourly_data = [
     departures: 8.00,
     accumulation: 14.00,
   },  {
+    station_id: 27,
+    hour: 23,
+    arrivals: 16.00,
+    departures: 4.00,
+    accumulation: 12.00,
+  },  {
     station_id: 13,
     hour: 0,
     arrivals: 14.00,
@@ -831,6 +861,12 @@ hourly_data = [
     arrivals: 39.00,
     departures: 8.00,
     accumulation: 31.00,
+  },  {
+    station_id: 13,
+    hour: 23,
+    arrivals: 22.00,
+    departures: 9.00,
+    accumulation: 13.00,
   },  {
     station_id: 57,
     hour: 0,
@@ -970,6 +1006,12 @@ hourly_data = [
     departures: 35.00,
     accumulation: 6.00,
   },  {
+    station_id: 57,
+    hour: 23,
+    arrivals: 41.00,
+    departures: 24.00,
+    accumulation: 17.00,
+  },  {
     station_id: 51,
     hour: 0,
     arrivals: 10.00,
@@ -1107,6 +1149,12 @@ hourly_data = [
     arrivals: 31.00,
     departures: 13.00,
     accumulation: 18.00,
+  },  {
+    station_id: 51,
+    hour: 23,
+    arrivals: 10.00,
+    departures: 2.00,
+    accumulation: 8.00,
   },  {
     station_id: 39,
     hour: 0,
@@ -1246,6 +1294,12 @@ hourly_data = [
     departures: 29.00,
     accumulation: 20.00,
   },  {
+    station_id: 39,
+    hour: 23,
+    arrivals: 22.00,
+    departures: 13.00,
+    accumulation: 9.00,
+  },  {
     station_id: 63,
     hour: 0,
     arrivals: 7.00,
@@ -1383,6 +1437,12 @@ hourly_data = [
     arrivals: 29.00,
     departures: 5.00,
     accumulation: 24.00,
+  },  {
+    station_id: 63,
+    hour: 23,
+    arrivals: 17.00,
+    departures: 7.00,
+    accumulation: 10.00,
   },  {
     station_id: 83,
     hour: 0,
@@ -1522,6 +1582,12 @@ hourly_data = [
     departures: 8.00,
     accumulation: 8.00,
   },  {
+    station_id: 83,
+    hour: 23,
+    arrivals: 4.00,
+    departures: 0.00,
+    accumulation: 4.00,
+  },  {
     station_id: 85,
     hour: 0,
     arrivals: 2.00,
@@ -1659,6 +1725,12 @@ hourly_data = [
     arrivals: 10.00,
     departures: 4.00,
     accumulation: 6.00,
+  },  {
+    station_id: 85,
+    hour: 23,
+    arrivals: 11.00,
+    departures: 2.00,
+    accumulation: 9.00,
   },  {
     station_id: 26,
     hour: 0,
@@ -1798,6 +1870,12 @@ hourly_data = [
     departures: 21.00,
     accumulation: 24.00,
   },  {
+    station_id: 26,
+    hour: 23,
+    arrivals: 19.00,
+    departures: 17.00,
+    accumulation: 2.00,
+  },  {
     station_id: 93,
     hour: 0,
     arrivals: 0.00,
@@ -1936,6 +2014,12 @@ hourly_data = [
     departures: 0.00,
     accumulation: 2.00,
   },  {
+    station_id: 93,
+    hour: 23,
+    arrivals: 1.00,
+    departures: 0.00,
+    accumulation: 1.00,
+  },  {
     station_id: 92,
     hour: 0,
     arrivals: 0.00,
@@ -2070,6 +2154,12 @@ hourly_data = [
   },  {
     station_id: 92,
     hour: 22,
+    arrivals: 0.00,
+    departures: 0.00,
+    accumulation: 0.00,
+  },  {
+    station_id: 92,
+    hour: 23,
     arrivals: 0.00,
     departures: 0.00,
     accumulation: 0.00,
@@ -2212,6 +2302,12 @@ hourly_data = [
     departures: 16.00,
     accumulation: -10.00,
   },  {
+    station_id: 7,
+    hour: 23,
+    arrivals: 4.00,
+    departures: 14.00,
+    accumulation: -10.00,
+  },  {
     station_id: 24,
     hour: 0,
     arrivals: 3.00,
@@ -2349,6 +2445,12 @@ hourly_data = [
     arrivals: 21.00,
     departures: 48.00,
     accumulation: -27.00,
+  },  {
+    station_id: 24,
+    hour: 23,
+    arrivals: 23.00,
+    departures: 40.00,
+    accumulation: -17.00,
   },  {
     station_id: 31,
     hour: 0,
@@ -2488,6 +2590,12 @@ hourly_data = [
     departures: 47.00,
     accumulation: -28.00,
   },  {
+    station_id: 31,
+    hour: 23,
+    arrivals: 31.00,
+    departures: 32.00,
+    accumulation: -1.00,
+  },  {
     station_id: 64,
     hour: 0,
     arrivals: 1.00,
@@ -2626,6 +2734,12 @@ hourly_data = [
     departures: 25.00,
     accumulation: -5.00,
   },  {
+    station_id: 64,
+    hour: 23,
+    arrivals: 15.00,
+    departures: 17.00,
+    accumulation: -2.00,
+  },  {
     station_id: 65,
     hour: 0,
     arrivals: 3.00,
@@ -2763,6 +2877,12 @@ hourly_data = [
     arrivals: 19.00,
     departures: 9.00,
     accumulation: 10.00,
+  },  {
+    station_id: 65,
+    hour: 23,
+    arrivals: 15.00,
+    departures: 8.00,
+    accumulation: 7.00,
   },  {
     station_id: 22,
     hour: 0,
@@ -2902,6 +3022,12 @@ hourly_data = [
     departures: 95.00,
     accumulation: -43.00,
   },  {
+    station_id: 22,
+    hour: 23,
+    arrivals: 37.00,
+    departures: 56.00,
+    accumulation: -19.00,
+  },  {
     station_id: 20,
     hour: 0,
     arrivals: 23.00,
@@ -3039,6 +3165,12 @@ hourly_data = [
     arrivals: 80.00,
     departures: 62.00,
     accumulation: 18.00,
+  },  {
+    station_id: 20,
+    hour: 23,
+    arrivals: 53.00,
+    departures: 27.00,
+    accumulation: 26.00,
   },  {
     station_id: 23,
     hour: 0,
@@ -3178,6 +3310,12 @@ hourly_data = [
     departures: 43.00,
     accumulation: -13.00,
   },  {
+    station_id: 23,
+    hour: 23,
+    arrivals: 27.00,
+    departures: 25.00,
+    accumulation: 2.00,
+  },  {
     station_id: 6,
     hour: 0,
     arrivals: 18.00,
@@ -3315,6 +3453,12 @@ hourly_data = [
     arrivals: 56.00,
     departures: 32.00,
     accumulation: 24.00,
+  },  {
+    station_id: 6,
+    hour: 23,
+    arrivals: 32.00,
+    departures: 26.00,
+    accumulation: 6.00,
   },  {
     station_id: 38,
     hour: 0,
@@ -3454,6 +3598,12 @@ hourly_data = [
     departures: 39.00,
     accumulation: 9.00,
   },  {
+    station_id: 38,
+    hour: 23,
+    arrivals: 32.00,
+    departures: 13.00,
+    accumulation: 19.00,
+  },  {
     station_id: 35,
     hour: 0,
     arrivals: 3.00,
@@ -3591,6 +3741,12 @@ hourly_data = [
     arrivals: 14.00,
     departures: 18.00,
     accumulation: -4.00,
+  },  {
+    station_id: 35,
+    hour: 23,
+    arrivals: 8.00,
+    departures: 13.00,
+    accumulation: -5.00,
   },  {
     station_id: 40,
     hour: 0,
@@ -3730,6 +3886,12 @@ hourly_data = [
     departures: 52.00,
     accumulation: 9.00,
   },  {
+    station_id: 40,
+    hour: 23,
+    arrivals: 41.00,
+    departures: 28.00,
+    accumulation: 13.00,
+  },  {
     station_id: 43,
     hour: 0,
     arrivals: 18.00,
@@ -3867,6 +4029,12 @@ hourly_data = [
     arrivals: 36.00,
     departures: 31.00,
     accumulation: 5.00,
+  },  {
+    station_id: 43,
+    hour: 23,
+    arrivals: 29.00,
+    departures: 29.00,
+    accumulation: 0.00,
   },  {
     station_id: 44,
     hour: 0,
@@ -4006,6 +4174,12 @@ hourly_data = [
     departures: 40.00,
     accumulation: -5.00,
   },  {
+    station_id: 44,
+    hour: 23,
+    arrivals: 32.00,
+    departures: 54.00,
+    accumulation: -22.00,
+  },  {
     station_id: 47,
     hour: 0,
     arrivals: 24.00,
@@ -4143,6 +4317,12 @@ hourly_data = [
     arrivals: 81.00,
     departures: 73.00,
     accumulation: 8.00,
+  },  {
+    station_id: 47,
+    hour: 23,
+    arrivals: 48.00,
+    departures: 23.00,
+    accumulation: 25.00,
   },  {
     station_id: 49,
     hour: 0,
@@ -4282,6 +4462,12 @@ hourly_data = [
     departures: 48.00,
     accumulation: 7.00,
   },  {
+    station_id: 49,
+    hour: 23,
+    arrivals: 38.00,
+    departures: 41.00,
+    accumulation: -3.00,
+  },  {
     station_id: 48,
     hour: 0,
     arrivals: 1.00,
@@ -4419,6 +4605,12 @@ hourly_data = [
     arrivals: 14.00,
     departures: 21.00,
     accumulation: -7.00,
+  },  {
+    station_id: 48,
+    hour: 23,
+    arrivals: 22.00,
+    departures: 9.00,
+    accumulation: 13.00,
   },  {
     station_id: 54,
     hour: 0,
@@ -4558,6 +4750,12 @@ hourly_data = [
     departures: 59.00,
     accumulation: 5.00,
   },  {
+    station_id: 54,
+    hour: 23,
+    arrivals: 41.00,
+    departures: 47.00,
+    accumulation: -6.00,
+  },  {
     station_id: 59,
     hour: 0,
     arrivals: 8.00,
@@ -4695,6 +4893,12 @@ hourly_data = [
     arrivals: 38.00,
     departures: 26.00,
     accumulation: 12.00,
+  },  {
+    station_id: 59,
+    hour: 23,
+    arrivals: 23.00,
+    departures: 19.00,
+    accumulation: 4.00,
   },  {
     station_id: 60,
     hour: 0,
@@ -4834,6 +5038,12 @@ hourly_data = [
     departures: 36.00,
     accumulation: 68.00,
   },  {
+    station_id: 60,
+    hour: 23,
+    arrivals: 63.00,
+    departures: 43.00,
+    accumulation: 20.00,
+  },  {
     station_id: 81,
     hour: 0,
     arrivals: 12.00,
@@ -4971,6 +5181,12 @@ hourly_data = [
     arrivals: 35.00,
     departures: 48.00,
     accumulation: -13.00,
+  },  {
+    station_id: 81,
+    hour: 23,
+    arrivals: 23.00,
+    departures: 18.00,
+    accumulation: 5.00,
   },  {
     station_id: 52,
     hour: 0,
@@ -5110,6 +5326,12 @@ hourly_data = [
     departures: 85.00,
     accumulation: -24.00,
   },  {
+    station_id: 52,
+    hour: 23,
+    arrivals: 29.00,
+    departures: 44.00,
+    accumulation: -15.00,
+  },  {
     station_id: 46,
     hour: 0,
     arrivals: 28.00,
@@ -5247,6 +5469,12 @@ hourly_data = [
     arrivals: 64.00,
     departures: 49.00,
     accumulation: 15.00,
+  },  {
+    station_id: 46,
+    hour: 23,
+    arrivals: 58.00,
+    departures: 46.00,
+    accumulation: 12.00,
   },  {
     station_id: 5,
     hour: 0,
@@ -5386,6 +5614,12 @@ hourly_data = [
     departures: 33.00,
     accumulation: 8.00,
   },  {
+    station_id: 5,
+    hour: 23,
+    arrivals: 21.00,
+    departures: 11.00,
+    accumulation: 10.00,
+  },  {
     station_id: 53,
     hour: 0,
     arrivals: 37.00,
@@ -5524,6 +5758,12 @@ hourly_data = [
     departures: 72.00,
     accumulation: 10.00,
   },  {
+    station_id: 53,
+    hour: 23,
+    arrivals: 55.00,
+    departures: 58.00,
+    accumulation: -3.00,
+  },  {
     station_id: 55,
     hour: 0,
     arrivals: 43.00,
@@ -5661,6 +5901,12 @@ hourly_data = [
     arrivals: 51.00,
     departures: 93.00,
     accumulation: -42.00,
+  },  {
+    station_id: 55,
+    hour: 23,
+    arrivals: 41.00,
+    departures: 75.00,
+    accumulation: -34.00,
   },  {
     station_id: 16,
     hour: 0,
@@ -5800,6 +6046,12 @@ hourly_data = [
     departures: 49.00,
     accumulation: 38.00,
   },  {
+    station_id: 16,
+    hour: 23,
+    arrivals: 58.00,
+    departures: 32.00,
+    accumulation: 26.00,
+  },  {
     station_id: 21,
     hour: 0,
     arrivals: 16.00,
@@ -5937,6 +6189,12 @@ hourly_data = [
     arrivals: 86.00,
     departures: 56.00,
     accumulation: 30.00,
+  },  {
+    station_id: 21,
+    hour: 23,
+    arrivals: 47.00,
+    departures: 45.00,
+    accumulation: 2.00,
   },  {
     station_id: 61,
     hour: 0,
@@ -6076,6 +6334,12 @@ hourly_data = [
     departures: 76.00,
     accumulation: -22.00,
   },  {
+    station_id: 61,
+    hour: 23,
+    arrivals: 42.00,
+    departures: 40.00,
+    accumulation: 2.00,
+  },  {
     station_id: 36,
     hour: 0,
     arrivals: 50.00,
@@ -6213,6 +6477,12 @@ hourly_data = [
     arrivals: 87.00,
     departures: 80.00,
     accumulation: 7.00,
+  },  {
+    station_id: 36,
+    hour: 23,
+    arrivals: 58.00,
+    departures: 55.00,
+    accumulation: 3.00,
   },  {
     station_id: 42,
     hour: 0,
@@ -6352,6 +6622,12 @@ hourly_data = [
     departures: 56.00,
     accumulation: -13.00,
   },  {
+    station_id: 42,
+    hour: 23,
+    arrivals: 43.00,
+    departures: 49.00,
+    accumulation: -6.00,
+  },  {
     station_id: 50,
     hour: 0,
     arrivals: 4.00,
@@ -6489,6 +6765,12 @@ hourly_data = [
     arrivals: 33.00,
     departures: 24.00,
     accumulation: 9.00,
+  },  {
+    station_id: 50,
+    hour: 23,
+    arrivals: 21.00,
+    departures: 22.00,
+    accumulation: -1.00,
   },  {
     station_id: 58,
     hour: 0,
@@ -6628,6 +6910,12 @@ hourly_data = [
     departures: 21.00,
     accumulation: 32.00,
   },  {
+    station_id: 58,
+    hour: 23,
+    arrivals: 29.00,
+    departures: 24.00,
+    accumulation: 5.00,
+  },  {
     station_id: 10,
     hour: 0,
     arrivals: 10.00,
@@ -6765,6 +7053,12 @@ hourly_data = [
     arrivals: 25.00,
     departures: 40.00,
     accumulation: -15.00,
+  },  {
+    station_id: 10,
+    hour: 23,
+    arrivals: 26.00,
+    departures: 32.00,
+    accumulation: -6.00,
   },  {
     station_id: 11,
     hour: 0,
@@ -6904,6 +7198,12 @@ hourly_data = [
     departures: 16.00,
     accumulation: -6.00,
   },  {
+    station_id: 11,
+    hour: 23,
+    arrivals: 11.00,
+    departures: 8.00,
+    accumulation: 3.00,
+  },  {
     station_id: 19,
     hour: 0,
     arrivals: 14.00,
@@ -7041,6 +7341,12 @@ hourly_data = [
     arrivals: 32.00,
     departures: 29.00,
     accumulation: 3.00,
+  },  {
+    station_id: 19,
+    hour: 23,
+    arrivals: 28.00,
+    departures: 18.00,
+    accumulation: 10.00,
   },  {
     station_id: 14,
     hour: 0,
@@ -7180,6 +7486,12 @@ hourly_data = [
     departures: 19.00,
     accumulation: -4.00,
   },  {
+    station_id: 14,
+    hour: 23,
+    arrivals: 15.00,
+    departures: 16.00,
+    accumulation: -1.00,
+  },  {
     station_id: 3,
     hour: 0,
     arrivals: 7.00,
@@ -7317,6 +7629,12 @@ hourly_data = [
     arrivals: 10.00,
     departures: 12.00,
     accumulation: -2.00,
+  },  {
+    station_id: 3,
+    hour: 23,
+    arrivals: 10.00,
+    departures: 6.00,
+    accumulation: 4.00,
   },  {
     station_id: 34,
     hour: 0,
@@ -7456,6 +7774,12 @@ hourly_data = [
     departures: 41.00,
     accumulation: -36.00,
   },  {
+    station_id: 34,
+    hour: 23,
+    arrivals: 6.00,
+    departures: 39.00,
+    accumulation: -33.00,
+  },  {
     station_id: 33,
     hour: 0,
     arrivals: 28.00,
@@ -7593,6 +7917,12 @@ hourly_data = [
     arrivals: 94.00,
     departures: 189.00,
     accumulation: -95.00,
+  },  {
+    station_id: 33,
+    hour: 23,
+    arrivals: 55.00,
+    departures: 85.00,
+    accumulation: -30.00,
   },  {
     station_id: 45,
     hour: 0,
@@ -7732,6 +8062,12 @@ hourly_data = [
     departures: 141.00,
     accumulation: -82.00,
   },  {
+    station_id: 45,
+    hour: 23,
+    arrivals: 59.00,
+    departures: 66.00,
+    accumulation: -7.00,
+  },  {
     station_id: 30,
     hour: 0,
     arrivals: 15.00,
@@ -7869,6 +8205,12 @@ hourly_data = [
     arrivals: 33.00,
     departures: 30.00,
     accumulation: 3.00,
+  },  {
+    station_id: 30,
+    hour: 23,
+    arrivals: 19.00,
+    departures: 25.00,
+    accumulation: -6.00,
   },  {
     station_id: 32,
     hour: 0,
@@ -8008,6 +8350,12 @@ hourly_data = [
     departures: 53.00,
     accumulation: -9.00,
   },  {
+    station_id: 32,
+    hour: 23,
+    arrivals: 33.00,
+    departures: 40.00,
+    accumulation: -7.00,
+  },  {
     station_id: 62,
     hour: 0,
     arrivals: 4.00,
@@ -8145,6 +8493,12 @@ hourly_data = [
     arrivals: 4.00,
     departures: 7.00,
     accumulation: -3.00,
+  },  {
+    station_id: 62,
+    hour: 23,
+    arrivals: 5.00,
+    departures: 7.00,
+    accumulation: -2.00,
   },  {
     station_id: 8,
     hour: 0,
@@ -8284,6 +8638,12 @@ hourly_data = [
     departures: 6.00,
     accumulation: 14.00,
   },  {
+    station_id: 8,
+    hour: 23,
+    arrivals: 9.00,
+    departures: 11.00,
+    accumulation: -2.00,
+  },  {
     station_id: 9,
     hour: 0,
     arrivals: 18.00,
@@ -8421,6 +8781,12 @@ hourly_data = [
     arrivals: 60.00,
     departures: 50.00,
     accumulation: 10.00,
+  },  {
+    station_id: 9,
+    hour: 23,
+    arrivals: 40.00,
+    departures: 38.00,
+    accumulation: 2.00,
   },  {
     station_id: 15,
     hour: 0,
@@ -8560,6 +8926,12 @@ hourly_data = [
     departures: 0.00,
     accumulation: 4.00,
   },  {
+    station_id: 15,
+    hour: 23,
+    arrivals: 3.00,
+    departures: 3.00,
+    accumulation: 0.00,
+  },  {
     station_id: 37,
     hour: 0,
     arrivals: 5.00,
@@ -8697,6 +9069,12 @@ hourly_data = [
     arrivals: 13.00,
     departures: 1.00,
     accumulation: 12.00,
+  },  {
+    station_id: 37,
+    hour: 23,
+    arrivals: 5.00,
+    departures: 1.00,
+    accumulation: 4.00,
   },  {
     station_id: 17,
     hour: 0,
@@ -8836,6 +9214,12 @@ hourly_data = [
     departures: 17.00,
     accumulation: 23.00,
   },  {
+    station_id: 17,
+    hour: 23,
+    arrivals: 29.00,
+    departures: 10.00,
+    accumulation: 19.00,
+  },  {
     station_id: 18,
     hour: 0,
     arrivals: 16.00,
@@ -8973,6 +9357,12 @@ hourly_data = [
     arrivals: 22.00,
     departures: 15.00,
     accumulation: 7.00,
+  },  {
+    station_id: 18,
+    hour: 23,
+    arrivals: 14.00,
+    departures: 13.00,
+    accumulation: 1.00,
   },  {
     station_id: 29,
     hour: 0,
@@ -9112,6 +9502,12 @@ hourly_data = [
     departures: 9.00,
     accumulation: -2.00,
   },  {
+    station_id: 29,
+    hour: 23,
+    arrivals: 6.00,
+    departures: 3.00,
+    accumulation: 3.00,
+  },  {
     station_id: 41,
     hour: 0,
     arrivals: 26.00,
@@ -9249,6 +9645,12 @@ hourly_data = [
     arrivals: 54.00,
     departures: 45.00,
     accumulation: 9.00,
+  },  {
+    station_id: 41,
+    hour: 23,
+    arrivals: 48.00,
+    departures: 41.00,
+    accumulation: 7.00,
   },  {
     station_id: 66,
     hour: 0,
@@ -9388,6 +9790,12 @@ hourly_data = [
     departures: 22.00,
     accumulation: 14.00,
   },  {
+    station_id: 66,
+    hour: 23,
+    arrivals: 22.00,
+    departures: 14.00,
+    accumulation: 8.00,
+  },  {
     station_id: 69,
     hour: 0,
     arrivals: 10.00,
@@ -9526,6 +9934,12 @@ hourly_data = [
     departures: 19.00,
     accumulation: -4.00,
   },  {
+    station_id: 69,
+    hour: 23,
+    arrivals: 24.00,
+    departures: 17.00,
+    accumulation: 7.00,
+  },  {
     station_id: 82,
     hour: 0,
     arrivals: 0.00,
@@ -9663,6 +10077,12 @@ hourly_data = [
     arrivals: 11.00,
     departures: 9.00,
     accumulation: 2.00,
+  },  {
+    station_id: 82,
+    hour: 23,
+    arrivals: 6.00,
+    departures: 2.00,
+    accumulation: 4.00,
   },  {
     station_id: 86,
     hour: 0,
@@ -9802,6 +10222,12 @@ hourly_data = [
     departures: 6.00,
     accumulation: 3.00,
   },  {
+    station_id: 86,
+    hour: 23,
+    arrivals: 5.00,
+    departures: 0.00,
+    accumulation: 5.00,
+  },  {
     station_id: 90,
     hour: 0,
     arrivals: 6.00,
@@ -9939,6 +10365,12 @@ hourly_data = [
     arrivals: 16.00,
     departures: 10.00,
     accumulation: 6.00,
+  },  {
+    station_id: 90,
+    hour: 23,
+    arrivals: 14.00,
+    departures: 3.00,
+    accumulation: 11.00,
   },  {
     station_id: 91,
     hour: 0,
@@ -10078,6 +10510,12 @@ hourly_data = [
     departures: 29.00,
     accumulation: -21.00,
   },  {
+    station_id: 91,
+    hour: 23,
+    arrivals: 9.00,
+    departures: 14.00,
+    accumulation: -5.00,
+  },  {
     station_id: 72,
     hour: 0,
     arrivals: 4.00,
@@ -10215,6 +10653,12 @@ hourly_data = [
     arrivals: 20.00,
     departures: 38.00,
     accumulation: -18.00,
+  },  {
+    station_id: 72,
+    hour: 23,
+    arrivals: 20.00,
+    departures: 21.00,
+    accumulation: -1.00,
   },  {
     station_id: 80,
     hour: 0,
@@ -10354,6 +10798,12 @@ hourly_data = [
     departures: 33.00,
     accumulation: -18.00,
   },  {
+    station_id: 80,
+    hour: 23,
+    arrivals: 17.00,
+    departures: 30.00,
+    accumulation: -13.00,
+  },  {
     station_id: 67,
     hour: 0,
     arrivals: 41.00,
@@ -10492,6 +10942,12 @@ hourly_data = [
     departures: 56.00,
     accumulation: -14.00,
   },  {
+    station_id: 67,
+    hour: 23,
+    arrivals: 27.00,
+    departures: 42.00,
+    accumulation: -15.00,
+  },  {
     station_id: 95,
     hour: 0,
     arrivals: 5.00,
@@ -10629,6 +11085,12 @@ hourly_data = [
     arrivals: 9.00,
     departures: 0.00,
     accumulation: 9.00,
+  },  {
+    station_id: 95,
+    hour: 23,
+    arrivals: 4.00,
+    departures: 0.00,
+    accumulation: 4.00,
   },  {
     station_id: 75,
     hour: 0,
@@ -10768,6 +11230,12 @@ hourly_data = [
     departures: 45.00,
     accumulation: 43.00,
   },  {
+    station_id: 75,
+    hour: 23,
+    arrivals: 51.00,
+    departures: 57.00,
+    accumulation: -6.00,
+  },  {
     station_id: 88,
     hour: 0,
     arrivals: 5.00,
@@ -10905,6 +11373,12 @@ hourly_data = [
     arrivals: 13.00,
     departures: 12.00,
     accumulation: 1.00,
+  },  {
+    station_id: 88,
+    hour: 23,
+    arrivals: 14.00,
+    departures: 9.00,
+    accumulation: 5.00,
   },  {
     station_id: 68,
     hour: 0,
@@ -11044,6 +11518,12 @@ hourly_data = [
     departures: 54.00,
     accumulation: -4.00,
   },  {
+    station_id: 68,
+    hour: 23,
+    arrivals: 43.00,
+    departures: 45.00,
+    accumulation: -2.00,
+  },  {
     station_id: 76,
     hour: 0,
     arrivals: 19.00,
@@ -11182,6 +11662,12 @@ hourly_data = [
     departures: 42.00,
     accumulation: 6.00,
   },  {
+    station_id: 76,
+    hour: 23,
+    arrivals: 31.00,
+    departures: 17.00,
+    accumulation: 14.00,
+  },  {
     station_id: 96,
     hour: 0,
     arrivals: 3.00,
@@ -11319,6 +11805,12 @@ hourly_data = [
     arrivals: 7.00,
     departures: 3.00,
     accumulation: 4.00,
+  },  {
+    station_id: 96,
+    hour: 23,
+    arrivals: 4.00,
+    departures: 1.00,
+    accumulation: 3.00,
   },  {
     station_id: 87,
     hour: 0,
@@ -11458,6 +11950,12 @@ hourly_data = [
     departures: 7.00,
     accumulation: 2.00,
   },  {
+    station_id: 87,
+    hour: 23,
+    arrivals: 7.00,
+    departures: 0.00,
+    accumulation: 7.00,
+  },  {
     station_id: 97,
     hour: 0,
     arrivals: 4.00,
@@ -11595,6 +12093,12 @@ hourly_data = [
     arrivals: 5.00,
     departures: 3.00,
     accumulation: 2.00,
+  },  {
+    station_id: 97,
+    hour: 23,
+    arrivals: 6.00,
+    departures: 5.00,
+    accumulation: 1.00,
   },  {
     station_id: 70,
     hour: 0,
@@ -11734,6 +12238,12 @@ hourly_data = [
     departures: 26.00,
     accumulation: -14.00,
   },  {
+    station_id: 70,
+    hour: 23,
+    arrivals: 6.00,
+    departures: 11.00,
+    accumulation: -5.00,
+  },  {
     station_id: 73,
     hour: 0,
     arrivals: 6.00,
@@ -11871,6 +12381,12 @@ hourly_data = [
     arrivals: 20.00,
     departures: 24.00,
     accumulation: -4.00,
+  },  {
+    station_id: 73,
+    hour: 23,
+    arrivals: 19.00,
+    departures: 15.00,
+    accumulation: 4.00,
   },  {
     station_id: 74,
     hour: 0,
@@ -12010,6 +12526,12 @@ hourly_data = [
     departures: 70.00,
     accumulation: -9.00,
   },  {
+    station_id: 74,
+    hour: 23,
+    arrivals: 43.00,
+    departures: 48.00,
+    accumulation: -5.00,
+  },  {
     station_id: 84,
     hour: 0,
     arrivals: 4.00,
@@ -12147,6 +12669,12 @@ hourly_data = [
     arrivals: 19.00,
     departures: 11.00,
     accumulation: 8.00,
+  },  {
+    station_id: 84,
+    hour: 23,
+    arrivals: 6.00,
+    departures: 2.00,
+    accumulation: 4.00,
   },  {
     station_id: 89,
     hour: 0,
@@ -12286,6 +12814,12 @@ hourly_data = [
     departures: 3.00,
     accumulation: 1.00,
   },  {
+    station_id: 89,
+    hour: 23,
+    arrivals: 4.00,
+    departures: 4.00,
+    accumulation: 0.00,
+  },  {
     station_id: 77,
     hour: 0,
     arrivals: 5.00,
@@ -12423,6 +12957,12 @@ hourly_data = [
     arrivals: 13.00,
     departures: 2.00,
     accumulation: 11.00,
+  },  {
+    station_id: 77,
+    hour: 23,
+    arrivals: 3.00,
+    departures: 1.00,
+    accumulation: 2.00,
   },  {
     station_id: 78,
     hour: 0,
@@ -12562,6 +13102,12 @@ hourly_data = [
     departures: 8.00,
     accumulation: 9.00,
   },  {
+    station_id: 78,
+    hour: 23,
+    arrivals: 32.00,
+    departures: 14.00,
+    accumulation: 18.00,
+  },  {
     station_id: 79,
     hour: 0,
     arrivals: 9.00,
@@ -12699,6 +13245,12 @@ hourly_data = [
     arrivals: 28.00,
     departures: 8.00,
     accumulation: 20.00,
+  },  {
+    station_id: 79,
+    hour: 23,
+    arrivals: 15.00,
+    departures: 17.00,
+    accumulation: -2.00,
   },  {
     station_id: 71,
     hour: 0,
@@ -12838,6 +13390,12 @@ hourly_data = [
     departures: 7.00,
     accumulation: 1.00,
   },  {
+    station_id: 71,
+    hour: 23,
+    arrivals: 20.00,
+    departures: 5.00,
+    accumulation: 15.00,
+  },  {
     station_id: 94,
     hour: 0,
     arrivals: 4.00,
@@ -12976,6 +13534,12 @@ hourly_data = [
     departures: 0.00,
     accumulation: 11.00,
   },  {
+    station_id: 94,
+    hour: 23,
+    arrivals: 1.00,
+    departures: 2.00,
+    accumulation: -1.00,
+  },  {
     station_id: 98,
     hour: 0,
     arrivals: 3.00,
@@ -13113,4 +13677,10 @@ hourly_data = [
     arrivals: 4.00,
     departures: 0.00,
     accumulation: 4.00,
+  },  {
+    station_id: 98,
+    hour: 23,
+    arrivals: 4.00,
+    departures: 3.00,
+    accumulation: 1.00,
   },];

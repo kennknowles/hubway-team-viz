@@ -95,6 +95,13 @@ div {
                 margin-left: 10px;
                 margin-right: 10px;
                 margin-bottom: 10px;
+                
+                .content-footer {
+                    padding-top: 5px;
+                    padding-left: 20px;
+                    font-style: italic;
+                    font-size: 10pt;
+                }
             }
 
             .label { 
@@ -119,7 +126,7 @@ div {
                 width: 400px;
 
                 #line-chart {
-                    height: 340px;
+                    height: 350px;
                     margin-top: 40px; /* Outside the border */
                 }
 
@@ -203,8 +210,9 @@ div {
 
                 #map { 
                     width: 770px;
-                    height: 400px; /* Leaflet requires this to know how tall */
+                    height: 390px; /* Leaflet requires this to know how tall */
                 }
+
             }
         }
     }
