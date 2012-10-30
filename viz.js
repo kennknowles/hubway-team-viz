@@ -3,6 +3,92 @@
 var positive_color = '#36ac9c';
 var negative_color = '#f9a72b';
 var acc_y_ax_pad = 50
+var highlighted_color = '#fddf24';
+var selected_color = '#fddf24';
+
+/* Abstract representation of the state of the UI (a la Model-View-ViewModel) */
+function ViewModel(stations, hourly_data) {
+    var self = this;
+
+    /* Static data, attaching to this object */
+    self.stations = stations;
+    self.hourly_data = hourly_data;
+
+    /* Key view state */
+    self.selected_station = ko.observable();
+    self.selected_hour = ko.observable();
+
+    self.highlighted_hour = ko.observable();
+    self.highlighted_map_station = ko.observable();
+    self.highlighted_accum_station = ko.observable();
+
+    /* 
+     * Derived fields 
+     */
+
+    /* Just one or the other of the highlighted stations from different UI controls */
+    self.highlighted_station = ko.computed(function() {
+        var map_station = self.highlighted_map_station();
+        var accum_station = self.highlighted_accum_station();
+        return map_station || accum_station;
+    });
+
+    /* And now the highlighted station or the selected station for appearance in the chart */
+    self.station_chart_station = ko.computed(function() {
+        var highlighted_station = self.highlighted_station();
+        var selected_station = self.selected_station();
+        return highlighted_station || selected_station;
+    });
+
+    /* Accumulation computed from the highlighted/selected hour, otherwise overall. */
+    self.accumulation_data = ko.computed(function() {
+        var selected_hour = self.selected_hour();
+        var highlighted_hour = self.highlighted_hour();
+        var hour = _(selected_hour).isNumber() ? selected_hour : highlighted_hour;
+        console.log('Computing new accumulation data for hour', hour);
+
+        if (_(hour).isNumber()) {
+            return _.chain(hourly_data)
+                .filter(function(d) { return d.hour == hour; })
+                .sortBy(function(d) { return d.accumulation; })
+                .value();
+        } else {
+            // moderate hack: no hour selected: add them all up
+            var result = _.chain(hourly_data)
+                .groupBy(function(d) { return d.station.id; })
+                .map(function(ds, station_id) {
+                    var template = _(ds).first();
+                    template.accumulation = _(ds).reduce(function(accum, d) { return accum + d.accumulation; }, 0);
+                    return template;
+                })
+                .sortBy(function(d) { return d.accumulation; })
+                .value();
+            return result;
+        }
+    });
+    
+    /* Extracts either the arrival or departure data for a particular station id */
+    function one_station_data(hourly_data, accessor, station_id) {
+        if (!station_id) {
+            return null
+        } else {
+            return _.chain(hourly_data)
+                .filter(function(d) { return d.station_id == station_id;})
+                .sortBy(function(d) { return d.hour })
+                .map(accessor) // Either d.arrivals or d.departures, basically
+                .value();
+        }
+    }
+
+    self.one_station_arrivals = ko.computed(function() {
+        return one_station_data(self.hourly_data, function(d) { return d.arrivals; }, self.station_chart_station());
+    });
+    
+    self.one_station_departures = ko.computed(function() {
+        return one_station_data(self.hourly_data, function(d) { return d.departures; }, self.station_chart_station());
+    });
+}
+
 /* The station accumulation bars */
 function set_up_station_accumulations() {
     var width = $('#aggregates').width() - acc_y_ax_pad;
@@ -17,7 +103,8 @@ function set_up_station_accumulations() {
     return svg;
 }
 
-function bind_station_accumulation_data(svg, data) {
+// TODO: merge with set_up_station_accumulations and pass only the view_model, no svg or data
+function bind_station_accumulation_data(svg, data, view_model) {
     var width = $('#aggregates').width() - acc_y_ax_pad;
     var height = $('#aggregates').height();
     
@@ -25,8 +112,6 @@ function bind_station_accumulation_data(svg, data) {
     var max_acc = _.max(_(data).map(function(d) { return d.accumulation;} ))
     var y_max = Math.max(-min_acc, max_acc);
 
-    //console.log("bind_station_accumulation_data" + y_max);
-    
     // Y scale keep 0 at exactly the midpoint of the SVG canvas
     var y = d3.scale.linear()
 	    .domain([-y_max, y_max])
@@ -45,7 +130,13 @@ function bind_station_accumulation_data(svg, data) {
 	    .orient("left");
 
     // Actually bind the data
-    var accumulation_enter = svg.selectAll(".station-accumulation").data(data).enter() 
+    svg.selectAll(".station-accumulation").remove();
+    var svg_data = svg.selectAll(".station-accumulation")
+        .data(data) 
+
+    svg_data.exit().remove();
+
+    var accumulation_enter = svg_data.enter() 
         .append("g").attr("class", "station-accumulation");
     
     /* The visible bar */
@@ -94,14 +185,19 @@ function bind_station_accumulation_data(svg, data) {
     $('#aggregates').on("mouseover mouseout click", "rect", function(event) {
         if (event.type == "mouseover") {
             $(this).attr("class", "activator active");
-	    // Zia prefer's just mouse over for exploring the data
-	    // Would be nice to click and latch perhaps to make it easier
-	    // to mouse out of this area 
-	    current_station_id( $(this).attr("data-station") );
+	        view_model.highlighted_accum_station( $(this).attr("data-station") );
         } else if (event.type == "mouseout") {
+	        view_model.highlighted_accum_station( null );
             $(this).attr("class", "activator");
         } else if (event.type == "click") {
-            current_station_id( $(this).attr("data-station") );
+            var selected_station = view_model.selected_station();
+            var this_station = $(this).attr('data-station');
+            
+            if ( this_station == selected_station ) {
+                view_model.selected_station( null );
+            } else {
+                view_model.selected_station( $(this).attr("data-station") );
+            }
         }
     });
 }
@@ -127,7 +223,9 @@ function accumulation_data_for_hour(hour) {
     }
 }
 
-function set_up_map(stations) {
+function set_up_map(view_model) {
+    var circle_scale = 27;
+
     // Center coords, and zoomlevel 13
     var map = L.map('map', {
         scrollWheelZoom: false
@@ -141,27 +239,48 @@ function set_up_map(stations) {
     var min_lng = _.chain(stations).map(function(s) { return s.lng }).min().value();
     var max_lng = _.chain(stations).map(function(s) { return s.lng }).max().value();
 
-    // Currently this zooms out too far map.fitBounds(L.latLngBounds([min_lat, min_lng], [max_lat, max_lng]));
+    // Currently this zooms out too far: map.fitBounds(L.latLngBounds([min_lat, min_lng], [max_lat, max_lng]));
     map.setView([42.355, -71.095], 13);
 
-    return map;
-}
+    /* Initialize circles - mouseover to highlight the station, click to select it */
+    var circles = {};
+    _(view_model.stations).each(function(station) {
+        var circle = L.circle([station.lat, station.lng], 0).addTo(map);
 
-function bind_map_data(map, data) {
-    var circle_scale = 27;
-    // TODO: keep circles around and use .setStyle() to change the color and .setRadius()
+        circle.on('mouseover', function() { view_model.highlighted_map_station(station.id); });
+        circle.on('mouseout', function() { view_model.highlighted_map_station(null); });
+        circle.on('click', function() { 
+            var selected_station = view_model.selected_station();
+            if (station.id == selected_station) {
+                view_model.selected_station(null);
+            } else {
+                view_model.selected_station(station.id); 
+            }
+        });
 
-    _(data).each(function(d) {
-        d.circle = L.circle([d.station.lat, d.station.lng],
-			                // TBD how to handle size and color to indicate total traffic
-			                // and net imbance
-                            circle_scale * Math.sqrt(Math.abs(d.arrivals+d.departures)),
-                            {color: (d.arrivals > d.departures ? positive_color : negative_color), 
-			                 weight: 2, opacity: 1.0, fillOpacity: 0.5})
-            .addTo(map)
-            .bindPopup(d.station.name);
+        circles[station.id] = circle;
     });
-    // TODO: bind on click to mutate selected station id
+
+    /* Make circles always reflect the current data */
+    ko.computed(function() {
+        var highlighted_station = view_model.highlighted_station();
+        var selected_station = view_model.selected_station();
+        var data = view_model.accumulation_data();
+
+        _(data).each(function(d) {
+            var color = 
+                (d.station.id == highlighted_station) ? highlighted_color : 
+                (d.station.id == selected_station) ? selected_color :
+                (d.arrivals > d.departures) ? positive_color : negative_color;
+
+            circles[d.station.id].setRadius(circle_scale * Math.sqrt(Math.abs(d.arrivals + d.departures)));
+
+            circles[d.station.id].setStyle({
+                color: color,
+			    weight: 2, opacity: 1.0, fillOpacity: 0.5
+            });
+        });
+    });
 }
 
 function set_up_station_chart() {
@@ -247,26 +366,10 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
 
 $(document).ready(function() {
 
-    $("#slider").slider({
-        value: 8,
-        min: 0,
-        max: 23,
-        step: 1,
-        change: function(event, ui){
-            console.log(ui.value);
-            current_hour_selected(ui.value);
-        }
-    });
-
     /* Page View State Variables */
     current_station_id = ko.observable();
     current_hour_selected = ko.observable();
 
-    var dummy = ko.computed(function() {
-        // Just monitors the values
-        console.log('Current station / hour:', current_station_id(), current_hour_selected());
-    });
-    
     /* Massage the initial data to make life a little easier */
     stations = _(stations).filter(function(station) { return !station.temporary });
     
@@ -280,57 +383,38 @@ $(document).ready(function() {
         d.station = stations_by_id[d.station_id];
     });
 
-    /* Derived data */
-    var current_hour_data = ko.computed(function() {
-        var result = accumulation_data_for_hour(current_hour_selected());
-        //console.log('Accumulation data:', result);
-        return result;
+    /* Set up View Model */
+    var view_model = new ViewModel(stations, hourly_data);
+    ko.computed(function() { 
+        console.log('Current ViewModel:', ko.toJSON(_(view_model).pick("selected_station",
+                                                                       "selected_hour",
+                                                                       "highlighted_station")));
     });
     
-    var one_station_data_arrivals = ko.computed(function() {
-        var station_id = current_station_id();
-
-        if(!station_id) {
-            return null
-        } else {
-            var result = _.chain(hourly_data)
-                .filter(function(d) { return d.station_id == station_id;})
-                .sortBy(function(d) { return d.hour })
-                .map(function(d) { return d.arrivals;})
-                .value();
-            //console.log('Station arrivals:', result);
-            return result;
+    $("#slider").slider({
+        value: 8,
+        min: 0,
+        max: 23,
+        step: 1,
+        change: function(event, ui){
+            console.log(ui.value);
+            view_model.selected_hour(ui.value);
         }
     });
 
-    var one_station_data_departures = ko.computed(function() {
-        var station_id = current_station_id();
-
-        if (!station_id) {
-            return null;
-        } else {
-            var result = _.chain(hourly_data)
-                .filter(function(d) { return d.station_id == station_id;})
-                .sortBy(function(d) { return d.hour })
-                .map(function(d) { return d.departures;})
-                .value();
-            //console.log('Station departures:', result);
-            return result;
-        }
-    });
 
     /* Set up the station accumulation chart and subscribe to data changes */
     var accumulations_svg = set_up_station_accumulations();
-    var dummy = ko.computed(function() { bind_station_accumulation_data(accumulations_svg, current_hour_data()); })
+    ko.computed(function() { 
+        bind_station_accumulation_data(accumulations_svg, view_model.accumulation_data(), view_model); 
+    });
     
     /* Set up the Map and subscribe to data changes */
-    var map = set_up_map(stations);
-    var dummy = ko.computed(function() { bind_map_data(map, current_hour_data()); });
-    
+    var map = set_up_map(view_model);
 
     /* Set up the station line chart header */
-    var dummy = ko.computed(function() {
-        var station_id = current_station_id();
+    ko.computed(function() {
+        var station_id = view_model.station_chart_station();
         if (station_id) {
             $('#title-hourly').text('Hourly Traffic for '+ stations_by_id[station_id].short_name);
         } else {
@@ -340,9 +424,11 @@ $(document).ready(function() {
     
     /* Set up the station chart and subscribe to data changes */
     var station_chart_svg = null; // This will start blank and be added when data is ready
-    var dummy = ko.computed(function() { 
-        var arrivals = one_station_data_arrivals();
-        var departures = one_station_data_departures();
+
+    // TODO: this can go right into the set up
+    ko.computed(function() { 
+        var arrivals = view_model.one_station_arrivals();
+        var departures = view_model.one_station_departures();
 
         if (arrivals && departures) {
             if (!station_chart_svg) {
@@ -358,6 +444,6 @@ $(document).ready(function() {
     });
 
     /* Now that everything is ready, load from querystring */
-    current_station_id($.url().param('station'));
-    current_hour_selected($.url().param('hour'));
+    view_model.selected_station($.url().param('station'));
+    view_model.selected_hour($.url().param('hour'));
 });
