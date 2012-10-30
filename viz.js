@@ -22,6 +22,30 @@ function ViewModel(stations, hourly_data) {
     self.highlighted_map_station = ko.observable();
     self.highlighted_accum_station = ko.observable();
 
+    /*
+     * Precomputed fields
+     */
+    
+    /* Extracts either the arrival or departure data for a particular station id */
+    function one_station_data(hourly_data, accessor, station_id) {
+        if (!station_id) {
+            return null
+        } else {
+            return _.chain(hourly_data)
+                .filter(function(d) { return d.station_id == station_id;})
+                .sortBy(function(d) { return d.hour })
+                .map(accessor) // Either d.arrivals or d.departures, basically
+                .value();
+        }
+    }
+
+    var precomputed_station_arrivals = {};
+    var precomputed_station_departures = {};
+    _(stations).each(function(station) { 
+        precomputed_station_arrivals[station.id] = one_station_data(self.hourly_data, function(d) { return d.arrivals; }, station.id);
+        precomputed_station_departures[station.id] = one_station_data(self.hourly_data, function(d) { return d.departures; }, station.id);
+    });
+
     /* 
      * Derived fields 
      */
@@ -67,168 +91,135 @@ function ViewModel(stations, hourly_data) {
         }
     });
     
-    /* Extracts either the arrival or departure data for a particular station id */
-    function one_station_data(hourly_data, accessor, station_id) {
-        if (!station_id) {
-            return null
-        } else {
-            return _.chain(hourly_data)
-                .filter(function(d) { return d.station_id == station_id;})
-                .sortBy(function(d) { return d.hour })
-                .map(accessor) // Either d.arrivals or d.departures, basically
-                .value();
-        }
-    }
 
     self.one_station_arrivals = ko.computed(function() {
-        return one_station_data(self.hourly_data, function(d) { return d.arrivals; }, self.station_chart_station());
+        //return one_station_data(self.hourly_data, function(d) { return d.arrivals; }, self.station_chart_station());
+        return precomputed_station_arrivals[self.station_chart_station()];
     });
     
     self.one_station_departures = ko.computed(function() {
-        return one_station_data(self.hourly_data, function(d) { return d.departures; }, self.station_chart_station());
+        //return one_station_data(self.hourly_data, function(d) { return d.departures; }, self.station_chart_station());
+        return precomputed_station_departures[self.station_chart_station()];
     });
 }
 
 /* The station accumulation bars */
-function set_up_station_accumulations() {
+function set_up_station_accumulations(view_model) {
     var width = $('#aggregates').width() - acc_y_ax_pad;
     var height = $('#aggregates').height();
 
     var svg = d3.select("#aggregates").append("svg")
-	  .attr("width", width+acc_y_ax_pad)
-	.attr("height", height)
-	.append("g")
-	.attr("transform", "translate(" + acc_y_ax_pad + ",0)");
+        .attr("width", width+acc_y_ax_pad)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", "translate(" + acc_y_ax_pad + ",0)");
 
-    return svg;
-}
-
-// TODO: merge with set_up_station_accumulations and pass only the view_model, no svg or data
-function bind_station_accumulation_data(svg, data, view_model) {
     var width = $('#aggregates').width() - acc_y_ax_pad;
     var height = $('#aggregates').height();
     
-    var min_acc = _.min(_(data).map(function(d) { return d.accumulation;} ))
-    var max_acc = _.max(_(data).map(function(d) { return d.accumulation;} ))
-    var y_max = Math.max(-min_acc, max_acc);
+    ko.computed(function() {
+        var data = view_model.accumulation_data();
 
-    // Y scale keep 0 at exactly the midpoint of the SVG canvas
-    var y = d3.scale.linear()
-	    .domain([-y_max, y_max])
-	    .range([height, 0])
-	    .nice();
+        var min_acc = _.min(_(data).map(function(d) { return d.accumulation;} ))
+        var max_acc = _.max(_(data).map(function(d) { return d.accumulation;} ))
+        var y_max = Math.max(-min_acc, max_acc);
 
-    // X scale allocates fixed-size rectangles for stations in order. 
-    // FIXME: I think it should be by index, not station id, since it stays sorted. We'll see when things get dynamic
-    var x = d3.scale.ordinal()
-	    .domain(_(data).map(function(d) { return d.station_id; }))
-	    .rangeRoundBands([0, width]);
+        // Y scale keep 0 at exactly the midpoint of the SVG canvas
+        var y = d3.scale.linear()
+	        .domain([-y_max, y_max])
+	        .range([height, 0])
+	        .nice();
 
-    var yAxis = d3.svg.axis()
-	.scale(y)
-	.ticks(5)
-	.orient("left");
+        // X scale allocates fixed-size rectangles for stations in order. 
+        // FIXME: I think it should be by index, not station id, since it stays sorted. We'll see when things get dynamic
+        var x = d3.scale.ordinal()
+	        .domain(_(data).map(function(d) { return d.station_id; }))
+	        .rangeRoundBands([0, width]);
+        
+        var yAxis = d3.svg.axis()
+	        .scale(y)
+	        .ticks(5)
+	        .orient("left");
+        
+        // Actually bind the data
+        svg.selectAll(".station-accumulation").remove();
+        var svg_data = svg.selectAll(".station-accumulation")
+            .data(data) 
+        
+        svg_data.exit().remove();
 
-    // Actually bind the data
-    svg.selectAll(".station-accumulation").remove();
-    var svg_data = svg.selectAll(".station-accumulation")
-        .data(data) 
-
-    svg_data.exit().remove();
-
-    var accumulation_enter = svg_data.enter() 
-        .append("g").attr("class", "station-accumulation");
+        var accumulation_enter = svg_data.enter() 
+            .append("g").attr("class", "station-accumulation");
     
-    /* The visible bar */
-    accumulation_enter.append("rect")
-	    .attr("class", function(d) { return d.accumulation < 0 ? "bar negative" : "bar positive"; })
-	    .attr("data-station", function(d) { return d.station_id; })
-	    .attr("data-accum", function(d) { return d.accumulation; })
-	    .attr("x", function(d, i) { return x(d.station_id); })
-	.attr("y", function(d) { return y(Math.max(0, d.accumulation)); })
-	    .attr("width", x.rangeBand())
-	.attr("height", function(d) { return Math.abs( y(d.accumulation)-y(0));});
+        /* The visible bar */
+        accumulation_enter.append("rect")
+	        .attr("class", function(d) { return d.accumulation < 0 ? "bar negative" : "bar positive"; })
+	        .attr("data-station", function(d) { return d.station_id; })
+	        .attr("data-accum", function(d) { return d.accumulation; })
+	        .attr("x", function(d, i) { return x(d.station_id); })
+	        .attr("y", function(d) { return y(Math.max(0, d.accumulation)); })
+	        .attr("width", x.rangeBand())
+	        .attr("height", function(d) { return Math.abs( y(d.accumulation)-y(0));});
 
-    svg.selectAll('g.axis').
-	remove();
-    svg.append("g")
-	.attr("class", "bary axis")// TODO: create a style for this
-	.call(yAxis)
-    	.append("text")
-        .attr("y",-40)
-	.attr("x", -50)
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-	.attr("transform", "rotate(-90)")
-        .text("# of bikes");
-    svg.append("g")
-    	.attr("class", "bary axis")// TODO: create a style for this
-    	.append("line")
-    	.attr("x1", 0)
-    	.attr("x2", width - 100) // hack not sure why it extends too far
-    	.attr("y1", y(0))
-    	.attr("y2", y(0));
-    
-    /* The station name*/
-    accumulation_enter.append("g").attr("transform", function(d) { return "translate(" + ( x(d.station_id) + x.rangeBand()*2/3 )+ ", " + y(0) + ")," + "rotate(270)" })
-	    .append("text")
-          .attr("class", function(d) { return d.accumulation < 0 ? "bar-label negative" : "bar-label positive"; })
-          .attr("dx", function(d) { return d.accumulation < 0 ? "0.6em" : "-0.6em" })
-	      .text(function(d) { return d.station.short_name });
+        svg.selectAll('g.axis').remove();
+        svg.append("g")
+	        .attr("class", "bary axis")// TODO: create a style for this
+	      .call(yAxis)
+    	    .append("text")
+            .attr("y",-40)
+	        .attr("x", -50)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+	        .attr("transform", "rotate(-90)")
+            .text("# of bikes");
 
-    /* An invisible rectangle over everything to receive selection */
-    accumulation_enter.append("rect")
-	    .attr("class", "activator")
-	    .attr("data-station", function(d) { return d.station_id; })
-	    .attr("data-accum", function(d) { return d.accumulation; })
-	    .attr("x", function(d, i) { return x(d.station_id); })
-	    .attr("y", 0)
-	    .attr("width", x.rangeBand())
-	    .attr("height", height);
+        svg.append("g")
+    	    .attr("class", "bary axis")// TODO: create a style for this
+    	    .append("line")
+    	    .attr("x1", 0)
+    	    .attr("x2", width - 100) // hack not sure why it extends too far
+    	    .attr("y1", y(0))
+    	    .attr("y2", y(0));
+        
+        /* The station name*/
+        accumulation_enter
+          .append("g")
+            .attr("transform", function(d) { return "translate(" + ( x(d.station_id) + x.rangeBand()*2/3 )+ ", " + y(0) + ")," + "rotate(270)" })
+	      .append("text")
+            .attr("class", function(d) { return d.accumulation < 0 ? "bar-label negative" : "bar-label positive"; })
+            .attr("dx", function(d) { return d.accumulation < 0 ? "0.6em" : "-0.6em" })
+	        .text(function(d) { return d.station.short_name });
 
-    /* In order to always catch events from dynamically generated content, the parent div is where we bind */
-    $('#aggregates').on("mouseover mouseout click", "rect", function(event) {
+        /* An invisible rectangle over everything to receive selection */
+        var selected_station = view_model.selected_station();
+        accumulation_enter.append("rect")
+	        .attr("class", function(d) { return selected_station == d.station_id ? "activator selected" : "activator" })
+	        .attr("data-station", function(d) { return d.station_id; })
+	        .attr("data-accum", function(d) { return d.accumulation; })
+	        .attr("x", function(d, i) { return x(d.station_id); })
+	        .attr("y", 0)
+	        .attr("width", x.rangeBand())
+	        .attr("height", height);
+    });
+
+    function mouse_handler(event) {
         if (event.type == "mouseover") {
-            $(this).attr("class", "activator active");
 	        view_model.highlighted_accum_station( $(this).attr("data-station") );
         } else if (event.type == "mouseout") {
 	        view_model.highlighted_accum_station( null );
-            $(this).attr("class", "activator");
         } else if (event.type == "click") {
-            var selected_station = view_model.selected_station();
-            var this_station = $(this).attr('data-station');
-            
-            if ( this_station == selected_station ) {
-                view_model.selected_station( null );
-            } else {
-                view_model.selected_station( $(this).attr("data-station") );
-            }
+            $('#aggregates .activator.selected').attr("class", "activator");
+            $(this).attr("class", "activator selected");
+            view_model.selected_station( $(this).attr("data-station") );
         }
-    });
-}
-
-// FIX ME, this function currently used and duplicate elsewhere
-function accumulation_data_for_hour(hour) {
-    if (_(hour).isNumber()) {
-        return _.chain(hourly_data)
-            .filter(function(d) { return d.hour == hour; })
-            .sortBy(function(d) { return d.accumulation; })
-            .value();
-    } else {
-        // moderate hack: no hour selected: add them all up
-        var result = _.chain(hourly_data)
-            .groupBy(function(d) { return d.station.id; })
-            .map(function(ds, station_id) {
-                var template = _(ds).first();
-                template.accumulation = _(ds).reduce(function(accum, d) { return accum + d.accumulation; }, 0);
-                return template;
-            })
-            .sortBy(function(d) { return d.accumulation; })
-            .value();
-        return result;
     }
+    
+    var throttled_mouse_handler = $.throttle(100, mouse_handler);
+    
+    /* In order to always catch events from dynamically generated content, the parent div is where we bind */
+    $('#aggregates').on("mouseover mouseout click", "rect", throttled_mouse_handler);
 }
-
+                           
 function set_up_map(view_model) {
     var circle_scale = 60;
 
@@ -288,13 +279,36 @@ function set_up_map(view_model) {
                 
 
             circles[d.station.id].setRadius(circle_scale * Math.sqrt(Math.abs(d.arrivals + d.departures)));
-
+            
             circles[d.station.id].setStyle({
                 color: color, fillColor: fillColor,
-		weight: weight, opacity: 1.0, fillOpacity: fillOpacity
+                weight: weight, opacity: 1.0, fillOpacity: fillOpacity
             });
         });
     });
+}
+
+function set_up_hours(view_model) {
+
+    function mouse_handler(event) {
+        if (event.type == "mouseover") {
+            view_model.highlighted_hour(parseInt($(this).attr('data-hour')));
+        } else if (event.type == "mouseout") {
+            view_model.highlighted_hour(null);
+        } else if (event.type == "click") {
+            view_model.selected_hour(parseInt($(this).attr('data-hour')));
+            $('#hours .selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    }
+    
+    var throttled_mouse_handler = $.throttle(100, mouse_handler);
+    $('#hours').on('mouseover mouseout click', '.hour', throttled_mouse_handler);
+
+    $('#hour-deselect').click(function() {
+        view_model.selected_hour(null);
+        $('#hours .selected').removeClass('selected');
+    })
 }
 
 function set_up_station_chart() {
@@ -384,48 +398,16 @@ $(document).ready(function() {
     stations = _(stations).filter(function(station) { return !station.temporary });
     
     var stations_by_id = {};
-    _(stations).each(function(station) {
-        //station.flow = { in: 0, out: 0 };
-        stations_by_id[station.id] = station;
-    });
-
-    _(hourly_data).each(function(d) {
-        d.station = stations_by_id[d.station_id];
-    });
+    _(stations).each(function(station) { stations_by_id[station.id] = station; });
+    _(hourly_data).each(function(d) { d.station = stations_by_id[d.station_id]; });
 
     /* Set up View Model */
     var view_model = new ViewModel(stations, hourly_data);
-    ko.computed(function() { 
-        console.log('Current ViewModel:', ko.toJSON(_(view_model).pick("selected_station",
-                                                                       "selected_hour",
-                                                                       "highlighted_station")));
-    });
-
-    $('#hours').on('mouseover mouseout click', '.hour', function(event) {
-        if (event.type == "mouseover") {
-            view_model.highlighted_hour(parseInt($(this).attr('data-hour')));
-        } else if (event.type == "mouseout") {
-            view_model.highlighted_hour(null);
-        } else if (event.type == "click") {
-            view_model.selected_hour(parseInt($(this).attr('data-hour')));
-            $('#hours .selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
-    });
-
-    $('#hour-deselect').click(function() {
-        view_model.selected_hour(null);
-        $('#hours .selected').removeClass('selected');
-    })
-
-    /* Set up the station accumulation chart and subscribe to data changes */
-    var accumulations_svg = set_up_station_accumulations();
-    ko.computed(function() { 
-        bind_station_accumulation_data(accumulations_svg, view_model.accumulation_data(), view_model); 
-    });
     
-    /* Set up the Map and subscribe to data changes */
-    var map = set_up_map(view_model);
+    /* Set up UI components */
+    set_up_station_accumulations(view_model);
+    set_up_hours(view_model);
+    set_up_map(view_model);
 
     /* Set up the station line chart header */
     ko.computed(function() {
@@ -441,6 +423,7 @@ $(document).ready(function() {
 
     $('#station-deselect-href').click(function() {
         view_model.selected_station(null);
+        $('#aggregates .activator.selected').attr("class", "activator")
         return false;
     });
     
@@ -467,6 +450,7 @@ $(document).ready(function() {
         }
     });
 
+    
     /* Now that everything is ready, load from querystring */
     view_model.selected_station($.url().param('station'));
     view_model.selected_hour($.url().param('hour') ? parseInt($.url().param('hour')) : null);

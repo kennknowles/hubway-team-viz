@@ -85,6 +85,11 @@ div {
                 fill-opacity: 0.5;
                 fill: #ffffff;
             }
+
+            .activator.selected {
+                fill: #cccccc;
+                fill-opacity: 0.5;
+            }
         }
 
         #hourly {
