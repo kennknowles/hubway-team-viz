@@ -54,9 +54,9 @@ function bind_station_accumulation_data(svg, data) {
 	    .attr("data-station", function(d) { return d.station_id; })
 	    .attr("data-accum", function(d) { return d.accumulation; })
 	    .attr("x", function(d, i) { return x(d.station_id); })
-	.attr("y", function(d) { return y(0);})//Math.min(0, d.accumulation)) })
+	.attr("y", function(d) { return y(Math.max(0, d.accumulation)); })
 	    .attr("width", x.rangeBand())
-	    .attr("height", function(d) { return y(d.accumulation); });
+	.attr("height", function(d) { return Math.abs( y(d.accumulation)-y(0));});
 
     svg.selectAll('g.axis').
 	remove();
