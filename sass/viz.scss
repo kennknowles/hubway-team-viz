@@ -189,7 +189,14 @@ div {
 
                 #map { 
                     width: 770px;
-                    height: 400px; /* Leaflet requires this to know how tall */
+                    height: 390px; /* Leaflet requires this to know how tall */
+                }
+
+                .content-footer {
+                    padding-top: 5px;
+                    padding-left: 20px;
+                    font-style: italic;
+                    font-size: 10pt;
                 }
             }
         }
