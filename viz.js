@@ -50,7 +50,7 @@ function bind_station_accumulation_data(svg, data) {
     
     /* The visible bar */
     accumulation_enter.append("rect")
-	    .attr("class", function(d) { return d.accumulation > 0 ? "bar negative" : "bar positive"; })
+	    .attr("class", function(d) { return d.accumulation < 0 ? "bar negative" : "bar positive"; })
 	    .attr("data-station", function(d) { return d.station_id; })
 	    .attr("data-accum", function(d) { return d.accumulation; })
 	    .attr("x", function(d, i) { return x(d.station_id); })
@@ -76,8 +76,8 @@ function bind_station_accumulation_data(svg, data) {
     /* The station name*/
     accumulation_enter.append("g").attr("transform", function(d) { return "translate(" + ( x(d.station_id) + x.rangeBand()*2/3 )+ ", " + y(0) + ")," + "rotate(270)" })
 	    .append("text")
-          .attr("class", function(d) { return d.accumulation > 0 ? "bar-label negative" : "bar-label positive"; })
-          .attr("dx", function(d) { return d.accumulation > 0 ? "0.6em" : "-0.6em" })
+          .attr("class", function(d) { return d.accumulation < 0 ? "bar-label negative" : "bar-label positive"; })
+          .attr("dx", function(d) { return d.accumulation < 0 ? "0.6em" : "-0.6em" })
 	      .text(function(d) { return d.station.short_name });
 
     /* An invisible rectangle over everything to receive selection */
