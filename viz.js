@@ -1,10 +1,12 @@
    
 /* Colors found in sass/viz.scss but if there's a clever way to automate extraction */
 var positive_color = '#36ac9c';
-var negative_color = '#f9a72b';
+var negative_color = '#f9a72b'
+var neutral_color = "#ac9faa"
 var acc_y_ax_pad = 50
 var highlighted_color = '#ff0000';
 var selected_color = '#fddf24';
+var excessFactor = 1.5;
 
 /* Abstract representation of the state of the UI (a la Model-View-ViewModel) */
 function ViewModel(stations, hourly_data) {
@@ -138,10 +140,16 @@ function bind_station_accumulation_data(svg, data, view_model) {
 
     var accumulation_enter = svg_data.enter() 
         .append("g").attr("class", "station-accumulation");
-    
+
     /* The visible bar */
     accumulation_enter.append("rect")
-	    .attr("class", function(d) { return d.accumulation < 0 ? "bar negative" : "bar positive"; })
+	    .attr("class", function(d) {
+		return (d.arrivals > excessFactor*d.departures) ? "bar positive" :
+		    (d.departures > excessFactor*d.arrivals) ? "bar negative":
+		    "bar neutral";
+
+		// d.accumulation < 0 ? "bar negative" : "bar positive";
+	    })
 	    .attr("data-station", function(d) { return d.station_id; })
 	    .attr("data-accum", function(d) { return d.accumulation; })
 	    .attr("x", function(d, i) { return x(d.station_id); })
@@ -274,9 +282,7 @@ function set_up_map(view_model) {
         var data = view_model.accumulation_data();
 	var black = "#000000";
 	var gray = "#5f5e5e";
-	var excessFactor = 1.5;
-	var neutral_color = "#ac9faa"
-        _(data).each(function(d) {
+	_(data).each(function(d) {
 
 	    var fillColor =
 		(d.arrivals > excessFactor*d.departures) ? positive_color :
