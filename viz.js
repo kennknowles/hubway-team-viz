@@ -444,7 +444,9 @@ $(document).ready(function() {
                 station_chart_svg = set_up_station_chart();
             }
             bind_station_chart_data(station_chart_svg, arrivals, departures);
+            $('#line-chart').attr('style', 'opacity: 1.0');
         } else {
+            $('#line-chart').attr('style', 'opacity: 0.0');
             // TODO: hide a static div with the intro text and show the line chart via css
 
             // TO NOT DO:
