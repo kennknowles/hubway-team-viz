@@ -406,9 +406,16 @@ $(document).ready(function() {
         var station_id = view_model.station_chart_station();
         if (station_id) {
             $('#title-hourly').text('Hourly Traffic for '+ stations_by_id[station_id].short_name);
+            $('img#station-deselect').attr('style', 'display: normal');
         } else {
             $('#title-hourly').text('Click around to explore hour-by-hour activity.');
+            $('img#station-deselect').attr('style', 'display: none');
         }
+    });
+
+    $('#station-deselect-href').click(function() {
+        view_model.selected_station(null);
+        return false;
     });
     
     /* Set up the station chart and subscribe to data changes */

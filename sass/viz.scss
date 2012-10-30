@@ -110,6 +110,23 @@ div {
                     margin-top: 40px; /* Outside the border */
                 }
 
+                .header {
+                    @include display-box;
+                    white-space: nowrap;
+
+                    #title-hourly {
+                        width: 320px;
+                        overflow: hidden;
+                    }
+                    
+                    img#station-deselect {
+                        width: 18px;
+                        height: 18px;
+                        padding-left: 10px;
+                        margin-top: -5px;
+                    }
+                }
+
                 .line {
                     fill: none;
                     stroke-width: 2px;
