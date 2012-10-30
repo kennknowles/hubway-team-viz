@@ -7,6 +7,7 @@ $negative-color : #f9a72b;
 $highlighted-color: #fddf24;
 $selected-color: #d9c702;
 $border-radius: 20px;
+$neutral-color: #ac9faa;
 
 /* Easier to measure things with this */
 div {
@@ -57,6 +58,9 @@ div {
             .bar.negative {
                 fill: $negative-color;
             }
+	    .bar.neutral {
+                fill: $neutral-color;
+            }
             .bar.highlighted {
                 fill: $highlighted-color;
                 stroke-width:2px;
@@ -100,7 +104,7 @@ div {
                 margin-left: 10px;
                 margin-right: 10px;
                 margin-bottom: 10px;
-                
+
                 .content-footer {
                     padding-top: 5px;
                     padding-left: 20px;

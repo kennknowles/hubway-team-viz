@@ -1,10 +1,12 @@
    
 /* Colors found in sass/viz.scss but if there's a clever way to automate extraction */
 var positive_color = '#36ac9c';
-var negative_color = '#f9a72b';
+var negative_color = '#f9a72b'
+var neutral_color = "#ac9faa"
 var acc_y_ax_pad = 50
 var highlighted_color = '#ff0000';
 var selected_color = '#fddf24';
+var excessFactor = 1.5;
 
 /* Abstract representation of the state of the UI (a la Model-View-ViewModel) */
 function ViewModel(stations, hourly_data) {
@@ -150,17 +152,21 @@ function set_up_station_accumulations(view_model) {
 
         var accumulation_enter = svg_data.enter() 
             .append("g").attr("class", "station-accumulation");
-    
+
         /* The visible bar */
         accumulation_enter.append("rect")
-	        .attr("class", function(d) { return d.accumulation < 0 ? "bar negative" : "bar positive"; })
+	        .attr("class", function(d) {
+                return (d.arrivals > excessFactor*d.departures) ? "bar positive" :
+		            (d.departures > excessFactor*d.arrivals) ? "bar negative":
+		            "bar neutral";
+	        })
 	        .attr("data-station", function(d) { return d.station_id; })
 	        .attr("data-accum", function(d) { return d.accumulation; })
 	        .attr("x", function(d, i) { return x(d.station_id); })
 	        .attr("y", function(d) { return y(Math.max(0, d.accumulation)); })
 	        .attr("width", x.rangeBand())
 	        .attr("height", function(d) { return Math.abs( y(d.accumulation)-y(0));});
-
+        
         svg.selectAll('g.axis').remove();
         svg.append("g")
 	        .attr("class", "bary axis")// TODO: create a style for this
@@ -265,13 +271,16 @@ function set_up_map(view_model) {
         var data = view_model.accumulation_data();
 	var black = "#000000";
 	var gray = "#5f5e5e";
-        _(data).each(function(d) {
-            var color =
-		(d.station.id == highlighted_station) ? gray:
-		(d.station.id == selected_station) ? black :
-		(d.arrivals > d.departures) ? positive_color : negative_color;
+	_(data).each(function(d) {
+
 	    var fillColor =
-		(d.arrivals > d.departures) ? positive_color : negative_color;
+		    (d.arrivals > excessFactor*d.departures) ? positive_color :
+		    (d.departures > excessFactor*d.arrivals) ?  negative_color:
+		    neutral_color;
+        var color =
+		    (d.station.id == highlighted_station) ? gray:
+		    (d.station.id == selected_station) ? black :
+		    fillColor;
 	    var weight = 
                 (d.station.id == highlighted_station) ? 4 : 2;
 	    var fillOpacity =
