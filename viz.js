@@ -2,6 +2,7 @@
 /* Colors found in sass/viz.scss but if there's a clever way to automate extraction */
 var positive_color = '#36ac9c';
 var negative_color = '#f9a72b';
+var acc_y_ax_pad = 50
 var highlighted_color = '#fddf24';
 var selected_color = '#fddf24';
 
@@ -87,9 +88,6 @@ function ViewModel(stations, hourly_data) {
         return one_station_data(self.hourly_data, function(d) { return d.departures; }, self.station_chart_station());
     });
 }
-
-
-var acc_y_ax_pad = 50
 
 /* The station accumulation bars */
 function set_up_station_accumulations() {
