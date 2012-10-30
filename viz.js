@@ -161,13 +161,13 @@ function bind_station_accumulation_data(svg, data, view_model) {
         .style("text-anchor", "end")
 	.attr("transform", "rotate(-90)")
         .text("# of bikes");
-    // svg.append("g")
-    // 	.attr("class", "bary axis")// TODO: create a style for this
-    // 	.append("line")
-    // 	.attr("x1", 0)
-    // 	.attr("x2", width - 100) // hack not sure why it extends too far
-    // 	.attr("y1", y(0))
-    // 	.attr("y2", y(0));
+    svg.append("g")
+    	.attr("class", "bary axis")// TODO: create a style for this
+    	.append("line")
+    	.attr("x1", 0)
+    	.attr("x2", width - 100) // hack not sure why it extends too far
+    	.attr("y1", y(0))
+    	.attr("y2", y(0));
     
     /* The station name*/
     accumulation_enter.append("g").attr("transform", function(d) { return "translate(" + ( x(d.station_id) + x.rangeBand()*2/3 )+ ", " + y(0) + ")," + "rotate(270)" })
