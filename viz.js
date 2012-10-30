@@ -2,6 +2,8 @@
 /* Colors found in sass/viz.scss but if there's a clever way to automate extraction */
 var positive_color = '#36ac9c';
 var negative_color = '#f9a72b';
+var highlighted_color = '#fddf24';
+var selected_color = '#fddf24';
 
 /* Abstract representation of the state of the UI (a la Model-View-ViewModel) */
 function ViewModel(stations, hourly_data) {
@@ -22,6 +24,12 @@ function ViewModel(stations, hourly_data) {
     /* 
      * Derived fields 
      */
+
+    self.highlighted_station = ko.computed(function() {
+        var map_station = self.highlighted_map_station();
+        var accum_station = self.highlighted_accum_station();
+        return map_station || accum_station;
+    });
 
     /* Accumulation computed from the highlighted/selected hour, otherwise overall. */
     self.accumulation_data = ko.computed(function() {
@@ -183,24 +191,48 @@ function set_up_map(view_model) {
 
     // Currently this zooms out too far: map.fitBounds(L.latLngBounds([min_lat, min_lng], [max_lat, max_lng]));
     map.setView([42.355, -71.095], 13);
-    
+
+    /* Initialize circles - mouseover to highlight the station, click to select it */
     var circles = {};
     _(view_model.stations).each(function(station) {
-        circles[station.id] = L.circle([station.lat, station.lng], 0).addTo(map);
+        var circle = L.circle([station.lat, station.lng], 0).addTo(map);
+
+        circle.on('mouseover', function() { view_model.highlighted_map_station(station.id); });
+        circle.on('mouseout', function() { view_model.highlighted_map_station(null); });
+        circle.on('click', function() { 
+            var selected_station = view_model.selected_station();
+            if (station.id == selected_station) {
+                view_model.selected_station(null);
+            } else {
+                view_model.selected_station(station.id); 
+            }
+        });
+
+        circles[station.id] = circle;
     });
 
-    var dummy = ko.computed(function() {
+    /* Make circles always reflect the current data */
+    ko.computed(function() {
+        var highlighted_station = view_model.highlighted_station();
+        var selected_station = view_model.selected_station();
         var data = view_model.accumulation_data();
-        console.log('Updating map with new accumulation data:', data);
 
         _(data).each(function(d) {
+            var color = 
+                (d.station.id == highlighted_station) ? highlighted_color : 
+                (d.station.id == selected_station) ? selected_color :
+                (d.arrivals > d.departures) ? positive_color : negative_color;
+
             circles[d.station.id].setRadius(circle_scale * Math.sqrt(Math.abs(d.arrivals + d.departures)));
+
             circles[d.station.id].setStyle({
-                color: (d.arrivals > d.departures ? positive_color : negative_color), 
+                color: color,
 			    weight: 2, opacity: 1.0, fillOpacity: 0.5
             });
         });
     });
+
+    
     // TODO: bind on click to mutate selected station id
 }
 
