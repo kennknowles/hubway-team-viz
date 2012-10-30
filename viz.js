@@ -50,7 +50,7 @@ function ViewModel(stations, hourly_data) {
         if (_(hour).isNumber()) {
             return _.chain(hourly_data)
                 .filter(function(d) { return d.hour == hour; })
-                .sortBy(function(d) { return d.accumulation; })
+                .sortBy(function(d) { return -d.accumulation; })
                 .value();
         } else {
             // moderate hack: no hour selected: add them all up
@@ -61,7 +61,7 @@ function ViewModel(stations, hourly_data) {
                     template.accumulation = _(ds).reduce(function(accum, d) { return accum + d.accumulation; }, 0);
                     return template;
                 })
-                .sortBy(function(d) { return d.accumulation; })
+                .sortBy(function(d) { return -d.accumulation; })
                 .value();
             return result;
         }
@@ -124,10 +124,10 @@ function bind_station_accumulation_data(svg, data, view_model) {
 	    .domain(_(data).map(function(d) { return d.station_id; }))
 	    .rangeRoundBands([0, width]);
 
-    // FIXME: I don't see this appearing
     var yAxis = d3.svg.axis()
-	    .scale(y)
-	    .orient("left");
+	.scale(y)
+	.ticks(5)
+	.orient("left");
 
     // Actually bind the data
     svg.selectAll(".station-accumulation").remove();
@@ -152,18 +152,23 @@ function bind_station_accumulation_data(svg, data, view_model) {
     svg.selectAll('g.axis').
 	remove();
     svg.append("g")
-	.attr("class", "bar axis")// TODO: create a style for this
-	.attr("transform", "rotate(0)")
-    	.attr("transform", "translate(0,0)")
+	.attr("class", "bary axis")// TODO: create a style for this
 	.call(yAxis)
     	.append("text")
-	.attr("transform", "rotate(-90)")
-        .attr("y", -40)
+        .attr("y",-40)
+	.attr("x", -50)
         .attr("dy", ".71em")
         .style("text-anchor", "end")
+	.attr("transform", "rotate(-90)")
         .text("# of bikes");
-
-
+    // svg.append("g")
+    // 	.attr("class", "bary axis")// TODO: create a style for this
+    // 	.append("line")
+    // 	.attr("x1", 0)
+    // 	.attr("x2", width - 100) // hack not sure why it extends too far
+    // 	.attr("y1", y(0))
+    // 	.attr("y2", y(0));
+    
     /* The station name*/
     accumulation_enter.append("g").attr("transform", function(d) { return "translate(" + ( x(d.station_id) + x.rangeBand()*2/3 )+ ", " + y(0) + ")," + "rotate(270)" })
 	    .append("text")
@@ -202,6 +207,7 @@ function bind_station_accumulation_data(svg, data, view_model) {
     });
 }
 
+// FIX ME, this function currently used and duplicate elsewhere
 function accumulation_data_for_hour(hour) {
     if (_(hour).isNumber()) {
         return _.chain(hourly_data)
