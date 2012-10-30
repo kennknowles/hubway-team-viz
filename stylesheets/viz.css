@@ -60,7 +60,7 @@ div {
   fill: #f9a72b;
 }
 /* line 60, ../sass/viz.scss */
-#container #body #aggregates .bar.active {
+#container #body #aggregates .bar.highlighted {
   fill: #fddf24;
   stroke-width: 2px;
 }
@@ -174,9 +174,53 @@ div {
 }
 /* line 156, ../sass/viz.scss */
 #container #body #hourly #map-container .header #hours {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  -ms-box-align: stretch;
+  box-align: stretch;
+  width: 100%;
+  margin-top: -5px;
+}
+/* line 163, ../sass/viz.scss */
+#container #body #hourly #map-container .header #hours div {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+}
+/* line 167, ../sass/viz.scss */
+#container #body #hourly #map-container .header #hours img#hour-deselect {
+  width: 18px;
+  height: 18px;
+}
+/* line 172, ../sass/viz.scss */
+#container #body #hourly #map-container .header #hours .hour {
+  padding: 2px;
+  border-radius: 5px;
+  cursor: hand;
   text-align: center;
 }
-/* line 160, ../sass/viz.scss */
+/* line 178, ../sass/viz.scss */
+#container #body #hourly #map-container .header #hours .hour:hover {
+  border: 1px solid black;
+  margin: -1px;
+  background-color: #fddf24;
+}
+/* line 183, ../sass/viz.scss */
+#container #body #hourly #map-container .header #hours .hour.selected {
+  border: 1px solid black;
+  margin: -1px;
+  background-color: #fddf24;
+}
+/* line 190, ../sass/viz.scss */
 #container #body #hourly #map-container #map {
   width: 770px;
   height: 400px;

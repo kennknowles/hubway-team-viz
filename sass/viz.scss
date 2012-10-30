@@ -4,7 +4,7 @@
 /* Overall color scheme, etc */
 $positive-color : #36ac9c;
 $negative-color : #f9a72b;
-$active-color: #fddf24;
+$highlighted-color: #fddf24;
 $selected-color: #fddf24;
 $border-radius: 20px;
 
@@ -57,8 +57,8 @@ div {
             .bar.negative {
                 fill: $negative-color;
             }
-            .bar.active {
-                fill: $active-color;
+            .bar.highlighted {
+                fill: $highlighted-color;
                 stroke-width:2px;
             }
 
@@ -154,7 +154,37 @@ div {
             
             #map-container {
                 .header #hours {
-                    text-align: center;
+                    @include display-box;
+                    @include box-orient(horizontal);
+                    @include box-align(stretch);
+                    width: 100%;
+                    margin-top: -5px;
+
+                    div {
+                        @include box-flex(1);
+                    }
+                    
+                    img#hour-deselect {
+                        width: 18px;
+                        height: 18px;
+                    }
+
+                    .hour {
+                        padding: 2px;
+                        border-radius: 5px;
+                        cursor: hand;
+                        text-align: center;
+                    }
+                    .hour:hover {
+                        border: 1px solid black;
+                        margin: -1px;
+                        background-color: $highlighted-color;
+                    }
+                    .hour.selected {
+                        border: 1px solid black;
+                        margin: -1px;
+                        background-color: $selected-color;
+                    }
                 }
 
                 #map { 

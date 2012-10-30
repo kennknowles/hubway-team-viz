@@ -44,7 +44,7 @@ function ViewModel(stations, hourly_data) {
     self.accumulation_data = ko.computed(function() {
         var selected_hour = self.selected_hour();
         var highlighted_hour = self.highlighted_hour();
-        var hour = _(selected_hour).isNumber() ? selected_hour : highlighted_hour;
+        var hour = _(highlighted_hour).isNumber() ? highlighted_hour : selected_hour;
         console.log('Computing new accumulation data for hour', hour);
 
         if (_(hour).isNumber()) {
@@ -366,10 +366,6 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
 
 $(document).ready(function() {
 
-    /* Page View State Variables */
-    current_station_id = ko.observable();
-    current_hour_selected = ko.observable();
-
     /* Massage the initial data to make life a little easier */
     stations = _(stations).filter(function(station) { return !station.temporary });
     
@@ -392,8 +388,20 @@ $(document).ready(function() {
     });
 
     $('#hours').on('mouseover mouseout click', '.hour', function(event) {
-        console.log('event on hour');
+        if (event.type == "mouseover") {
+            view_model.highlighted_hour(parseInt($(this).attr('data-hour')));
+        } else if (event.type == "mouseout") {
+            view_model.highlighted_hour(null);
+        } else if (event.type == "click") {
+            view_model.selected_hour(parseInt($(this).attr('data-hour')));
+            $('#hours .selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
     });
+
+    $('#hour-deselect').click(function() {
+        view_model.selected_hour(null);
+    })
 
     /* Set up the station accumulation chart and subscribe to data changes */
     var accumulations_svg = set_up_station_accumulations();
@@ -446,5 +454,5 @@ $(document).ready(function() {
 
     /* Now that everything is ready, load from querystring */
     view_model.selected_station($.url().param('station'));
-    view_model.selected_hour($.url().param('hour'));
+    view_model.selected_hour($.url().param('hour') ? parseInt($.url().param('hour')) : null);
 });
