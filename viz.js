@@ -401,6 +401,7 @@ $(document).ready(function() {
 
     $('#hour-deselect').click(function() {
         view_model.selected_hour(null);
+        $('#hours .selected').removeClass('selected');
     })
 
     /* Set up the station accumulation chart and subscribe to data changes */
