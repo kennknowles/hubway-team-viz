@@ -27,8 +27,8 @@ function ViewModel(stations, hourly_data) {
     self.hourly_data = hourly_data;
 
     /* Key view state */
-    self.selected_station = ko.observable("38");
-    self.selected_hour = ko.observable("total");
+    self.selected_station = ko.observable("38"); // Interesting station
+    self.selected_hour = ko.observable(9); // Interesting hour
 
     self.highlighted_hour = ko.observable(null);
     self.highlighted_map_station = ko.observable(null);
@@ -389,13 +389,18 @@ function set_up_hours(view_model) {
             $.debounce(100, unhighlight_hour)(this_hour); // Prevent jitters from immediate deselection
         } else if (event.type == "click") {
             view_model.selected_hour(this_hour);
-            $('#hour-controls .selected').removeClass('selected');
-            $(this).addClass('selected');
         }
     }
     
     var throttled_mouse_handler = mouse_handler; //$.throttle(50, mouse_handler);
     $('#hour-controls').on('mouseover mouseout click', '.hour', throttled_mouse_handler);
+
+    ko.computed(function() {
+        var selected_hour = view_model.selected_hour();
+
+        $('#hour-controls .selected').removeClass('selected');
+        $('#hour-controls .hour[data-hour=' + selected_hour + ']').addClass('selected');
+    });
 }
 
 function set_up_station_chart() {
@@ -661,4 +666,6 @@ $(document).ready(function() {
     //view_model.selected_station($.url().param('station'));
     //view_model.selected_station("38"); // force selection of North Station @ start
     //view_model.selected_hour($.url().param('hour') ? parseInt($.url().param('hour')) : "total");
+    view_model.selected_hour.valueHasMutated();
+    view_model.selected_station.valueHasMutated();
 });
