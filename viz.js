@@ -1,12 +1,16 @@
    
 /* Colors found in sass/viz.scss but if there's a clever way to automate extraction */
 var positive_color = '#36ac9c';
-var negative_color = '#f9a72b'
-var neutral_color = "#ac9faa"
-var acc_y_ax_pad = 50
+var negative_color = '#f9a72b';
+var neutral_color = '#c7bb79';
+// by hand darkend in the gimp '#c0c29d';
+
+//With 25% opacity the mix is this: "#d1d3b1";//"#ac9faa"
+var acc_y_ax_pad = 50;
 var highlighted_color = '#ff0000';
 var selected_color = '#fddf24';
 var excessFactor = 1.5;
+var plotNegativeDepartures = false;
 
 /* Abstract representation of the state of the UI (a la Model-View-ViewModel) */
 function ViewModel(stations, hourly_data) {
@@ -81,6 +85,7 @@ function ViewModel(stations, hourly_data) {
         } else {
             // moderate hack: no hour selected: add them all up
             var result = _.chain(hourly_data)
+		.filter(function(d) { return d.hour <24;}) // added filter since hacking hour wrap by repeating data with higher hour numbers
                 .groupBy(function(d) { return d.station.id; })
                 .map(function(ds, station_id) {
                     var template = _(ds).first();
@@ -94,14 +99,17 @@ function ViewModel(stations, hourly_data) {
     });
     
 
+    // HELP I can't figure out why this data is switched
+    // The code looked right, but I made it look wrong
+    // so that the data would be right!! -- Zia
     self.one_station_arrivals = ko.computed(function() {
-        //return one_station_data(self.hourly_data, function(d) { return d.arrivals; }, self.station_chart_station());
-        return precomputed_station_arrivals[self.station_chart_station()];
+        //return precomputed_station_arrivals[self.station_chart_station()];
+        return one_station_data(self.hourly_data, function(d) { return (plotNegativeDepartures?-d.departures:d.departures); }, self.station_chart_station());
     });
-    
+    // note representing departures as negative for line graph
     self.one_station_departures = ko.computed(function() {
-        //return one_station_data(self.hourly_data, function(d) { return d.departures; }, self.station_chart_station());
-        return precomputed_station_departures[self.station_chart_station()];
+        //return precomputed_station_departures[self.station_chart_station()];
+        return one_station_data(self.hourly_data, function(d) { return d.arrivals; }, self.station_chart_station());
     });
 }
 
@@ -225,7 +233,7 @@ function set_up_station_accumulations(view_model) {
     /* In order to always catch events from dynamically generated content, the parent div is where we bind */
     $('#aggregates').on("mouseover mouseout click", "rect", throttled_mouse_handler);
 }
-                           
+
 function set_up_map(view_model) {
     var circle_scale = 60;
 
@@ -338,7 +346,13 @@ function set_up_station_chart() {
     
     chart_svg.append("path")
         .attr("class", "line departures")
+
+    chart_svg.append("path")
+        .attr("class", "area arrivals")
     
+    chart_svg.append("path")
+        .attr("class", "area departures")
+
 
     return chart_svg;
 }
@@ -348,21 +362,39 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
     var height = $('#line-chart').height();
     var margin_bottom = 30; // This has to be within the SVG, to make room for x axis labels, but nothing else does
 
-    var one_station_max = Math.max(_.max(one_station_departures),
-				                   _.max(one_station_arrivals))
-    
+    var negValues = (_.min(one_station_departures) < 0);
+    if (negValues){	
+	var one_station_max =	
+	Math.max( Math.abs(_.min(one_station_departures)),
+		  _.max(one_station_arrivals))
+    }else{
+	var one_station_max = Math.max(
+	
+	Math.max(_.max(one_station_departures)),
+	    _.max(one_station_arrivals))
+    }
+	
+     console.log("max = " +_.min(one_station_departures) + " " +_.max(one_station_arrivals))
     var x_scale = d3.scale.ordinal()
-        .domain(_.range(24))
+        .domain(_.range(-1,30))
         .rangeRoundBands([0, width]);
     
     var y_scale = d3.scale.linear() 
-        .domain([0, one_station_max])
-        .range([height-margin_bottom, 0]);
-    
+        .domain([(negValues? -one_station_max: 0), one_station_max])
+        .range([height-margin_bottom, 5]);
+
+    var interp = "monotone";
     var line = d3.svg.line()
         .x(function(d, i) { return x_scale(i); })
-        .y(function(d) { return y_scale(d); });
+        .y(function(d) { return y_scale(d); })
+	.interpolate(interp); // curve the lines a little bit
 
+    var area = d3.svg.area()
+	.interpolate(interp) // curve the lines a little bit
+	.x(function(d, i) { return x_scale(i); })
+        .y1(function(d) { return y_scale(d); })
+	.y0(function(d) { return y_scale(0);})
+    
     // TODO: a smooth transition
     chart_svg.selectAll("path.line.arrivals")
         .datum(one_station_arrivals)
@@ -371,12 +403,22 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
     chart_svg.selectAll("path.line.departures")
         .datum(one_station_departures)
         .attr("d", line);
+
+    
+    chart_svg.selectAll("path.area.departures")
+        .datum(one_station_departures)
+        .attr("d", area);
+    chart_svg.selectAll("path.area.arrivals")
+        .datum(one_station_arrivals)
+        .attr("d", area);
     
     sc_x_axis = d3.svg.axis()
-	    .scale(x_scale)
-	    .orient("bottom")
-      	    .tickValues([0,4,8,12,16, 20]); // TODO, should wrap data so that you can see continuity over midnight - 2am?
-    
+	.scale(x_scale)
+	.orient("bottom")
+//	.tickValues([0,4,8,12,16, 20]); 
+	//.tickValues([2,6,10,14,18,22]);
+	.tickValues([0, 4, 8, 12, 16, 20, 24, 28])
+	.tickSubdivide(4);
     sc_y_axis = d3.svg.axis()
 	    .scale(y_scale)
 	    .orient("right")
@@ -387,18 +429,31 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
 
     chart_svg.append("g")
 	    .attr("class", "axis")
-	    .attr("transform", "translate(0,"+ (height - margin_bottom) + ")")
+	.attr("transform","translate(0, " + y_scale(0) + ")")
+ 	//    .attr("transform", "translate(0,"+ (height - margin_bottom) + ")")
 	    .call(sc_x_axis);
-    
+
+    hourMap = ["12pm",  "1am",  "2am",  "3am",  "4am",  "5am", "6am",
+	       "7am",  "8am",  "9am",  "10am", "11am",
+	       "noon",  "1pm",  "2pm",  "3pm", "4pm",  "5pm",  "6pm",
+	       "7pm",  "8pm",  "9pm",  "10pm",  "11pm",
+	       "12pm",  "1am",  "2am",  "3am",  "4am"]
+
+    chart_svg.selectAll(".axis text")
+	.text(function(d){
+	    console.log(d);
+	    return hourMap[parseInt(d)];
+	});
+   
     chart_svg.append("g")
-	    .attr("class", "y axis")
-	    .call(sc_y_axis)
-	    .append("text")
-	    .attr("transform", "rotate(-90)")
+	.attr("class", "y axis")
+	.call(sc_y_axis)
+	.append("text")
+	.attr("transform", "rotate(-90)")
         .attr("y", 30) // Does this make sense?
         .attr("dy", ".71em")
         .style("text-anchor", "end")
-        .text("Average Weekday Trips");
+        .text("Arriving and Departing Bikes per Day");
 }
 
 $(document).ready(function() {
@@ -422,7 +477,7 @@ $(document).ready(function() {
     ko.computed(function() {
         var station_id = view_model.station_chart_station();
         if (station_id) {
-            $('#title-hourly').text('Hourly Traffic for '+ stations_by_id[station_id].short_name);
+            $('#title-hourly').text(stations_by_id[station_id].short_name);
             $('img#station-deselect').attr('style', 'display: normal');
         } else {
             $('#title-hourly').text('Click around to explore hour-by-hour activity.');
@@ -461,6 +516,7 @@ $(document).ready(function() {
 
     
     /* Now that everything is ready, load from querystring */
-    view_model.selected_station($.url().param('station'));
+    //view_model.selected_station($.url().param('station'));
+    view_model.selected_station(38); // force selection of North Station @ start
     view_model.selected_hour($.url().param('hour') ? parseInt($.url().param('hour')) : null);
 });
