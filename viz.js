@@ -211,56 +211,53 @@ function set_up_station_accumulations(view_model) {
             .text(function(d) { return d.station.short_name });
 
         /* An invisible rectangle over everything to receive selection */
-        var selected_station = view_model.selected_station();
-        var highlighted_station = view_model.highlighted_station();
+        var selected_station = view_model.selected_station.peek(); // No dependency, so we do not recompute too much
+        var highlighted_station = view_model.highlighted_station.peek();
         accumulation_enter.append("rect")
             .attr("class", function(d) { return (selected_station == d.station_id) ? "activator selected" : 
                                                  (highlighted_station == d.station_id) ? "activator highlighted" :
                                                  "activator" })
             .attr("data-station", function(d) { return d.station_id; })
             .attr("data-accum", function(d) { return d.accumulation; })
-            .attr("x", function(d, i) { return x(d.station_id) - 3; })
+            .attr("x", function(d, i) { return x(d.station_id) - 1; })
             .attr("y", 0)
-            .attr("width", x.rangeBand() + 3)
+            .attr("width", x.rangeBand() + 2)
             .attr("height", height);
     });
 
-    function highlight_accum_station(station_id) {
-        var highlighted_station = view_model.highlighted_accum_station();
-
-        /* Only cause recomputation if needed,which it generally will be */
+    /* Set up mouse handlers for highlight */
+    function mouseover_handler() {
+        var station_id = $(this).attr("data-station");
+        var highlighted_station = view_model.highlighted_accum_station.peek();
+        
         if (highlighted_station != station_id) {
             view_model.highlighted_accum_station( station_id );
         }
     }
 
-    function unhighlight_accum_station(station_id) {
-        var highlighted_station = view_model.highlighted_accum_station();
+    var throttled_mouseover = $.throttle(100, mouseover_handler);
 
-        /* If the station already changed, do not wipe it */
-        if (highlighted_station == station_id) {
-            view_model.highlighted_accum_station( null );
-        }
-    }
-
-    function mouse_handler(event) {
-        var this_station = $(this).attr("data-station");
-
-        if (event.type == "mouseover") {
-            highlight_accum_station(this_station);
-        } else if (event.type == "mouseout") {
-            $.debounce(100, unhighlight_accum_station)(this_station);
-        } else if (event.type == "click") {
-            $('#accumulation-chart .activator.selected').attr("class", "activator");
-            $(this).attr("class", "activator selected");
-            view_model.selected_station( this_station );
-        }
-    }
-    
-    var throttled_mouse_handler = mouse_handler; //$.throttle(100, mouse_handler);
-    
     /* In order to always catch events from dynamically generated content, the parent div is where we bind */
-    $('#accumulation-chart-container').on("mouseover mouseout click", "rect", throttled_mouse_handler);
+    $('#accumulation-chart').on("mouseover", "rect", throttled_mouseover);
+    $('#accumulation-chart svg').mouseout(function() {
+        view_model.highlighted_accum_station( null );
+    });
+
+    $('#accumulation-chart').on("click", 'rect[class~="activator"]', function() {
+        $('#accumulation-chart .activator.selected').attr("class", "activator");
+        view_model.selected_station( $(this).attr('data-station') );
+    });
+
+    /* Set up watchers for updating highlighted. Since selection overrides highlight, do them in one handler */
+    ko.computed(function() {
+        var selected_station = view_model.selected_station();
+        var highlighted_station = view_model.highlighted_station();
+        $('#accumulation-chart svg .activator.selected').attr("class", "activator");
+        $('#accumulation-chart svg .activator.highlighted').attr("class", "activator");
+
+        $('#accumulation-chart svg rect[class~="activator"][data-station=' + highlighted_station + ']').attr("class", "activator highlighted");
+        $('#accumulation-chart svg rect[class~="activator"][data-station=' + selected_station + ']').attr("class", "activator selected");
+    });
 }
 
 function set_up_map(view_model) {
@@ -562,9 +559,9 @@ $(document).ready(function() {
 
     /* Set up View Model */
     var view_model = new ViewModel(stations, hourly_data);
-    ko.computed(function() {
-        console.log('View Model:', ko.toJSON(_(view_model).pick('selected_station', 'selected_hour', 'highlighted_station', 'highlighted_hour')))
-    });
+    //ko.computed(function() {
+    //    console.log('View Model:', ko.toJSON(_(view_model).pick('selected_station', 'selected_hour', 'highlighted_station', 'highlighted_hour')))
+    //});
     
     /* Set up UI components */
     set_up_station_accumulations(view_model);
