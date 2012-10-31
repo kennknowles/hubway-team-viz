@@ -31,6 +31,7 @@
     <script src="stations-abbreviated.js"></script>
     <script src="hourlyAverage.js"></script>
     <script src="stationCap.js"></script>
+    <script src="blurbs.js"></script>
     <script src="viz.js"></script>
   </head>
   <body>
@@ -58,9 +59,10 @@
             <footer>Map caption</footer>
           </section>
 
-        </div>
-      
-        <div id="hour-controls">
+        </div>        
+        <div id="aggregates"> </div>
+	    
+         <div id="hour-controls">
           <div>Hour selector:</div>
           <div class="hour" data-hour="total">Total</div>
           <div class="hour" data-hour="0">12am</div>
@@ -96,5 +98,7 @@
       </div><!-- body -->
 
     </div><!-- container -->
-  </body>
+    <div id="blurbs"> </div>
+</body>
+
 </html>

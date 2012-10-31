@@ -558,8 +558,29 @@ function formatStats(cap, arrivals, departures, selectedHour){
          ' delta: ' + (sa+sd)    :'');
 
 }
+function postBlurb(b){
+    // $('#blurbs').text('Yo you you!');
+    // $('#blurbs').append('div')
+    // 	 $('#blurbs').append('div')
+    // 	.attr("class", "blurb-body")
+    // 	.text(b.body);
+
+    bs = d3.select('#blurbs');
+    bs.append('div')
+	.attr('class', 'blurb-head')
+	.text(b.title)//;
+   // bs
+	.append('div')
+	.attr('class', 'blurb-body')
+	.text(b.body);
+   
+}
 $(document).ready(function() {
 
+    // Display the blurbs for the user:
+    _(blurbs).each(function(b){
+	postBlurb(b);
+    });
     /* Massage the initial data to make life a little easier */
     stations = _(stations).filter(function(station) { return !station.temporary });
     

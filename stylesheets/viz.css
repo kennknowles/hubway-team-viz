@@ -269,3 +269,14 @@ body, div, span, header, footer, h1, h2, h3, h4 {
   fill: #cccccc;
   fill-opacity: 0.5;
 }
+
+/* line 241, ../sass/viz.scss */
+#blurbs .blurb-head {
+  padding-left: 30px;
+  font-size: 20pt;
+}
+/* line 245, ../sass/viz.scss */
+#blurbs .blurb-body {
+  padding-left: 30px;
+  font-size: 10pt;
+}
