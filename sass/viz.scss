@@ -91,6 +91,12 @@ body,div,span,header,footer,h1,h2,h3,h4 {
         width: 770px;
         height: $panel-content-height;
     }
+    #map-legend {
+        position: relative;
+        left: 0px;
+        top: -250px;
+        img { border: 1px solid black; }
+    }
 }
 
 /* Hour controls */
