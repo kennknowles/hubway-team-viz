@@ -12,7 +12,7 @@ $neutral-color: #c7bb79;
 /* Constants that CSS could calculate, but we hard-code so Leaflet can work */
 $panel-header-height: 30px;
 $panel-footer-height: 20px;
-$panel-content-height: 500px;
+$panel-content-height: 390px;
 $panel-height: $panel-header-height + $panel-footer-height + $panel-content-height + 8px; /* No idea where the 10px comes from */
 
 /* Easier to measure things with this */
@@ -95,7 +95,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
         position: relative;
         left: 0px;
         top: -250px;
-        img { border: 1px solid black; }
+        border: 1px solid black;
     }
 }
 
@@ -105,10 +105,13 @@ body,div,span,header,footer,h1,h2,h3,h4 {
     @include box-orient(horizontal);
     @include box-align(center);
 
+    margin-top: 20px;
+    margin-bottom: 30px;
     border-top: 1px solid gray;
     border-bottom: 1px solid gray;
     padding-left: 100px;
     width: 100%;
+    font-size: 8pt;
     
     .hour {
         margin: -3px;
