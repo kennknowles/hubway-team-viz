@@ -145,12 +145,20 @@ div {
   width: 400px;
 }
 /* line 132, ../sass/viz.scss */
+#container #body #hourly #station-chart #line-chart-title {
+  height: 30px;
+  padding-top: 5px;
+  padding-left: 30px;
+  font-style: italic;
+  font-size: 10pt;
+}
+/* line 140, ../sass/viz.scss */
 #container #body #hourly #station-chart #line-chart {
   height: 350px;
-  margin-top: 40px;
-  /* Outside the border */
+  margin-top: 10px;
+  /* Outside the border (seems inside to Zia)*/
 }
-/* line 137, ../sass/viz.scss */
+/* line 145, ../sass/viz.scss */
 #container #body #hourly #station-chart .header {
   display: -webkit-box;
   display: -moz-box;
@@ -158,48 +166,53 @@ div {
   display: box;
   white-space: nowrap;
 }
-/* line 141, ../sass/viz.scss */
+/* line 149, ../sass/viz.scss */
 #container #body #hourly #station-chart .header #title-hourly {
   width: 320px;
   overflow: hidden;
 }
-/* line 146, ../sass/viz.scss */
+/* line 154, ../sass/viz.scss */
 #container #body #hourly #station-chart .header img#station-deselect {
   width: 18px;
   height: 18px;
   padding-left: 10px;
   margin-top: -5px;
 }
-/* line 154, ../sass/viz.scss */
+/* line 162, ../sass/viz.scss */
 #container #body #hourly #station-chart .line {
   fill: none;
   stroke-width: 2px;
 }
-/* line 158, ../sass/viz.scss */
+/* line 166, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.arrivals {
   stroke: #36ac9c;
 }
-/* line 161, ../sass/viz.scss */
+/* line 169, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.departures {
   stroke: #f9a72b;
 }
-/* line 165, ../sass/viz.scss */
+/* line 173, ../sass/viz.scss */
 #container #body #hourly #station-chart .axis path,
 #container #body #hourly #station-chart .axis line {
   fill: none;
   stroke: black;
   shape-rendering: crispEdges;
 }
-/* line 171, ../sass/viz.scss */
+/* line 179, ../sass/viz.scss */
 #container #body #hourly #station-chart .axis text {
   font-family: sans-serif;
   font-size: 11px;
 }
-/* line 175, ../sass/viz.scss */
+/* line 183, ../sass/viz.scss */
 #container #body #hourly #station-chart .y.axis path {
   display: none;
 }
-/* line 181, ../sass/viz.scss */
+/* line 186, ../sass/viz.scss */
+#container #body #hourly #station-chart .title {
+  font-family: sans-serif;
+  font-size: 12px;
+}
+/* line 193, ../sass/viz.scss */
 #container #body #hourly #map-container .header #hours {
   display: -webkit-box;
   display: -moz-box;
@@ -216,38 +229,38 @@ div {
   width: 100%;
   margin-top: -5px;
 }
-/* line 188, ../sass/viz.scss */
+/* line 200, ../sass/viz.scss */
 #container #body #hourly #map-container .header #hours div {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -ms-box-flex: 1;
   box-flex: 1;
 }
-/* line 192, ../sass/viz.scss */
+/* line 204, ../sass/viz.scss */
 #container #body #hourly #map-container .header #hours img#hour-deselect {
   width: 18px;
   height: 18px;
 }
-/* line 197, ../sass/viz.scss */
+/* line 209, ../sass/viz.scss */
 #container #body #hourly #map-container .header #hours .hour {
   padding: 2px;
   border-radius: 5px;
   cursor: hand;
   text-align: center;
 }
-/* line 203, ../sass/viz.scss */
+/* line 215, ../sass/viz.scss */
 #container #body #hourly #map-container .header #hours .hour:hover {
   border: 1px solid black;
   margin: -1px;
   background-color: #fddf24;
 }
-/* line 208, ../sass/viz.scss */
+/* line 220, ../sass/viz.scss */
 #container #body #hourly #map-container .header #hours .hour.selected {
   border: 2px solid black;
   margin: -1px;
   background-color: #d9c702;
 }
-/* line 216, ../sass/viz.scss */
+/* line 228, ../sass/viz.scss */
 #container #body #hourly #map-container #map {
   width: 770px;
   height: 390px;
