@@ -9,13 +9,21 @@ $selected-color: #dad3ad; // #c7bb79;//#d9c702;
 $border-radius: 20px;
 $neutral-color: #c7bb79;
 
+/* Constants that CSS could calculate, but we hard-code so Leaflet can work */
+$panel-header-height: 30px;
+$panel-footer-height: 20px;
+$panel-content-height: 350px;
+$panel-height: $panel-header-height + $panel-footer-height + $panel-content-height + 8px; /* No idea where the 10px comes from */
+
 /* Easier to measure things with this */
-div {
+body,div,span,header,footer,h1,h2,h3,h4 {
     @include box-sizing(border-box);
     font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
 }
 
-/* The nested page components */
+/* 
+ * Principle layout
+ */
 #container {
     margin: 5px 20px 20px 20px;
     width: 1220px;
@@ -30,225 +38,215 @@ div {
         border: 1px solid black;
         border-radius: $border-radius;
         background-color: #f4f4f4;
-        padding: 10px 10px 10px 10px;
 
-        #hourly {
+        #panels {
             @include display-box;
             @include box-orient(horizontal);
+        }
+    }
+}
 
-            >div {
-                margin-left: 10px;
-                margin-right: 10px;
-                margin-bottom: 10px;
+/* 
+ * Various components pulled out and referenced by id to reduce SCSS indentation
+ */
 
-                .content-footer {
-                    padding-top: 5px;
-                    padding-left: 20px;
-                    font-style: italic;
-                    font-size: 10pt;
-                }
-            }
+/* General bits for the chart panel with rounded corners, a header, and a footer */
+.panel {
+    height: $panel-height;
+    margin: 0.5em;
+    border: 1px solid black;
+    border-radius: $border-radius;
+    overflow: hidden; /* To round the corner of the map */
+    
+    header { 
+        display: block;
+        padding-top: 10px;
+        padding-left: 30px;
+        height: $panel-header-height;
+        
+        font-weight: bold;
+        font-size: 10pt;
+        border-bottom: 1px solid black;
+    } 
 
-            .label { 
-                height: 40px; 
-            } /* The label above, outside the border */
+    div.content {
+        display: block;
+        height: $panel-content-height;
+    }
 
-            .content { 
-                height: 450px; /* The rounded border bit */
-                border: 1px solid black;
-                border-radius: $border-radius;
-                overflow: hidden; /* To round the corner of the map */
-                
-                .header { 
-                    padding-top: 10px;
-                    padding-left: 30px;
-                    height: 30px; 
-                    border-bottom: 1px solid black;
-                } /* The label within the rounded border */
-            }
+    footer {
+        height: $panel-footer-height;
+        display: block;
+        border-top: 1px solid black;
+        padding-top: 5px;
+        padding-left: 20px;
+        font-style: italic;
+        font-size: 10pt;
+    }
+}
 
-            #station-chart {
-                width: 400px;
+/* Map */
+#map-panel {
+    #map { 
+        width: 770px;
+        height: $panel-content-height;
+    }
+}
 
-                #line-chart-title {
-                    height: 30px;
-                    padding-top: 5px;
-                    padding-left :50px;     
-                    font-style: italic;
-                    font-size: 10pt;
-                    
-                }
-                #line-chart {
-                    height: 350px;
-                    margin-top: 10px; /* Outside the border (seems inside to Zia)*/
-                }
+/* Hour controls */
+#hour-controls {
+    @include display-box;
+    @include box-orient(horizontal);
+    @include box-align(center);
 
-                .header {
-                    @include display-box;
-                    white-space: nowrap;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    padding-left: 100px;
+    width: 100%;
+    
+    .hour {
+        margin: -3px;
+        padding: 8px;
+        border-radius: 5px;
+        cursor: hand;
+        text-align: center;
+    }
+    .hour:hover {
+        border: 1px solid black;
+        margin: -4px;
+        background-color: $highlighted-color;
+    }
+    .hour.selected {
+        border: 2px solid black;
+        margin: -5px;
+        background-color: $selected-color;
+        fill-opacity: 0.5;
+    }
+}
 
-                    #title-hourly {
-                        width: 320px;
-                        overflow: hidden;
-                    }
-                    
-                    img#station-deselect {
-                        width: 18px;
-                        height: 18px;
-                        padding-left: 10px;
-                        margin-top: -5px;
-                    }
-                }
+/* Station line chart panel */
+#station-chart-panel {
+    width: 400px;
 
-                .line {
-                    fill: none;
-                    stroke-width: 3px;
-                }
-                .line.arrivals {
-                    stroke: $positive-color;
-                }
-                .line.departures {
-                    stroke: $negative-color;
-                }
-                .area {
-                    opacity: 0.25;
-                }
-                .area.arrivals{
-                    fill: $positive-color;  
-                }
-                .area.departures{
-                    fill: $negative-color;  
-                }
+    .title {
+        height: 10px;
+        padding-left: 30px;
 
-                .axis path,
-                .axis line {
-                    fill: none;
-                    stroke: black;
-                    shape-rendering: crispEdges;
-                }
-                
-                .axis text {
-                    font-family: sans-serif;
-                    font-size: 11px;
-                }
-                .y.axis path {
-                    display: none;
-                }
-                .title {
-                    font-family: sans-serif;    
-                    font-size: 12px;
-                }
-            }
-            
-            #map-container {
-                .header #hours {
-                    @include display-box;
-                    @include box-orient(horizontal);
-                    @include box-align(stretch);
-                    width: 100%;
-                    margin-top: -5px;
-
-                    div {
-                        @include box-flex(1);
-                    }
-                    
-                    img#hour-deselect {
-                        width: 18px;
-                        height: 18px;
-                    }
-
-                    .hour {
-                        padding: 2px;
-                        border-radius: 5px;
-                        cursor: hand;
-                        text-align: center;
-                    }
-                    .hour:hover {
-                        border: 1px solid black;
-                        margin: -1px;
-                        background-color: $highlighted-color;
-                    }
-                    .hour.selected {
-                        border: 2px solid black;
-                        margin: -1px;
-                        background-color: $selected-color;
-                    /* fill-opacity: 0.5; //does doesn't do opacity, but leaves just an outline which I like okay             */
-                    }
-                }
-
-                #map { 
-                    width: 770px;
-                    height: 390px; /* Leaflet requires this to know how tall */
-                }
-
-            }
+        font-size: 8pt;
+        color: lightgray;
+    }
+    
+    #station-chart {
+        height: $panel-content-height - 10px;
+        
+        .title {
+            font-family: sans-serif;    
+            font-size: 12px;
+        }
+    
+        .line {
+            fill: none;
+            stroke-width: 3px;
+        }
+        .line.arrivals {
+            stroke: $positive-color;
+        }
+        .line.departures {
+            stroke: $negative-color;
+        }
+        .area {
+            opacity: 0.25;
+        }
+        .area.arrivals{
+            fill: $positive-color;  
+        }
+        .area.departures{
+            fill: $negative-color;  
         }
         
-        #aggregates {
-            height: 350px;
-            
-            .bar-label {
-                font-size: 8pt;
-            }
-
-            .bar-label.positive {
-                text-anchor: end;
-            }
-            .bar-label.negative {
-                text-anchor: start;
-            }
-            
-            .bar {
-                stroke: black;
-                stroke-width: 1px;
-                border: 1px solid black;
-                fill-opacity: 0.6;
-            }
-            
-            .bar.positive {
-                fill: $positive-color;
-            }
-            
-            .bar.negative {
-                fill: $negative-color;
-            }
-            .bar.neutral {
-                fill: $neutral-color;
-            }
-            .bar.highlighted {
-                fill: $highlighted-color;
-                stroke-width:2px;
-            }
-            .axis path,
-            .axis line {
-                fill: none;
-                stroke: black;
-                shape-rendering: crispEdges;
-            }
-            
-            .axis text {
-                font-family: sans-serif;
-                font-size: 11px;
-            }
-            .bary.axis path {
-                display: none;
-            }
-            
-            .activator {
-                stroke-width: 0px;
-                fill-opacity: 0.0;
-            }
-            /* TODO: we actually need to bind to hover with jQuery so we can modify the rect & label, not the activator bar*/
-            .activator:hover {
-                fill-opacity: 0.5;
-                fill: #ffffff;
-            }
-
-            .activator.selected {
-                fill: #cccccc;
-                fill-opacity: 0.5;
-            }
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
         }
+        
+        .axis text {
+            font-family: sans-serif;
+            font-size: 11px;
+        }
+        .y.axis path {
+            display: none;
+        }
+    }
+}
+
+/* Accumulation bar chart */
+#accumulation-chart {
+    height: 350px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    
+    .bar-label {
+        font-size: 8pt;
+    }
+    
+    .bar-label.positive {
+        text-anchor: end;
+    }
+    .bar-label.negative {
+        text-anchor: start;
+    }
+    
+    .bar {
+        stroke: black;
+        stroke-width: 1px;
+        border: 1px solid black;
+        fill-opacity: 0.6;
+    }
+    
+    .bar.positive {
+        fill: $positive-color;
+    }
+    
+    .bar.negative {
+        fill: $negative-color;
+    }
+    .bar.neutral {
+        fill: $neutral-color;
+    }
+    .bar.highlighted {
+        fill: $highlighted-color;
+        stroke-width:2px;
+    }
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+    }
+    
+    .axis text {
+        font-family: sans-serif;
+        font-size: 11px;
+    }
+    .bary.axis path {
+        display: none;
+    }
+    
+    .activator {
+        stroke-width: 0px;
+        fill-opacity: 0.0;
+    }
+    
+    .activator:hover {
+        fill-opacity: 0.5;
+        fill: #ffffff;
+    }
+    
+    .activator.selected {
+        fill: #cccccc;
+        fill-opacity: 0.5;
     }
 }
 

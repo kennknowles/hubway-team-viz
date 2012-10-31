@@ -121,17 +121,17 @@ function ViewModel(stations, hourly_data) {
 
 /* The station accumulation bars */
 function set_up_station_accumulations(view_model) {
-    var width = $('#aggregates').width() - acc_y_ax_pad;
-    var height = $('#aggregates').height();
+    var width = $('#accumulation-chart').width() - acc_y_ax_pad;
+    var height = $('#accumulation-chart').height();
 
-    var svg = d3.select("#aggregates").append("svg")
+    var svg = d3.select("#accumulation-chart").append("svg")
         .attr("width", width+acc_y_ax_pad)
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + acc_y_ax_pad + ",0)");
 
-    var width = $('#aggregates').width() - acc_y_ax_pad;
-    var height = $('#aggregates').height();
+    var width = $('#accumulation-chart').width() - acc_y_ax_pad;
+    var height = $('#accumulation-chart').height();
     
     ko.computed(function() {
         var data = view_model.accumulation_data();
@@ -222,22 +222,42 @@ function set_up_station_accumulations(view_model) {
 	        .attr("height", height);
     });
 
-    function mouse_handler(event) {
-        if (event.type == "mouseover") {
-	        view_model.highlighted_accum_station( $(this).attr("data-station") );
-        } else if (event.type == "mouseout") {
+    function highlight_accum_station(station_id) {
+        var highlighted_station = view_model.highlighted_accum_station();
+
+        /* Only cause recomputation if needed,which it generally will be */
+        if (highlighted_station != station_id) {
+	        view_model.highlighted_accum_station( station_id );
+        }
+    }
+
+    function unhighlight_accum_station(station_id) {
+        var highlighted_station = view_model.highlighted_accum_station();
+
+        /* If the station already changed, do not wipe it */
+        if (highlighted_station == station_id) {
 	        view_model.highlighted_accum_station( null );
+        }
+    }
+
+    function mouse_handler(event) {
+        var this_station = $(this).attr("data-station");
+
+        if (event.type == "mouseover") {
+            highlight_accum_station(this_station);
+        } else if (event.type == "mouseout") {
+            $.debounce(100, unhighlight_accum_station)(this_station);
         } else if (event.type == "click") {
-            $('#aggregates .activator.selected').attr("class", "activator");
+            $('#accumulation-chart .activator.selected').attr("class", "activator");
             $(this).attr("class", "activator selected");
-            view_model.selected_station( $(this).attr("data-station") );
+            view_model.selected_station( this_station );
         }
     }
     
-    var throttled_mouse_handler = $.throttle(100, mouse_handler);
+    var throttled_mouse_handler = mouse_handler; //$.throttle(100, mouse_handler);
     
     /* In order to always catch events from dynamically generated content, the parent div is where we bind */
-    $('#aggregates').on("mouseover mouseout click", "rect", throttled_mouse_handler);
+    $('#accumulation-chart').on("mouseover mouseout click", "rect", throttled_mouse_handler);
 }
 
 function set_up_map(view_model) {
@@ -265,7 +285,14 @@ function set_up_map(view_model) {
         var circle = L.circle([station.lat, station.lng], 0).addTo(map);
 
         circle.on('mouseover', function() { view_model.highlighted_map_station(station.id); });
-        circle.on('mouseout', function() { view_model.highlighted_map_station(null); });
+        circle.on('mouseout', function() { 
+            var highlighted_map_staiton = view_model.highlighted_map_station();
+
+            /* Only clear the selection if another has not already been entered */
+            if (highlighted_map_station == station.id) {
+                view_model.highlighted_map_station(null); 
+            }
+        });
         circle.on('click', function() { 
             var selected_station = view_model.selected_station();
             if (station.id == selected_station) {
@@ -313,20 +340,39 @@ function set_up_map(view_model) {
 
 function set_up_hours(view_model) {
 
-    function mouse_handler(event) {
-        if (event.type == "mouseover") {
-            view_model.highlighted_hour(parseInt($(this).attr('data-hour')));
-        } else if (event.type == "mouseout") {
+    function highlight_hour(hour) {
+        var highlighted_hour = view_model.highlighted_hour();
+       
+        if (highlighted_hour != hour) {
+            view_model.highlighted_hour(hour);
+        }
+    }
+
+    function unhighlight_hour(hour) {
+        var highlighted_hour = view_model.highlighted_hour();
+            
+        /* Only unhighlight if another hour has not been chosen */
+        if (highlighted_hour == hour) {
             view_model.highlighted_hour(null);
+        }
+    }
+
+    function mouse_handler(event) {
+        var this_hour = parseInt($(this).attr('data-hour'));
+
+        if (event.type == "mouseover") {
+            highlight_hour(this_hour);
+        } else if (event.type == "mouseout") {
+            $.debounce(100, unhighlight_hour)(this_hour); // Prevent jitters from immediate deselection
         } else if (event.type == "click") {
-            view_model.selected_hour(parseInt($(this).attr('data-hour')));
-            $('#hours .selected').removeClass('selected');
+            view_model.selected_hour(this_hour);
+            $('#hour-controls .selected').removeClass('selected');
             $(this).addClass('selected');
         }
     }
     
-    var throttled_mouse_handler = $.throttle(100, mouse_handler);
-    $('#hours').on('mouseover mouseout click', '.hour', throttled_mouse_handler);
+    var throttled_mouse_handler = mouse_handler; //$.throttle(50, mouse_handler);
+    $('#hour-controls').on('mouseover mouseout click', '.hour', throttled_mouse_handler);
 
     $('#hour-deselect').click(function() {
         view_model.selected_hour(null);
@@ -338,11 +384,11 @@ function set_up_station_chart() {
     // Begin Graphical Elements for Station Chart
     // sc for station_chart
     // Margin convention from here: http://bl.ocks.org/3019563
-    var width = $('#line-chart').width();    // TODO how to make width '100%' again dynamically?, use width of parent?
-    var height = $('#line-chart').height();
+    var width = $('#station-chart').width();    // TODO how to make width '100%' again dynamically?, use width of parent?
+    var height = $('#station-chart').height();
     var margin_bottom = 30; // This has to be within the SVG, to make room for x axis labels, but nothing else does
 
-    var chart_svg = d3.select('#line-chart').append('svg')
+    var chart_svg = d3.select('#station-chart').append('svg')
         //.attr('style', 'border: 1px solid red') // For debugging
         .attr('width', width)
         .attr('height', height);
@@ -364,8 +410,8 @@ function set_up_station_chart() {
 }
     
 function bind_station_chart_data(chart_svg, one_station_departures, one_station_arrivals, capacity) {
-    var width = $('#line-chart').width();    // TODO how to make width '100%' again dynamically?, use width of parent?
-    var height = $('#line-chart').height();
+    var width = $('#station-chart').width();    // TODO how to make width '100%' again dynamically?, use width of parent?
+    var height = $('#station-chart').height();
     var margin_bottom = 30; // This has to be within the SVG, to make room for x axis labels, but nothing else does
 
     var negValues = (_.min(one_station_departures) < 0);
@@ -524,17 +570,17 @@ $(document).ready(function() {
         var station_id = view_model.station_chart_station();
 
         if (station_id) {
-            $('#title-hourly').text(stations_by_id[station_id].short_name);
+            $('#station-chart-panel header').text(stations_by_id[station_id].short_name);
             $('img#station-deselect').attr('style', 'display: normal');
         } else {
-            $('#title-hourly').text('Click around to explore hour-by-hour activity.');
+            $('#station-chart-panel header').text('Select a station to see hour-by-hour activity.');
             $('img#station-deselect').attr('style', 'display: none');
         }
     });
 
-    $('#station-deselect-href').click(function() {
+    $('#station-deselect').click(function() {
         view_model.selected_station(null);
-        $('#aggregates .activator.selected').attr("class", "activator")
+        $('#accumulation-chart .activator.selected').attr("class", "activator")
         return false;
     });
     
@@ -558,9 +604,9 @@ $(document).ready(function() {
 	    $('#line-stats').text(
 		formatStats(capacity, arrivals, departures, hour));
 
-            $('#line-chart').attr('style', 'opacity: 1.0');
+            $('#station-chart').attr('style', 'opacity: 1.0');
         } else {
-            $('#line-chart').attr('style', 'opacity: 0.0');
+            $('#station-chart').attr('style', 'opacity: 0.0');
             // TODO: hide a static div with the intro text and show the line chart via css
 
             // TO NOT DO:
