@@ -250,6 +250,31 @@ body,div,span,header,footer,h1,h2,h3,h4 {
         }
     }
 }
+
+/* Nicer styles for the english-language accompanying this. */
+#narrative * {
+    font-family: "Century Schoolbook";
+    margin-left: 10px;
+
+    h2 {
+        font-family: inherit;
+        font-weight: bold;
+        margin-bottom: 1em;
+    }
+    ul { list-style: circle outside none; }
+    em { font-style: italic; }
+    p { margin-bottom: 1em; }
+}
+
+/* Hacks for the help */
+#help {
+    td em { white-space:nowrap; }
+    td {
+        padding: 1em;
+        vertical-align: top;
+    }
+}
+
 #blurbs {
 	
   .blurb-head {

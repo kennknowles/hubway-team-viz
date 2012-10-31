@@ -101,30 +101,53 @@
       </div><!-- body -->
 
     </div><!-- container -->
-    <div id="help">
-      <h2>How to use these charts</h2>
-      <p>
-        The three charts above present some complex data in an interactive way. Here is some explanation in addition to the various legends:
-        <ul>
-          <li><em>Map</em> - Each circle is centered on a Hubway station. Mouse over the circle to see that station's details shown to the left as a line chart,
-            or click on a station to lock its data in to the line chart.
-            The area of the circle is the average number of bikes checked out from that station <em>plus</em> the number of bikes checked in to that station
-            for the current hour selected. It is meant to represent the overall traffic. The color represents whether the net accumulation is greater
-            than 10% of the total transactions, just to give a sense as to whether this station is a starting point or ending point for more rides.
-          </li>
-          <li><em>Bar chart</em> - The bar chart across the bottom has the <em>net</em> accumulation of bikes at a station over the selected hour, sorted by
-            the stations that gains the most bikes down to those stations that lose the most bikes. Mouse over a station to see its data shown in the
-            upper left as a line chart, or click the station to lock its data in the line chart. This chart is scaled, so be sure to check the axis to
-            see whether the total number of bikes in or out is large.
-          </li>
-          <li><em>Line chart</em> - The line chart in the upper left showns the data for the selected or highlighted station throughout the course of a full
-            day. The data spans more than one day so that it is easy to see 24 hour patterns. One thing to look for is whether the station seems to be used
-            by commuters (two sharp peaks) versus casual users (one more-gradual peak)
-          </li>
-        </ul>
-      </p>
-    </div>
-    <div id="blurbs"> </div>
+
+    <section id="narrative">
+      <section id="help">
+        <h2>How to use these charts</h2>
+        <p>The three charts above present some complex data in an interactive way. Here is some explanation in addition to the various legends:</p>
+        <table>
+          <tbody>
+            <tr>
+              <td><em>Map</em></td>
+              <td>
+                Each circle is centered on a Hubway station. Mouse over the circle to see that station's details shown to the left as a line chart,
+                or click on a station to lock its data in to the line chart.
+                The area of the circle is the average number of bikes checked out from that station <em>plus</em> the number of bikes checked in to that station
+                for the current hour selected. It is meant to represent the overall traffic. The color represents whether the net accumulation is greater
+                than 10% of the total transactions, just to give a sense as to whether this station is a starting point or ending point for more rides.
+              </td>
+            </tr>
+            <tr>
+              <td><em>Bar chart</em></td>
+              <td>
+                The bar chart across the bottom has the <em>net</em> accumulation of bikes at a station over the selected hour, sorted by
+                the stations that gains the most bikes down to those stations that lose the most bikes. Mouse over a station to see its data shown in the
+                upper left as a line chart, or click the station to lock its data in the line chart. This chart is scaled, so be sure to check the axis to
+                see whether the total number of bikes in or out is large.
+              </td>
+            </tr>
+            <tr>
+              <td><em>Line chart</em></td>
+              <td>
+                The line chart in the upper left showns the data for the selected or highlighted station throughout the course of a full
+                day. The data spans more than one day so that it is easy to see 24 hour patterns. One thing to look for is whether the station seems to be used
+                by commuters (two sharp peaks) versus casual users (one more-gradual peak)
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      
+      <section>
+        <h2>Some Insights</h2>
+        <p>
+          Spoiler alert! Beyond this point, we describe some insights that we found in the process of exploring this data, and how to bring them out
+          using the above interface.
+        </p>
+        <div id="blurbs"> </div>
+      </section>
+    </section>
 
   </body>
 </html>

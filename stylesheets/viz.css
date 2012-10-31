@@ -285,12 +285,48 @@ body, div, span, header, footer, h1, h2, h3, h4 {
   fill-opacity: 0.5;
 }
 
+/* Nicer styles for the english-language accompanying this. */
 /* line 255, ../sass/viz.scss */
+#narrative * {
+  font-family: "Century Schoolbook";
+  margin-left: 10px;
+}
+/* line 259, ../sass/viz.scss */
+#narrative * h2 {
+  font-family: inherit;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+/* line 264, ../sass/viz.scss */
+#narrative * ul {
+  list-style: circle outside none;
+}
+/* line 265, ../sass/viz.scss */
+#narrative * em {
+  font-style: italic;
+}
+/* line 266, ../sass/viz.scss */
+#narrative * p {
+  margin-bottom: 1em;
+}
+
+/* Hacks for the help */
+/* line 271, ../sass/viz.scss */
+#help td em {
+  white-space: nowrap;
+}
+/* line 272, ../sass/viz.scss */
+#help td {
+  padding: 1em;
+  vertical-align: top;
+}
+
+/* line 280, ../sass/viz.scss */
 #blurbs .blurb-head {
   padding-left: 30px;
   font-size: 20pt;
 }
-/* line 259, ../sass/viz.scss */
+/* line 284, ../sass/viz.scss */
 #blurbs .blurb-body {
   padding-left: 30px;
   font-size: 10pt;
