@@ -12,7 +12,7 @@ $neutral-color: #c7bb79;
 /* Constants that CSS could calculate, but we hard-code so Leaflet can work */
 $panel-header-height: 30px;
 $panel-footer-height: 20px;
-$panel-content-height: 350px;
+$panel-content-height: 420px;
 $panel-height: $panel-header-height + $panel-footer-height + $panel-content-height + 8px; /* No idea where the 10px comes from */
 
 /* Easier to measure things with this */

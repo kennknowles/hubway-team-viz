@@ -96,6 +96,9 @@ function ViewModel(stations, hourly_data) {
                 .map(function(ds, station_id) {
                     var template = _(ds).first();
                     template.accumulation = _(ds).reduce(function(accum, d) { return accum + d.accumulation; }, 0);
+                    template.arrivals = _(ds).reduce(function(accum, d) { return accum + d.arrivals; }, 0);
+                    template.departures = _(ds).reduce(function(accum, d) { return accum + d.departures; }, 0);
+                    template.traffic = _(ds).reduce(function(accum, d) { return accum + d.traffic; }, 0);
                     return template;
                 })
                 .sortBy(function(d) { return -d.accumulation; })
@@ -276,8 +279,8 @@ function set_up_map(view_model) {
     var min_lng = _.chain(stations).map(function(s) { return s.lng }).min().value();
     var max_lng = _.chain(stations).map(function(s) { return s.lng }).max().value();
 
-    // Currently this zooms out too far: map.fitBounds(L.latLngBounds([min_lat, min_lng], [max_lat, max_lng]));
-    map.setView([42.355, -71.095], 13);
+    map.fitBounds(L.latLngBounds([min_lat, min_lng], [max_lat, max_lng]));
+    // map.setView([42.355, -71.095], 13);
 
     /* Initialize circles - mouseover to highlight the station, click to select it */
     var circles = {};
@@ -328,7 +331,7 @@ function set_up_map(view_model) {
                 (d.station.id == selected_station) ? 1.0: 0.5;
             
 
-            circles[d.station.id].setRadius(circle_scale * Math.sqrt(Math.abs(d.arrivals + d.departures)));
+            circles[d.station.id].setRadius(circle_scale * Math.sqrt(Math.abs(d.traffic)));
             
             circles[d.station.id].setStyle({
                 color: color, fillColor: fillColor,
