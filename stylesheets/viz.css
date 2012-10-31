@@ -286,3 +286,14 @@ div {
   fill: #cccccc;
   fill-opacity: 0.5;
 }
+
+/* line 256, ../sass/viz.scss */
+#blurbs .blurb-head {
+  padding-left: 30px;
+  font-size: 20pt;
+}
+/* line 260, ../sass/viz.scss */
+#blurbs .blurb-body {
+  padding-left: 30px;
+  font-size: 10pt;
+}
