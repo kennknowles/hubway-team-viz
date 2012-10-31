@@ -1,13 +1,16 @@
    
 /* Colors found in sass/viz.scss but if there's a clever way to automate extraction */
 var positive_color = '#36ac9c';
-var negative_color = '#f9a72b'
-var neutral_color = "#ac9faa"
-var acc_y_ax_pad = 50
+var negative_color = '#f9a72b';
+var neutral_color = '#c7bb79';
+// by hand darkend in the gimp '#c0c29d';
+
+//With 25% opacity the mix is this: "#d1d3b1";//"#ac9faa"
+var acc_y_ax_pad = 50;
 var highlighted_color = '#ff0000';
 var selected_color = '#fddf24';
 var excessFactor = 1.5;
-var plotNegativeDepartures = true;
+var plotNegativeDepartures = false;
 
 /* Abstract representation of the state of the UI (a la Model-View-ViewModel) */
 function ViewModel(stations, hourly_data) {
@@ -330,7 +333,13 @@ function set_up_station_chart() {
     
     chart_svg.append("path")
         .attr("class", "line departures")
+
+    chart_svg.append("path")
+        .attr("class", "area arrivals")
     
+    chart_svg.append("path")
+        .attr("class", "area departures")
+
 
     return chart_svg;
 }
@@ -360,11 +369,19 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
     var y_scale = d3.scale.linear() 
         .domain([(negValues? -one_station_max: 0), one_station_max])
         .range([height-margin_bottom, 0]);
-    
+
+    var interp = "monotone";
     var line = d3.svg.line()
         .x(function(d, i) { return x_scale(i); })
-        .y(function(d) { return y_scale(d); });
+        .y(function(d) { return y_scale(d); })
+	.interpolate(interp); // curve the lines a little bit
 
+    var area = d3.svg.area()
+	.interpolate(interp) // curve the lines a little bit
+	.x(function(d, i) { return x_scale(i); })
+        .y1(function(d) { return y_scale(d); })
+	.y0(function(d) { return y_scale(0);})
+    
     // TODO: a smooth transition
     chart_svg.selectAll("path.line.arrivals")
         .datum(one_station_arrivals)
@@ -373,6 +390,14 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
     chart_svg.selectAll("path.line.departures")
         .datum(one_station_departures)
         .attr("d", line);
+
+    
+    chart_svg.selectAll("path.area.departures")
+        .datum(one_station_departures)
+        .attr("d", area);
+    chart_svg.selectAll("path.area.arrivals")
+        .datum(one_station_arrivals)
+        .attr("d", area);
     
     sc_x_axis = d3.svg.axis()
 	.scale(x_scale)

@@ -7,7 +7,7 @@ $negative-color : #f9a72b;
 $highlighted-color: #fddf24;
 $selected-color: #d9c702;
 $border-radius: 20px;
-$neutral-color: #ac9faa;
+$neutral-color: #c7bb79;
 
 /* Easier to measure things with this */
 div {
@@ -49,6 +49,7 @@ div {
                 stroke: black;
                 stroke-width: 1px;
                 border: 1px solid black;
+		fill-opacity: 0.6;
             }
 
             .bar.positive {
@@ -161,7 +162,7 @@ div {
 
                	.line {
                     fill: none;
-                    stroke-width: 2px;
+                    stroke-width: 3px;
                 }
                 .line.arrivals {
                     stroke: $positive-color;
@@ -169,6 +170,16 @@ div {
                 .line.departures {
                     stroke: $negative-color;
                 }
+		.area {
+		     opacity: 0.25;
+		}
+		.area.arrivals{
+			fill: $positive-color;	
+		}
+		.area.departures{
+			fill: $negative-color;	
+		}
+
                 .axis path,
                 .axis line {
                     fill: none;
