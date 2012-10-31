@@ -607,7 +607,7 @@ $(document).ready(function() {
             }
             bind_station_chart_data(station_chart_svg, arrivals, departures, capacity);
 
-            $('#line-stats').text(
+            $('#station-chart-panel footer').text(
                 formatStats(capacity, arrivals, departures, hour));
 
             $('#station-chart').attr('style', 'opacity: 1.0');
