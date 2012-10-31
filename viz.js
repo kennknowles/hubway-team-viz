@@ -61,6 +61,7 @@ function ViewModel(stations, hourly_data) {
         } else {
             // moderate hack: no hour selected: add them all up
             var result = _.chain(hourly_data)
+		.filter(function(d) { return d.hour <24;}) // added filter since hacking hour wrap by repeating data with higher hour numbers
                 .groupBy(function(d) { return d.station.id; })
                 .map(function(ds, station_id) {
                     var template = _(ds).first();
@@ -222,27 +223,27 @@ function bind_station_accumulation_data(svg, data, view_model) {
     });
 }
 
-// FIX ME, this function currently used and duplicate elsewhere
-function accumulation_data_for_hour(hour) {
-    if (_(hour).isNumber()) {
-        return _.chain(hourly_data)
-            .filter(function(d) { return d.hour == hour; })
-            .sortBy(function(d) { return d.accumulation; })
-            .value();
-    } else {
-        // moderate hack: no hour selected: add them all up
-        var result = _.chain(hourly_data)
-            .groupBy(function(d) { return d.station.id; })
-            .map(function(ds, station_id) {
-                var template = _(ds).first();
-                template.accumulation = _(ds).reduce(function(accum, d) { return accum + d.accumulation; }, 0);
-                return template;
-            })
-            .sortBy(function(d) { return d.accumulation; })
-            .value();
-        return result;
-    }
-}
+// // FIX ME, this function currently unused and duplicate elsewhere
+// function accumulation_data_for_hour(hour) {
+//     if (_(hour).isNumber()) {
+//         return _.chain(hourly_data)
+//             .filter(function(d) { return d.hour == hour; })
+//             .sortBy(function(d) { return d.accumulation; })
+//             .value();
+//     } else {
+//         // moderate hack: no hour selected: add them all up
+//         var result = _.chain(hourly_data)
+//             .groupBy(function(d) { return d.station.id; })
+//             .map(function(ds, station_id) {
+//                 var template = _(ds).first();
+//                 template.accumulation = _(ds).reduce(function(accum, d) { return accum + d.accumulation; }, 0);
+//                 return template;
+//             })
+//             .sortBy(function(d) { return d.accumulation; })
+//             .value();
+//         return result;
+//     }
+// }
 
 function set_up_map(view_model) {
     var circle_scale = 60;
@@ -363,12 +364,12 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
 	
      console.log("max = " +_.min(one_station_departures) + " " +_.max(one_station_arrivals))
     var x_scale = d3.scale.ordinal()
-        .domain(_.range(24))
+        .domain(_.range(-1,30))
         .rangeRoundBands([0, width]);
     
     var y_scale = d3.scale.linear() 
         .domain([(negValues? -one_station_max: 0), one_station_max])
-        .range([height-margin_bottom, 0]);
+        .range([height-margin_bottom, 5]);
 
     var interp = "monotone";
     var line = d3.svg.line()
@@ -404,8 +405,8 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
 	.orient("bottom")
 //	.tickValues([0,4,8,12,16, 20]); 
 	//.tickValues([2,6,10,14,18,22]);
-	.tickValues([0, 4, 8, 12, 16, 20, 24])
-	.tickSubdivide(3);
+	.tickValues([0, 4, 8, 12, 16, 20, 24, 28])
+	.tickSubdivide(4);
     sc_y_axis = d3.svg.axis()
 	    .scale(y_scale)
 	    .orient("right")
@@ -440,7 +441,7 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
         .attr("y", 30) // Does this make sense?
         .attr("dy", ".71em")
         .style("text-anchor", "end")
-        .text("Bike Arrivals");
+        .text("Arriving and Departing Bikes per Day");
 }
 
 $(document).ready(function() {

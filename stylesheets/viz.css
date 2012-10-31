@@ -149,7 +149,7 @@ div {
 #container #body #hourly #station-chart #line-chart-title {
   height: 30px;
   padding-top: 5px;
-  padding-left: 30px;
+  padding-left: 50px;
   font-style: italic;
   font-size: 10pt;
 }
@@ -271,7 +271,7 @@ div {
 #container #body #hourly #map-container .header #hours .hour.selected {
   border: 2px solid black;
   margin: -1px;
-  background-color: #d9c702;
+  background-color: #dad3ad;
 }
 /* line 239, ../sass/viz.scss */
 #container #body #hourly #map-container #map {
