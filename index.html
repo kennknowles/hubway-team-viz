@@ -38,29 +38,26 @@
       <div id="titlebar">Balance of Hubway Bicycle Departures and Arrivals</div>
 
       <div id="body">
-        <div id="aggregates"> </div>
-        
         <div id="hourly" style="display: box; box-orient: horizontal">
 
           <div>
-            <div class="label">&nbsp;</div>
             <div class="content" id="station-chart">
               <div class="header">
                 <div id="title-hourly">24 Hr data</div>
                 <a id="station-deselect-href" href="#"><img style="display: none" id="station-deselect" src="close-icon.png" /></a>
               </div>
-	      <div id = "line-chart-title">
-	    Average Weekday Station Traffic by Hour
-	  </div>
+              <div id = "line-chart-title">
+                Average Weekday Station Traffic by Hour
+              </div>
               <div id="line-chart"> </div>
               <div class="content-footer" id="line-stats">This is where a short blurb about interesting stations goes.</div>
             </div>
           </div>
+          
           <div>
-            <div class="label">&nbsp;</div>
             <div id="map-container" class="content">
               <div class="header"> 
-		        <div id="hours">
+                <div id="hours">
                   <div>am</div>
                   <div class="hour" data-hour="0">12</div>
                   <div class="hour" data-hour="1">1</div>
@@ -89,13 +86,16 @@
                   <div>pm</div>
                   <div><img style="cursor: hand" id="hour-deselect" src="close-icon.png" /></div>
                 </div>
-	          </div>
+              </div>
               <div id="map"> </div>
               <div class="content-footer">The area of a circle on this map corresponds to the total number of bikes departing from or arriving at a station.</div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+        
+        <div id="aggregates"> </div>
+        
+      </div><!-- id="body" -->
+    </div><!-- id="container" -->
   </body>
 </html>

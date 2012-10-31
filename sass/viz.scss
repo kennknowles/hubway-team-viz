@@ -30,72 +30,7 @@ div {
         border: 1px solid black;
         border-radius: $border-radius;
         background-color: #f4f4f4;
-
-        #aggregates {
-            height: 150px;
-
-            .bar-label {
-                font-size: 8pt;
-            }
-
-            .bar-label.positive {
-                text-anchor: end;
-            }
-            .bar-label.negative {
-                text-anchor: start;
-            }
-
-            .bar {
-                stroke: black;
-                stroke-width: 1px;
-                border: 1px solid black;
-		fill-opacity: 0.6;
-            }
-
-            .bar.positive {
-                fill: $positive-color;
-            }
-            
-            .bar.negative {
-                fill: $negative-color;
-            }
-	    .bar.neutral {
-                fill: $neutral-color;
-            }
-            .bar.highlighted {
-                fill: $highlighted-color;
-                stroke-width:2px;
-            }
-                .axis path,
-                .axis line {
-                    fill: none;
-                    stroke: black;
-                    shape-rendering: crispEdges;
-                }
-                
-                .axis text {
-                    font-family: sans-serif;
-                    font-size: 11px;
-                }
-                .bary.axis path {
-                    display: none;
-                }
-	    
-            .activator {
-                stroke-width: 0px;
-                fill-opacity: 0.0;
-            }
-            /* TODO: we actually need to bind to hover with jQuery so we can modify the rect & label, not the activator bar*/
-            .activator:hover {
-                fill-opacity: 0.5;
-                fill: #ffffff;
-            }
-
-            .activator.selected {
-                fill: #cccccc;
-                fill-opacity: 0.5;
-            }
-        }
+        padding: 10px 10px 10px 10px;
 
         #hourly {
             @include display-box;
@@ -135,14 +70,14 @@ div {
             #station-chart {
                 width: 400px;
 
-		#line-chart-title {
-     		    height: 30px;
-		    padding-top: 5px;
-		    padding-left :50px;	    
-		    font-style: italic;
+                #line-chart-title {
+                    height: 30px;
+                    padding-top: 5px;
+                    padding-left :50px;     
+                    font-style: italic;
                     font-size: 10pt;
-		
-		}
+                    
+                }
                 #line-chart {
                     height: 350px;
                     margin-top: 10px; /* Outside the border (seems inside to Zia)*/
@@ -165,7 +100,7 @@ div {
                     }
                 }
 
-               	.line {
+                .line {
                     fill: none;
                     stroke-width: 3px;
                 }
@@ -175,15 +110,15 @@ div {
                 .line.departures {
                     stroke: $negative-color;
                 }
-		.area {
-		     opacity: 0.25;
-		}
-		.area.arrivals{
-			fill: $positive-color;	
-		}
-		.area.departures{
-			fill: $negative-color;	
-		}
+                .area {
+                    opacity: 0.25;
+                }
+                .area.arrivals{
+                    fill: $positive-color;  
+                }
+                .area.departures{
+                    fill: $negative-color;  
+                }
 
                 .axis path,
                 .axis line {
@@ -199,10 +134,10 @@ div {
                 .y.axis path {
                     display: none;
                 }
-		.title {
-		    font-family: sans-serif;	
+                .title {
+                    font-family: sans-serif;    
                     font-size: 12px;
-		}
+                }
             }
             
             #map-container {
@@ -237,7 +172,7 @@ div {
                         border: 2px solid black;
                         margin: -1px;
                         background-color: $selected-color;
-			//fill-opacity: 0.5; //does doesn't do opacity, but leaves just an outline which I like okay 			
+                    /* fill-opacity: 0.5; //does doesn't do opacity, but leaves just an outline which I like okay             */
                     }
                 }
 
@@ -248,8 +183,72 @@ div {
 
             }
         }
+        
+        #aggregates {
+            height: 350px;
+            
+            .bar-label {
+                font-size: 8pt;
+            }
+
+            .bar-label.positive {
+                text-anchor: end;
+            }
+            .bar-label.negative {
+                text-anchor: start;
+            }
+            
+            .bar {
+                stroke: black;
+                stroke-width: 1px;
+                border: 1px solid black;
+                fill-opacity: 0.6;
+            }
+            
+            .bar.positive {
+                fill: $positive-color;
+            }
+            
+            .bar.negative {
+                fill: $negative-color;
+            }
+            .bar.neutral {
+                fill: $neutral-color;
+            }
+            .bar.highlighted {
+                fill: $highlighted-color;
+                stroke-width:2px;
+            }
+            .axis path,
+            .axis line {
+                fill: none;
+                stroke: black;
+                shape-rendering: crispEdges;
+            }
+            
+            .axis text {
+                font-family: sans-serif;
+                font-size: 11px;
+            }
+            .bary.axis path {
+                display: none;
+            }
+            
+            .activator {
+                stroke-width: 0px;
+                fill-opacity: 0.0;
+            }
+            /* TODO: we actually need to bind to hover with jQuery so we can modify the rect & label, not the activator bar*/
+            .activator:hover {
+                fill-opacity: 0.5;
+                fill: #ffffff;
+            }
+
+            .activator.selected {
+                fill: #cccccc;
+                fill-opacity: 0.5;
+            }
+        }
     }
 }
-
-
 

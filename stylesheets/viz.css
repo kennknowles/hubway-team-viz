@@ -27,80 +27,9 @@ div {
   border: 1px solid black;
   border-radius: 20px;
   background-color: #f4f4f4;
+  padding: 10px 10px 10px 10px;
 }
-/* line 34, ../sass/viz.scss */
-#container #body #aggregates {
-  height: 150px;
-  /* TODO: we actually need to bind to hover with jQuery so we can modify the rect & label, not the activator bar*/
-}
-/* line 37, ../sass/viz.scss */
-#container #body #aggregates .bar-label {
-  font-size: 8pt;
-}
-/* line 41, ../sass/viz.scss */
-#container #body #aggregates .bar-label.positive {
-  text-anchor: end;
-}
-/* line 44, ../sass/viz.scss */
-#container #body #aggregates .bar-label.negative {
-  text-anchor: start;
-}
-/* line 48, ../sass/viz.scss */
-#container #body #aggregates .bar {
-  stroke: black;
-  stroke-width: 1px;
-  border: 1px solid black;
-  fill-opacity: 0.6;
-}
-/* line 55, ../sass/viz.scss */
-#container #body #aggregates .bar.positive {
-  fill: #36ac9c;
-}
-/* line 59, ../sass/viz.scss */
-#container #body #aggregates .bar.negative {
-  fill: #f9a72b;
-}
-/* line 62, ../sass/viz.scss */
-#container #body #aggregates .bar.neutral {
-  fill: #c7bb79;
-}
-/* line 65, ../sass/viz.scss */
-#container #body #aggregates .bar.highlighted {
-  fill: #fddf24;
-  stroke-width: 2px;
-}
-/* line 70, ../sass/viz.scss */
-#container #body #aggregates .axis path,
-#container #body #aggregates .axis line {
-  fill: none;
-  stroke: black;
-  shape-rendering: crispEdges;
-}
-/* line 76, ../sass/viz.scss */
-#container #body #aggregates .axis text {
-  font-family: sans-serif;
-  font-size: 11px;
-}
-/* line 80, ../sass/viz.scss */
-#container #body #aggregates .bary.axis path {
-  display: none;
-}
-/* line 84, ../sass/viz.scss */
-#container #body #aggregates .activator {
-  stroke-width: 0px;
-  fill-opacity: 0.0;
-}
-/* line 89, ../sass/viz.scss */
-#container #body #aggregates .activator:hover {
-  fill-opacity: 0.5;
-  fill: #ffffff;
-}
-/* line 94, ../sass/viz.scss */
-#container #body #aggregates .activator.selected {
-  fill: #cccccc;
-  fill-opacity: 0.5;
-}
-/* line 100, ../sass/viz.scss */
+/* line 35, ../sass/viz.scss */
 #container #body #hourly {
   display: -webkit-box;
   display: -moz-box;
@@ -112,24 +41,24 @@ div {
   box-orient: horizontal;
   /* The label above, outside the border */
 }
-/* line 104, ../sass/viz.scss */
+/* line 39, ../sass/viz.scss */
 #container #body #hourly > div {
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 10px;
 }
-/* line 109, ../sass/viz.scss */
+/* line 44, ../sass/viz.scss */
 #container #body #hourly > div .content-footer {
   padding-top: 5px;
   padding-left: 20px;
   font-style: italic;
   font-size: 10pt;
 }
-/* line 117, ../sass/viz.scss */
+/* line 52, ../sass/viz.scss */
 #container #body #hourly .label {
   height: 40px;
 }
-/* line 121, ../sass/viz.scss */
+/* line 56, ../sass/viz.scss */
 #container #body #hourly .content {
   height: 450px;
   /* The rounded border bit */
@@ -139,18 +68,18 @@ div {
   /* To round the corner of the map */
   /* The label within the rounded border */
 }
-/* line 127, ../sass/viz.scss */
+/* line 62, ../sass/viz.scss */
 #container #body #hourly .content .header {
   padding-top: 10px;
   padding-left: 30px;
   height: 30px;
   border-bottom: 1px solid black;
 }
-/* line 135, ../sass/viz.scss */
+/* line 70, ../sass/viz.scss */
 #container #body #hourly #station-chart {
   width: 400px;
 }
-/* line 138, ../sass/viz.scss */
+/* line 73, ../sass/viz.scss */
 #container #body #hourly #station-chart #line-chart-title {
   height: 30px;
   padding-top: 5px;
@@ -158,13 +87,13 @@ div {
   font-style: italic;
   font-size: 10pt;
 }
-/* line 146, ../sass/viz.scss */
+/* line 81, ../sass/viz.scss */
 #container #body #hourly #station-chart #line-chart {
   height: 350px;
   margin-top: 10px;
   /* Outside the border (seems inside to Zia)*/
 }
-/* line 151, ../sass/viz.scss */
+/* line 86, ../sass/viz.scss */
 #container #body #hourly #station-chart .header {
   display: -webkit-box;
   display: -moz-box;
@@ -172,65 +101,65 @@ div {
   display: box;
   white-space: nowrap;
 }
-/* line 155, ../sass/viz.scss */
+/* line 90, ../sass/viz.scss */
 #container #body #hourly #station-chart .header #title-hourly {
   width: 320px;
   overflow: hidden;
 }
-/* line 160, ../sass/viz.scss */
+/* line 95, ../sass/viz.scss */
 #container #body #hourly #station-chart .header img#station-deselect {
   width: 18px;
   height: 18px;
   padding-left: 10px;
   margin-top: -5px;
 }
-/* line 168, ../sass/viz.scss */
+/* line 103, ../sass/viz.scss */
 #container #body #hourly #station-chart .line {
   fill: none;
   stroke-width: 3px;
 }
-/* line 172, ../sass/viz.scss */
+/* line 107, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.arrivals {
   stroke: #36ac9c;
 }
-/* line 175, ../sass/viz.scss */
+/* line 110, ../sass/viz.scss */
 #container #body #hourly #station-chart .line.departures {
   stroke: #f9a72b;
 }
-/* line 178, ../sass/viz.scss */
+/* line 113, ../sass/viz.scss */
 #container #body #hourly #station-chart .area {
   opacity: 0.25;
 }
-/* line 181, ../sass/viz.scss */
+/* line 116, ../sass/viz.scss */
 #container #body #hourly #station-chart .area.arrivals {
   fill: #36ac9c;
 }
-/* line 184, ../sass/viz.scss */
+/* line 119, ../sass/viz.scss */
 #container #body #hourly #station-chart .area.departures {
   fill: #f9a72b;
 }
-/* line 189, ../sass/viz.scss */
+/* line 124, ../sass/viz.scss */
 #container #body #hourly #station-chart .axis path,
 #container #body #hourly #station-chart .axis line {
   fill: none;
   stroke: black;
   shape-rendering: crispEdges;
 }
-/* line 195, ../sass/viz.scss */
+/* line 130, ../sass/viz.scss */
 #container #body #hourly #station-chart .axis text {
   font-family: sans-serif;
   font-size: 11px;
 }
-/* line 199, ../sass/viz.scss */
+/* line 134, ../sass/viz.scss */
 #container #body #hourly #station-chart .y.axis path {
   display: none;
 }
-/* line 202, ../sass/viz.scss */
+/* line 137, ../sass/viz.scss */
 #container #body #hourly #station-chart .title {
   font-family: sans-serif;
   font-size: 12px;
 }
-/* line 209, ../sass/viz.scss */
+/* line 144, ../sass/viz.scss */
 #container #body #hourly #map-container .header #hours {
   display: -webkit-box;
   display: -moz-box;
@@ -247,40 +176,113 @@ div {
   width: 100%;
   margin-top: -5px;
 }
-/* line 216, ../sass/viz.scss */
+/* line 151, ../sass/viz.scss */
 #container #body #hourly #map-container .header #hours div {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -ms-box-flex: 1;
   box-flex: 1;
 }
-/* line 220, ../sass/viz.scss */
+/* line 155, ../sass/viz.scss */
 #container #body #hourly #map-container .header #hours img#hour-deselect {
   width: 18px;
   height: 18px;
 }
-/* line 225, ../sass/viz.scss */
+/* line 160, ../sass/viz.scss */
 #container #body #hourly #map-container .header #hours .hour {
   padding: 2px;
   border-radius: 5px;
   cursor: hand;
   text-align: center;
 }
-/* line 231, ../sass/viz.scss */
+/* line 166, ../sass/viz.scss */
 #container #body #hourly #map-container .header #hours .hour:hover {
   border: 1px solid black;
   margin: -1px;
   background-color: #fddf24;
 }
-/* line 236, ../sass/viz.scss */
+/* line 171, ../sass/viz.scss */
 #container #body #hourly #map-container .header #hours .hour.selected {
   border: 2px solid black;
   margin: -1px;
   background-color: #dad3ad;
+  /* fill-opacity: 0.5; //does doesn't do opacity, but leaves just an outline which I like okay             */
 }
-/* line 244, ../sass/viz.scss */
+/* line 179, ../sass/viz.scss */
 #container #body #hourly #map-container #map {
   width: 770px;
   height: 390px;
   /* Leaflet requires this to know how tall */
+}
+/* line 187, ../sass/viz.scss */
+#container #body #aggregates {
+  height: 350px;
+  /* TODO: we actually need to bind to hover with jQuery so we can modify the rect & label, not the activator bar*/
+}
+/* line 190, ../sass/viz.scss */
+#container #body #aggregates .bar-label {
+  font-size: 8pt;
+}
+/* line 194, ../sass/viz.scss */
+#container #body #aggregates .bar-label.positive {
+  text-anchor: end;
+}
+/* line 197, ../sass/viz.scss */
+#container #body #aggregates .bar-label.negative {
+  text-anchor: start;
+}
+/* line 201, ../sass/viz.scss */
+#container #body #aggregates .bar {
+  stroke: black;
+  stroke-width: 1px;
+  border: 1px solid black;
+  fill-opacity: 0.6;
+}
+/* line 208, ../sass/viz.scss */
+#container #body #aggregates .bar.positive {
+  fill: #36ac9c;
+}
+/* line 212, ../sass/viz.scss */
+#container #body #aggregates .bar.negative {
+  fill: #f9a72b;
+}
+/* line 215, ../sass/viz.scss */
+#container #body #aggregates .bar.neutral {
+  fill: #c7bb79;
+}
+/* line 218, ../sass/viz.scss */
+#container #body #aggregates .bar.highlighted {
+  fill: #fddf24;
+  stroke-width: 2px;
+}
+/* line 223, ../sass/viz.scss */
+#container #body #aggregates .axis path,
+#container #body #aggregates .axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+/* line 229, ../sass/viz.scss */
+#container #body #aggregates .axis text {
+  font-family: sans-serif;
+  font-size: 11px;
+}
+/* line 233, ../sass/viz.scss */
+#container #body #aggregates .bary.axis path {
+  display: none;
+}
+/* line 237, ../sass/viz.scss */
+#container #body #aggregates .activator {
+  stroke-width: 0px;
+  fill-opacity: 0.0;
+}
+/* line 242, ../sass/viz.scss */
+#container #body #aggregates .activator:hover {
+  fill-opacity: 0.5;
+  fill: #ffffff;
+}
+/* line 247, ../sass/viz.scss */
+#container #body #aggregates .activator.selected {
+  fill: #cccccc;
+  fill-opacity: 0.5;
 }
