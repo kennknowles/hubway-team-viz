@@ -50,7 +50,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 /* General bits for the chart panel with rounded corners, a header, and a footer */
 /* line 54, ../sass/viz.scss */
 .panel {
-  height: 478px;
+  height: 518px;
   margin: 0.5em;
   border: 1px solid black;
   border-radius: 20px;
@@ -70,7 +70,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 /* line 72, ../sass/viz.scss */
 .panel div.content {
   display: block;
-  height: 420px;
+  height: 460px;
 }
 /* line 77, ../sass/viz.scss */
 .panel footer {
@@ -87,7 +87,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 /* line 90, ../sass/viz.scss */
 #map-panel #map {
   width: 770px;
-  height: 420px;
+  height: 460px;
 }
 
 /* Hour controls */
@@ -146,7 +146,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 }
 /* line 139, ../sass/viz.scss */
 #station-chart-panel #station-chart {
-  height: 410px;
+  height: 450px;
 }
 /* line 142, ../sass/viz.scss */
 #station-chart-panel #station-chart .title {
