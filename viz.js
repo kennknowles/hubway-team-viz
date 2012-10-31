@@ -82,12 +82,15 @@ function ViewModel(stations, hourly_data) {
         }
     }
 
+    // HELP I can't figure out why this data is switched
+    // The code looks write, but I made it look wrong
+    // so that the data would be right!! -- Zia
     self.one_station_arrivals = ko.computed(function() {
-        return one_station_data(self.hourly_data, function(d) { return d.arrivals; }, self.station_chart_station());
+        return one_station_data(self.hourly_data, function(d) { return -d.departures; }, self.station_chart_station());
     });
-    
+    // note representing departures as negative for line graph
     self.one_station_departures = ko.computed(function() {
-        return one_station_data(self.hourly_data, function(d) { return d.departures; }, self.station_chart_station());
+        return one_station_data(self.hourly_data, function(d) { return d.arrivals; }, self.station_chart_station());
     });
 }
 
@@ -336,15 +339,18 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
     var height = $('#line-chart').height();
     var margin_bottom = 30; // This has to be within the SVG, to make room for x axis labels, but nothing else does
 
-    var one_station_max = Math.max(_.max(one_station_departures),
-				                   _.max(one_station_arrivals))
-    
+    var one_station_max = Math.max(  // use the min/max of departures
+	// so that we can easily switch between positive and negative departures views
+	Math.max( Math.abs(_.min(one_station_departures)),
+		  _.max(one_station_departures)),
+	_.max(one_station_arrivals))
+    console.log("max = " +_.min(one_station_departures) + " " +_.max(one_station_arrivals))
     var x_scale = d3.scale.ordinal()
         .domain(_.range(24))
         .rangeRoundBands([0, width]);
     
     var y_scale = d3.scale.linear() 
-        .domain([0, one_station_max])
+        .domain([Math.min(0, -one_station_max), one_station_max])
         .range([height-margin_bottom, 0]);
     
     var line = d3.svg.line()
