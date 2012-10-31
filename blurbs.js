@@ -17,7 +17,7 @@ blurbs = [
 	img: "",
     },
     {
-	title: "Eslindade shows treds of Casual users",
+	title: "Esplinade highlights trend of afternoon Casual users",
 	body: "The Esplinade station shows clear commuter band in the morning, but a much more even distribution in the evening when more tourists and casual users are about.",
 	img: "",
     },
