@@ -210,7 +210,7 @@ function set_up_station_accumulations(view_model) {
             .attr("dy", ".71em")
             .style("text-anchor", "end")
             .attr("transform", "rotate(-90)")
-            .text("# of bikes");
+            .text("net accumulation of bikes");
 
         svg.append("g")
             .attr("class", "bary axis")// TODO: create a style for this
