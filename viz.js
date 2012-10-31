@@ -485,6 +485,7 @@ $(document).ready(function() {
     });
 
     /* Now that everything is ready, load from querystring */
-    view_model.selected_station($.url().param('station'));
+    //view_model.selected_station($.url().param('station'));
+    view_model.selected_station(38); // force selection of North Station @ start
     view_model.selected_hour($.url().param('hour') ? parseInt($.url().param('hour')) : null);
 });
