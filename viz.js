@@ -289,7 +289,7 @@ function set_up_map(view_model) {
 
 	    var fillColor =
 		    (d.accumulation > excessFactor * d.traffic) ? positive_color :
-		    (d.accumulation > excessFactor * d.traffic) ?  negative_color:
+		    (-d.accumulation > excessFactor * d.traffic) ?  negative_color:
 		    neutral_color;
         var color =
 		    (d.station.id == highlighted_station) ? gray:
