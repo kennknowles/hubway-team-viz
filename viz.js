@@ -9,7 +9,7 @@ var neutral_color = '#c7bb79';
 var acc_y_ax_pad = 50;
 var highlighted_color = '#ff0000';
 var selected_color = '#fddf24';
-var excessFactor = 1.5;
+var excessFactor = 0.1;
 var plotNegativeDepartures = false;
 
 var hourMap = ["12pm",  "1am",  "2am",  "3am",  "4am",  "5am", "6am",
@@ -170,8 +170,8 @@ function set_up_station_accumulations(view_model) {
         /* The visible bar */
         accumulation_enter.append("rect")
 	        .attr("class", function(d) {
-                return (d.arrivals > excessFactor*d.departures) ? "bar positive" :
-		            (d.departures > excessFactor*d.arrivals) ? "bar negative":
+                return (d.accumulation > excessFactor * d.traffic) ? "bar positive" :
+		            (-d.accumulation > excessFactor * d.traffic) ? "bar negative":
 		            "bar neutral";
 	        })
 	        .attr("data-station", function(d) { return d.station_id; })
@@ -288,8 +288,8 @@ function set_up_map(view_model) {
 	_(data).each(function(d) {
 
 	    var fillColor =
-		    (d.arrivals > excessFactor*d.departures) ? positive_color :
-		    (d.departures > excessFactor*d.arrivals) ?  negative_color:
+		    (d.accumulation > excessFactor * d.traffic) ? positive_color :
+		    (d.accumulation > excessFactor * d.traffic) ?  negative_color:
 		    neutral_color;
         var color =
 		    (d.station.id == highlighted_station) ? gray:
@@ -501,7 +501,10 @@ $(document).ready(function() {
     
     var stations_by_id = {};
     _(stations).each(function(station) { stations_by_id[station.id] = station; });
-    _(hourly_data).each(function(d) { d.station = stations_by_id[d.station_id]; });
+    _(hourly_data).each(function(d) { 
+        d.traffic = d.arrivals + d.departures; // vs d.accumulation which is d.arrivals - d.departures
+        d.station = stations_by_id[d.station_id]; 
+    });
 
     var station_capacity_by_id = {};
     _(station_capacity).each(function(cap){
