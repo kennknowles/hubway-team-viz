@@ -12,6 +12,12 @@ var selected_color = '#fddf24';
 var excessFactor = 1.5;
 var plotNegativeDepartures = false;
 
+var hourMap = ["12pm",  "1am",  "2am",  "3am",  "4am",  "5am", "6am",
+	       "7am",  "8am",  "9am",  "10am", "11am",
+	       "noon",  "1pm",  "2pm",  "3pm", "4pm",  "5pm",  "6pm",
+	       "7pm",  "8pm",  "9pm",  "10pm",  "11pm",
+	       "12pm",  "1am",  "2am",  "3am",  "4am"]
+
 /* Abstract representation of the state of the UI (a la Model-View-ViewModel) */
 function ViewModel(stations, hourly_data) {
     var self = this;
@@ -168,7 +174,7 @@ function bind_station_accumulation_data(svg, data, view_model) {
     svg.selectAll('g.axis').
 	remove();
     svg.append("g")
-	.attr("class", "bary axis")// TODO: create a style for this
+	.attr("class", "bary axis")
 	.call(yAxis)
     	.append("text")
         .attr("y",-40)
@@ -177,8 +183,8 @@ function bind_station_accumulation_data(svg, data, view_model) {
         .style("text-anchor", "end")
 	.attr("transform", "rotate(-90)")
         .text("# of bikes");
-    svg.append("g")
-    	.attr("class", "bary axis")// TODO: create a style for this
+    svg.append("g") // This is the x axix line drawn by hand
+    	.attr("class", "bary axis")
     	.append("line")
     	.attr("x1", 0)
     	.attr("x2", width - 100) // hack not sure why it extends too far
@@ -345,7 +351,7 @@ function set_up_station_chart() {
     return chart_svg;
 }
     
-function bind_station_chart_data(chart_svg, one_station_departures, one_station_arrivals) {
+function bind_station_chart_data(chart_svg, one_station_departures, one_station_arrivals, capacity) {
     var width = $('#line-chart').width();    // TODO how to make width '100%' again dynamically?, use width of parent?
     var height = $('#line-chart').height();
     var margin_bottom = 30; // This has to be within the SVG, to make room for x axis labels, but nothing else does
@@ -361,8 +367,9 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
 	Math.max(_.max(one_station_departures)),
 	    _.max(one_station_arrivals))
     }
-	
-     console.log("max = " +_.min(one_station_departures) + " " +_.max(one_station_arrivals))
+    //one_station_max = Math.max(capacity+1, one_station_max);
+     //console.log("max = " +_.min(one_station_departures) + " " +_.max(one_station_arrivals))
+
     var x_scale = d3.scale.ordinal()
         .domain(_.range(-1,30))
         .rangeRoundBands([0, width]);
@@ -391,7 +398,6 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
     chart_svg.selectAll("path.line.departures")
         .datum(one_station_departures)
         .attr("d", line);
-
     
     chart_svg.selectAll("path.area.departures")
         .datum(one_station_departures)
@@ -412,6 +418,15 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
 	    .orient("right")
 	    .ticks(5);
 
+    // // Add horizontal line for 9/30 station capacity
+    // chart_svg.append("g")
+    // 	.attr("class", "path.line.arrivals")
+    // 	.append("line")
+    // 	.attr("x1", x_scale(0))
+    // 	.attr("x2", x_scale(24))
+    // 	.attr("y1", y_scale(capacity))
+    // 	.attr("y2", y_scale(capacity));
+
     // TODO: mutate axis if it is too ugly
     chart_svg.selectAll('g.axis').remove();
 
@@ -421,15 +436,8 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
  	//    .attr("transform", "translate(0,"+ (height - margin_bottom) + ")")
 	    .call(sc_x_axis);
 
-    hourMap = ["12pm",  "1am",  "2am",  "3am",  "4am",  "5am", "6am",
-	       "7am",  "8am",  "9am",  "10am", "11am",
-	       "noon",  "1pm",  "2pm",  "3pm", "4pm",  "5pm",  "6pm",
-	       "7pm",  "8pm",  "9pm",  "10pm",  "11pm",
-	       "12pm",  "1am",  "2am",  "3am",  "4am"]
-
     chart_svg.selectAll(".axis text")
 	.text(function(d){
-	    console.log(d);
 	    return hourMap[parseInt(d)];
 	});
    
@@ -444,6 +452,36 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
         .text("Arriving and Departing Bikes per Day");
 }
 
+function sum24HrsData(trips){
+    return _(trips)
+	.filter(function(d, i){
+	    return (i<24 ? d :0); // prevent summing up extra hours
+	})
+	.reduce(function(memo, num){ return memo + num;});
+}
+function formatStats(cap, arrivals, departures, selectedHour){
+
+    // note arrivals and departures now have more than 24 elements
+    // WATCHOUT: The arrivals and departures reversal strikes again??!
+    var dSum = Math.round(sum24HrsData(arrivals));
+    var aSum = Math.round(sum24HrsData(departures));
+    // for selected hour:
+    var sd = arrivals[selectedHour];
+    var sa = departures[selectedHour];
+    
+    return 'Capacity: '+ cap +
+	' Total Trips: ' + (aSum + dSum) +
+	' dep: '+dSum +
+	' arr: ' + aSum +
+	' delta: ' + (aSum-dSum) +
+	(selectedHour ?
+	 ' at ' + hourMap[selectedHour] +
+	' : ' + (sa + sd) +
+	' dep: '+sd +
+	' arr: ' + sa +
+	 ' delta: ' + (sa+sd)    :'');
+
+}
 $(document).ready(function() {
 
     /* Massage the initial data to make life a little easier */
@@ -453,6 +491,11 @@ $(document).ready(function() {
     _(stations).each(function(station) {
         //station.flow = { in: 0, out: 0 };
         stations_by_id[station.id] = station;
+    });
+
+    var station_capacity_by_id = {};
+    _(station_capacity).each(function(cap){
+	station_capacity_by_id[cap.station_id] = cap.capacity;
     });
 
     _(hourly_data).each(function(d) {
@@ -496,6 +539,7 @@ $(document).ready(function() {
     /* Set up the station line chart header */
     ko.computed(function() {
         var station_id = view_model.station_chart_station();
+
         if (station_id) {
             $('#title-hourly').text(stations_by_id[station_id].short_name);
             $('img#station-deselect').attr('style', 'display: normal');
@@ -517,12 +561,19 @@ $(document).ready(function() {
     ko.computed(function() { 
         var arrivals = view_model.one_station_arrivals();
         var departures = view_model.one_station_departures();
-
+	var capacity = station_capacity_by_id[
+	    view_model.station_chart_station()];
+	var hour = view_model.selected_hour();
+	
         if (arrivals && departures) {
             if (!station_chart_svg) {
                 station_chart_svg = set_up_station_chart();
             }
-            bind_station_chart_data(station_chart_svg, arrivals, departures);
+            bind_station_chart_data(station_chart_svg, arrivals, departures, capacity);
+
+	    $('#line-stats').text(
+		formatStats(capacity, arrivals, departures, hour));
+
             $('#line-chart').attr('style', 'opacity: 1.0');
         } else {
             $('#line-chart').attr('style', 'opacity: 0.0');
