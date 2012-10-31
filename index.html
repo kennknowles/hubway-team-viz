@@ -31,92 +31,73 @@
     <script src="stations-abbreviated.js"></script>
     <script src="hourlyAverage.js"></script>
     <script src="stationCap.js"></script>
+    <script src="blurbs.js"></script>
     <script src="viz.js"></script>
   </head>
   <body>
     <div id="container">
+
       <div id="titlebar">Balance of Hubway Bicycle Departures and Arrivals</div>
 
       <div id="body">
-        <div id="hourly" style="display: box; box-orient: horizontal">
-
-          <div>
-            <div class="content" id="station-chart">
-              <div class="header">
-                <div id="title-hourly">24 Hr data</div>
-                <a id="station-deselect-href" href="#"><img style="display: none" id="station-deselect" src="close-icon.png" /></a>
-              </div>
-              <div id = "line-chart-title">
-                Average Weekday Station Traffic by Hour
-              </div>
-              <div id="line-chart"> </div>
-              <div class="content-footer" id="line-stats">This is where a short blurb about interesting stations goes.</div>
-            </div>
-          </div>
+        <div id="panels">
           
-          <div>
-            <div id="map-container" class="content">
-              <div class="header"> 
-                <div id="hours">
-                  <div>am</div>
-                  <div class="hour" data-hour="0">12</div>
-                  <div class="hour" data-hour="1">1</div>
-                  <div class="hour" data-hour="2">2</div>
-                  <div class="hour" data-hour="3">3</div>
-                  <div class="hour" data-hour="4">4</div>
-                  <div class="hour" data-hour="5">5</div>
-                  <div class="hour" data-hour="6">6</div>
-                  <div class="hour" data-hour="7">7</div>
-                  <div class="hour" data-hour="8">8</div>
-                  <div class="hour" data-hour="9">9</div>
-                  <div class="hour" data-hour="10">10</div>
-                  <div class="hour" data-hour="11">11</div>
-                  <div class="hour" data-hour="12">noon</div>
-                  <div class="hour" data-hour="13">1</div>
-                  <div class="hour" data-hour="14">2</div>
-                  <div class="hour" data-hour="15">3</div>
-                  <div class="hour" data-hour="16">4</div>
-                  <div class="hour" data-hour="17">5</div>
-                  <div class="hour" data-hour="18">6</div>
-                  <div class="hour" data-hour="19">7</div>
-                  <div class="hour" data-hour="20">8</div>
-                  <div class="hour" data-hour="21">9</div>
-                  <div class="hour" data-hour="22">10</div>
-                  <div class="hour" data-hour="23">11</div>
-                  <div>pm</div>
-                  <div><img style="cursor: hand" id="hour-deselect" src="close-icon.png" /></div>
-                </div>
-              </div>
-              <div id="map"> </div>
-              <div class="content-footer">The area of a circle on this map corresponds to the total number of bikes departing from or arriving at a station.</div>
+          <section class="panel" id="station-chart-panel">
+            <header>Select a station to see hour-by-hour activity</header>
+            <div class="content">
+              <div class="title" id="station-chart-title">Average Weekday Station Traffic by Hour</div>
+              <div id="station-chart"> </div>
             </div>
-          </div>
-        </div>
-        
+            <footer id="station-chart-stats">This is where a short blurb about interesting stations goes.</footer>
+          </section>
+
+          <section class="panel" id="map-panel">
+            <header>Bikes arriving at a station plus bikes departing from a station during the selected hour.</header>
+            <div class="content">
+              <div id="map"></div>
+            </div>
+            <footer>Map caption</footer>
+          </section>
+
+        </div>        
         <div id="aggregates"> </div>
 	    
-	  </div>
-	</div>
-      </div><!-- id="body" -->
-    </div><!-- id="container" -->
-    <div id="blurbs">
-	  <div class="blurb">
-	    <div class="blurb-head">
-	      North Station (TD Garden) shows large commuter traffic</div>
-	    <div class="blurb-body">
-	      There are large numbers of commutters arriving at North Station and departing via Hubway Bikes in the mornings and returning in the evening. Between 7am and 9am on a typical weekday 75 bikes depart from North Station. This station's capacity is 47 bikes. Hubway re-supplies bikes at active stations like this one to keep the system working during peak times. The evening is even more dramatic, with on average of net 88 bikes arriving at North Station over a 5 hr window.
-	    </div>
-    </div><!-- blurb -->
+         <div id="hour-controls">
+          <div>Hour selector:</div>
+          <div class="hour" data-hour="0">12am</div>
+          <div class="hour" data-hour="1">1</div>
+          <div class="hour" data-hour="2">2</div>
+          <div class="hour" data-hour="3">3</div>
+          <div class="hour" data-hour="4">4</div>
+          <div class="hour" data-hour="5">5</div>
+          <div class="hour" data-hour="6">6</div>
+          <div class="hour" data-hour="7">7</div>
+          <div class="hour" data-hour="8">8</div>
+          <div class="hour" data-hour="9">9</div>
+          <div class="hour" data-hour="10">10</div>
+          <div class="hour" data-hour="11">11</div>
+          <div class="hour" data-hour="12">noon</div>
+          <div class="hour" data-hour="13">1pm</div>
+          <div class="hour" data-hour="14">2</div>
+          <div class="hour" data-hour="15">3</div>
+          <div class="hour" data-hour="16">4</div>
+          <div class="hour" data-hour="17">5</div>
+          <div class="hour" data-hour="18">6</div>
+          <div class="hour" data-hour="19">7</div>
+          <div class="hour" data-hour="20">8</div>
+          <div class="hour" data-hour="21">9</div>
+          <div class="hour" data-hour="22">10</div>
+          <div class="hour" data-hour="23">11</div>
+        </div>
+      
+        <section id="accumulation-chart-container">
+          <div id="accumulation-chart"></div>
+        </section>
+      
+      </div><!-- body -->
 
-	  	  <div class="blurb">
-	    <div class="blurb-head">
-	      Lechmere shows imbalance due to bad bus schedules?
-	    </div>
-	    <div class="blurb-body">
-	      Both the Lechmere station and the nearby Cambridge Side Galleria see an imbalance of commuter traffic with more users departing in the evenings. It seems possible that this is due to the inconvience of the bus schedules in the evenings. Research needed. :)
-	      </div>
-    </div><!-- blurb -->
-
-    </div>
+    </div><!-- container -->
+    <div id="blurbs"> </div>
 </body>
+
 </html>
