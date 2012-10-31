@@ -182,71 +182,58 @@ body,div,span,header,footer,h1,h2,h3,h4 {
 }
 
 /* Accumulation bar chart */
-#accumulation-chart {
-    height: 350px;
-    margin-top: 30px;
-    margin-bottom: 30px;
+#accumulation-chart-container {
+    #accumulation-chart {
+        height: 350px;
+        margin-top: 30px;
+        margin-bottom: 30px;
     
-    .bar-label {
-        font-size: 8pt;
-    }
     
-    .bar-label.positive {
-        text-anchor: end;
-    }
-    .bar-label.negative {
-        text-anchor: start;
-    }
+        .bar-label { font-size: 8pt; }
+        .bar-label.positive { text-anchor: end; }
+        .bar-label.negative { text-anchor: start; }
     
-    .bar {
-        stroke: black;
-        stroke-width: 1px;
-        border: 1px solid black;
-        fill-opacity: 0.6;
-    }
+        .bar {
+            stroke: black;
+            stroke-width: 1px;
+            border: 1px solid black;
+            fill-opacity: 0.6;
+        }
+        
+        .bar.positive { fill: $positive-color; }
+        .bar.negative { fill: $negative-color; }
+        .bar.neutral { fill: $neutral-color; }
+        .bar.highlighted { fill: $highlighted-color; stroke-width:2px; }
+        
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+        }
+        
+        .axis text {
+            font-family: sans-serif;
+            font-size: 11px;
+        }
+        .bary.axis path {
+            display: none;
+        }
     
-    .bar.positive {
-        fill: $positive-color;
-    }
-    
-    .bar.negative {
-        fill: $negative-color;
-    }
-    .bar.neutral {
-        fill: $neutral-color;
-    }
-    .bar.highlighted {
-        fill: $highlighted-color;
-        stroke-width:2px;
-    }
-    .axis path,
-    .axis line {
-        fill: none;
-        stroke: black;
-        shape-rendering: crispEdges;
-    }
-    
-    .axis text {
-        font-family: sans-serif;
-        font-size: 11px;
-    }
-    .bary.axis path {
-        display: none;
-    }
-    
-    .activator {
-        stroke-width: 0px;
-        fill-opacity: 0.0;
-    }
-    
-    .activator:hover {
-        fill-opacity: 0.5;
-        fill: #ffffff;
-    }
-    
-    .activator.selected {
-        fill: #cccccc;
-        fill-opacity: 0.5;
+        .activator {
+            stroke-width: 0px;
+            fill-opacity: 0.0;
+        }
+        
+        .activator.highlighted {
+            fill-opacity: 0.5;
+            fill: #ffffff;
+        }
+        
+        .activator.selected {
+            fill: #cccccc;
+            fill-opacity: 0.5;
+        }
     }
 }
 

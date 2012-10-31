@@ -196,76 +196,76 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 }
 
 /* Accumulation bar chart */
-/* line 185, ../sass/viz.scss */
-#accumulation-chart {
+/* line 186, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart {
   height: 350px;
   margin-top: 30px;
   margin-bottom: 30px;
 }
-/* line 190, ../sass/viz.scss */
-#accumulation-chart .bar-label {
+/* line 192, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart .bar-label {
   font-size: 8pt;
 }
-/* line 194, ../sass/viz.scss */
-#accumulation-chart .bar-label.positive {
+/* line 193, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart .bar-label.positive {
   text-anchor: end;
 }
-/* line 197, ../sass/viz.scss */
-#accumulation-chart .bar-label.negative {
+/* line 194, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart .bar-label.negative {
   text-anchor: start;
 }
-/* line 201, ../sass/viz.scss */
-#accumulation-chart .bar {
+/* line 196, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart .bar {
   stroke: black;
   stroke-width: 1px;
   border: 1px solid black;
   fill-opacity: 0.6;
 }
-/* line 208, ../sass/viz.scss */
-#accumulation-chart .bar.positive {
+/* line 203, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart .bar.positive {
   fill: #36ac9c;
 }
-/* line 212, ../sass/viz.scss */
-#accumulation-chart .bar.negative {
+/* line 204, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart .bar.negative {
   fill: #f9a72b;
 }
-/* line 215, ../sass/viz.scss */
-#accumulation-chart .bar.neutral {
+/* line 205, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart .bar.neutral {
   fill: #c7bb79;
 }
-/* line 218, ../sass/viz.scss */
-#accumulation-chart .bar.highlighted {
+/* line 206, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart .bar.highlighted {
   fill: #fddf24;
   stroke-width: 2px;
 }
-/* line 223, ../sass/viz.scss */
-#accumulation-chart .axis path,
-#accumulation-chart .axis line {
+/* line 209, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart .axis path,
+#accumulation-chart-container #accumulation-chart .axis line {
   fill: none;
   stroke: black;
   shape-rendering: crispEdges;
 }
-/* line 229, ../sass/viz.scss */
-#accumulation-chart .axis text {
+/* line 215, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart .axis text {
   font-family: sans-serif;
   font-size: 11px;
 }
-/* line 233, ../sass/viz.scss */
-#accumulation-chart .bary.axis path {
+/* line 219, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart .bary.axis path {
   display: none;
 }
-/* line 237, ../sass/viz.scss */
-#accumulation-chart .activator {
+/* line 223, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart .activator {
   stroke-width: 0px;
   fill-opacity: 0.0;
 }
-/* line 242, ../sass/viz.scss */
-#accumulation-chart .activator:hover {
+/* line 228, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart .activator.highlighted {
   fill-opacity: 0.5;
   fill: #ffffff;
 }
-/* line 247, ../sass/viz.scss */
-#accumulation-chart .activator.selected {
+/* line 233, ../sass/viz.scss */
+#accumulation-chart-container #accumulation-chart .activator.selected {
   fill: #cccccc;
   fill-opacity: 0.5;
 }
