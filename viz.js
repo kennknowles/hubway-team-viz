@@ -140,6 +140,14 @@ function ViewModel(stations, hourly_data) {
     });
 }
 
+function color_w_neutral(d){
+    return (d.accumulation > excessFactor * d.traffic) ? "bar positive" :
+        (-d.accumulation > excessFactor * d.traffic) ? "bar negative":
+        "bar neutral";
+}
+function color_basic(d){
+    return (d.arrivals > d.departures) ? "bar positive" : "bar negative";
+}
 /* The station accumulation bars */
 function set_up_station_accumulations(view_model) {
     var width = $('#accumulation-chart').width() - acc_y_ax_pad;
@@ -190,11 +198,7 @@ function set_up_station_accumulations(view_model) {
 
         /* The visible bar */
         accumulation_enter.append("rect")
-            .attr("class", function(d) {
-                return (d.accumulation > excessFactor * d.traffic) ? "bar positive" :
-                    (-d.accumulation > excessFactor * d.traffic) ? "bar negative":
-                    "bar neutral";
-            })
+            .attr("class", function(d){ return color_basic(d);})
             .attr("data-station", function(d) { return d.station_id; })
             .attr("data-accum", function(d) { return d.accumulation; })
             .attr("x", function(d, i) { return x(d.station_id); })
