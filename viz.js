@@ -494,7 +494,13 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
     }
     //one_station_max = Math.max(capacity+1, one_station_max);
     //console.log("max = " +_.min(one_station_departures) + " " +_.max(one_station_arrivals))
-
+    // reduce the chaos of very small stations looking like crazy pattern, when
+    // actually they just have very little data and it is mostly noise.
+    // set the minimum yaxis scale to 3 or 2*max_value, so small stations look
+    // small. Ex. South Bay Plaza, greatly improves ability to detect
+    // fractional bikes per day.
+    var min_thr = Math.min(3, one_station_max*2);
+    one_station_max = Math.max(min_thr, one_station_max);
     var x_scale = d3.scale.ordinal()
         .domain(_.range(-1,30))
         .rangeRoundBands([0, width]);
