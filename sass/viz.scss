@@ -15,6 +15,7 @@ $panel-footer-height: 20px;
 $panel-content-height: 390px;
 $panel-height: $panel-header-height + $panel-footer-height + $panel-content-height + 8px; /* No idea where the 10px comes from */
 
+$map-legend-height: 200px; // the height of the png legend
 /* Easier to measure things with this */
 body,div,span,header,footer,h1,h2,h3,h4 {
     @include box-sizing(border-box);
@@ -98,8 +99,8 @@ body,div,span,header,footer,h1,h2,h3,h4 {
     }
     #map-legend {
         position: relative;
-        left: 0px;
-        top: -250px;
+        left: -1px;
+	top: -$map-legend-height;
         border: 1px solid black;
     }
 }
@@ -114,7 +115,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
     margin-bottom: 30px;
     border-top: 1px solid gray;
     border-bottom: 1px solid gray;
-    padding-left: 100px;
+    padding-left: 10px;
     width: 100%;
     font-size: 8pt;
     
@@ -122,6 +123,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
         margin: -3px;
         padding: 8px;
         border-radius: 5px;
+	min-width: 35px;
         cursor: hand;
         text-align: center;
     }
