@@ -9,7 +9,9 @@ var neutral_color = '#b4aca8';//c7bb79';
 var acc_y_ax_pad = 50;
 var highlighted_color = '#ff0000';
 var selected_color = '#fddf24';
-var excessFactor = 0.1;
+var excessFactor = 0.2; // corredonds to Zia's old value of 1.5, with new math arrive/depart > (1+F)/(1-F).
+// arrive = 1.5*depart >> arrive = 60% of total traffic, which seems like the easiest way to talk abot it. Maybe should just change the logic to be this way?
+
 var plotNegativeDepartures = false;
 
 var hourMap = ["12am",  "1am",  "2am",  "3am",  "4am",  "5am", "6am",
