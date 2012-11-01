@@ -417,18 +417,56 @@ function set_up_station_chart() {
         .attr('height', height);
     
     chart_svg.append("path")
+        .attr("class", "line arrivals");
+    
+    chart_svg.append("path")
+        .attr("class", "line departures");
+
+    chart_svg.append("path")
+        .attr("class", "area arrivals");
+    
+    chart_svg.append("path")
+        .attr("class", "area departures");
+
+    // BEGIN LEGEND CODE
+    // We can keep the legend in a fixed location,
+    // so no need to update for new data
+    var legend = {
+	x_start: width-120,
+	x_end: width-100,
+	t_start: width-90,
+	y_first: 15,
+	y_second: 30,
+	yt_fudge: 3, // move the text down just a bit
+    };
+
+    chart_svg.append("g")
         .attr("class", "line arrivals")
-    
-    chart_svg.append("path")
+        .append("line")
+        .attr("x1", legend.x_start)
+        .attr("x2", legend.x_end) 
+        .attr("y1", legend.y_first)
+        .attr("y2", legend.y_first);
+    chart_svg.append("text")
+	.text("Arrivals")
+	.attr("class", "title")
+	.attr("x", legend.t_start)
+	.attr("y", legend.y_first+legend.yt_fudge);
+
+       chart_svg.append("g")
         .attr("class", "line departures")
-
-    chart_svg.append("path")
-        .attr("class", "area arrivals")
+        .append("line")
+        .attr("x1", legend.x_start)
+        .attr("x2", legend.x_end)
+        .attr("y1", legend.y_second)
+        .attr("y2", legend.y_second);
+    chart_svg.append("text")
+	.text("Departures")
+	.attr("class", "title")
+	.attr("x", legend.t_start)
+	.attr("y", legend.y_second+legend.yt_fudge);
+    // END LEGEND CODE
     
-    chart_svg.append("path")
-        .attr("class", "area departures")
-
-
     return chart_svg;
 }
 
@@ -499,15 +537,6 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
         .orient("right")
         .ticks(5);
 
-    // // Add horizontal line for 9/30 station capacity
-    // chart_svg.append("g")
-    //  .attr("class", "path.line.arrivals")
-    //  .append("line")
-    //  .attr("x1", x_scale(0))
-    //  .attr("x2", x_scale(24))
-    //  .attr("y1", y_scale(capacity))
-    //  .attr("y2", y_scale(capacity));
-
     // TODO: mutate axis if it is too ugly
     chart_svg.selectAll('g.axis').remove();
 
@@ -564,11 +593,6 @@ function formatStats(cap, arrivals, departures, selectedHour){
 
 }
 function postBlurb(b){
-    // $('#blurbs').text('Yo you you!');
-    // $('#blurbs').append('div')
-    // 	 $('#blurbs').append('div')
-    // 	.attr("class", "blurb-body")
-    // 	.text(b.body);
 
     bs = d3.select('#blurbs');
     bs.append('div')
