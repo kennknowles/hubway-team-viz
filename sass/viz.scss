@@ -33,7 +33,10 @@ body,div,span,header,footer,h1,h2,h3,h4 {
         padding-left: 30px;
         margin-bottom: -3px; /* To lay exactly on the border of the body */
         font-size: 20pt;
-
+	#sub-title {	    
+	    font-size: 12pt;
+	    font-style: italic;	
+	}
         #help-link {
             float: right;
             font-size: 8pt;
