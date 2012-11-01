@@ -2,12 +2,12 @@
 @import "compass/css3/box";
 
 /* Overall color scheme, etc */
-$positive-color : #36ac9c;
-$negative-color : #f9a72b;
+$positive-color : #2c826b;//36ac9c;
+$negative-color : #8B2A2F;//F65650; //f9a72b;
 $highlighted-color: #fddf24;
 $selected-color: #dad3ad; // #c7bb79;//#d9c702;
 $border-radius: 20px;
-$neutral-color: #c7bb79;
+$neutral-color: #b4aca8;//c7bb79;
 
 /* Constants that CSS could calculate, but we hard-code so Leaflet can work */
 $panel-header-height: 30px;
