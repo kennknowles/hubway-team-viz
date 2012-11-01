@@ -148,11 +148,12 @@ body,div,span,header,footer,h1,h2,h3,h4 {
     width: 400px;
 
     .title {
+    	margin-top: 3px;
         height: 10px;
-        padding-left: 30px;
+        padding-left: 50px;
 
         font-size: 8pt;
-        color: lightgray;
+        color: black;
     }
     
     #station-chart {

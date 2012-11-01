@@ -165,8 +165,8 @@ function set_up_station_accumulations(view_model) {
     ko.computed(function() {
         var data = view_model.accumulation_data();
 
-        var min_acc = _.min(_(data).map(function(d) { return d.accumulation;} ))
-        var max_acc = _.max(_(data).map(function(d) { return d.accumulation;} ))
+        var min_acc = _.min(_(data).map(function(d) { return d.accumulation;} ));
+        var max_acc = _.max(_(data).map(function(d) { return d.accumulation;} ));
         var y_max = Math.max(-min_acc, max_acc);
 
         // Y scale keep 0 at exactly the midpoint of the SVG canvas
@@ -335,6 +335,7 @@ function set_up_map(view_model) {
         var selected_hour = view_model.selected_hour();
         var highlighted_hour = view_model.highlighted_hour();
         var hour = _(highlighted_hour).isNumber() ? highlighted_hour : selected_hour;
+	var hack_24hr_divisor = (hour === "total")?4:1; // fudge the circles smaller for the totals, illegible otherwise.
 
         var highlighted_station = view_model.highlighted_station();
         var selected_station = view_model.selected_station();
@@ -356,7 +357,7 @@ function set_up_map(view_model) {
             var fillOpacity =
                 (d.station.id == selected_station) ? 1.0: 0.5;
         
-            circles[d.station.id].setRadius(circle_scale * Math.sqrt(Math.abs(d.traffic)));
+            circles[d.station.id].setRadius(circle_scale * Math.sqrt(Math.abs(d.traffic/hack_24hr_divisor)));
             
             circles[d.station.id].setStyle({
                 color: color, fillColor: fillColor,
@@ -569,9 +570,10 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
         .append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 30) // Does this make sense?
-        .attr("dy", ".71em")
+	.attr("x", -30)
+	.attr("dy", ".71em")
         .style("text-anchor", "end")
-        .text("Arriving and Departing Bikes per Day");
+        .text("Trips per Day");
 }
 
 function sum24HrsData(trips){
@@ -591,17 +593,18 @@ function formatStats(cap, arrivals, departures, selectedHour){
     var sd = arrivals[selectedHour];
     var sa = departures[selectedHour];
     
-    return 'Capacity: '+ cap +
-        ' Total Trips: ' + (aSum + dSum) +
-        ' dep: '+dSum +
-        ' arr: ' + aSum +
-        ' delta: ' + (aSum-dSum) +
-        (selectedHour ?
-         ' at ' + hourMap[selectedHour] +
-         ' : ' + (sa + sd) +
-         ' dep: '+sd +
-         ' arr: ' + sa +
-         ' delta: ' + (sa+sd)    :'');
+    return 'Capacity: '+ cap;
+	// +
+        // ' Total Trips: ' + (aSum + dSum) +
+        // ' dep: '+dSum +
+        // ' arr: ' + aSum +
+        // ' delta: ' + (aSum-dSum) +
+        // (selectedHour ?
+        //  ' at ' + hourMap[selectedHour] +
+        //  ' : ' + (sa + sd) +
+        //  ' dep: '+sd +
+        //  ' arr: ' + sa +
+        //  ' delta: ' + (sa+sd)    :'');
 
 }
 function postBlurb(b){
@@ -653,6 +656,39 @@ $(document).ready(function() {
     set_up_hours(view_model);
     set_up_map(view_model);
 
+    // Configure the map footer and header
+    ko.computed(function() {
+	var station_id = view_model.station_chart_station();
+	var selected_hour = view_model.selected_hour();
+	var highlighted_hour = view_model.highlighted_hour();
+        var hour = (highlighted_hour !== null) ? highlighted_hour : selected_hour;
+
+	var data = view_model.accumulation_data();
+	
+	var datum = _(data).filter(function(d){return d.station_id == station_id;})[0];
+
+	var nameStr = "Selected station summary for " + stations_by_id[station_id].short_name;
+	var trafficStr = ' --- Total Traffic: ' + Math.round(datum.traffic) + ' trips of which ' +
+	    Math.round(datum.arrivals/datum.traffic*100) + ' % are arriving';
+	
+	var titleString = 'All stations Total Traffic (sum of arrivals and departures) '
+	if (hour !== 'total'){
+	    $('#map-panel header').text(
+		titleString + ' between '+
+		    hourMap[hour] +' and '+hourMap[hour+1]);
+	    $('#map-panel footer').text(
+		nameStr + ' @ ' +hourMap[hour] +
+		    trafficStr);
+	}else{
+	    // assume this means 24Hr total
+	    $('#map-panel header').text(
+		titleString + 'for typical weekeday.');
+	    $('#map-panel footer').text(
+		nameStr + ' 24 Hr ' +
+		    trafficStr);
+	    }
+
+    });
     /* Set up the station line chart header */
     ko.computed(function() {
         var station_id = view_model.station_chart_station();
