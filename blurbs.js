@@ -1,4 +1,6 @@
 // Add Blurbs
+var introText = ["In order for the Hubway system to work, there must always be bikes and empty docks at each station when needed. One of Hubway's challenges is to redistrubute bikes in the system (on a daily or even hourly basis) to keep up with imbalances in rider's usage. While some stations show a dynamic equilibrium of departures and arrivals throughout the course of the day, popular commuting stations experience high net losses or gains in the morning and evening. We visualized traffic for each station and hour of the day and analyzed how different user groups contributed to this.",
+		 " Since usage patterns change as new stations are installed, this graphic focuses only on the recent busy months of August and September 2012. Also the data here is restricted to Weekdays in order to highlight the critical imbalances that Hubway must account for to keep the system working. Weekend traffic represents more casual users and a more balanced overall usage."];
 
 blurbs = [
     {

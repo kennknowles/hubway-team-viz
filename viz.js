@@ -609,8 +609,8 @@ function postBlurb(b){
     bs = d3.select('#blurbs');
     bs.append('div')
 	.attr('class', 'blurb-head')
-	.text(b.title)//;
-   // bs
+	.text(b.title);
+   bs
 	.append('div')
 	.attr('class', 'blurb-body')
 	.text(b.body);
@@ -618,6 +618,11 @@ function postBlurb(b){
 }
 $(document).ready(function() {
 
+    intro = d3.select('#introduction').selectAll('p')
+	.data(introText)
+	.enter()
+	.append('p')
+	.text(function(d){return d;});
     // Display the blurbs for the user:
     _(blurbs).each(function(b){
 	postBlurb(b);
