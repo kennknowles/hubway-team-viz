@@ -5,9 +5,9 @@
 $positive-color : #2c826b;//36ac9c;
 $negative-color : #df6342;//#8B2A2F;//F65650; //f9a72b;
 $highlighted-color: #fddf24;
-$selected-color: #dad3ad; // #c7bb79;//#d9c702;
+$selected-color: #ffffff;// #dad3ad; // #c7bb79;//#d9c702;
 $border-radius: 20px;
-$neutral-color: #6f5d4d;// #9b8978; //#b4aca8;//c7bb79;
+$neutral-color: #a1988d;// ##6f5d4d;// #9b8978; //#b4aca8;//c7bb79;
 
 /* Constants that CSS could calculate, but we hard-code so Leaflet can work */
 $panel-header-height: 30px;
@@ -15,7 +15,7 @@ $panel-footer-height: 20px;
 $panel-content-height: 390px;
 $panel-height: $panel-header-height + $panel-footer-height + $panel-content-height + 8px; /* No idea where the 10px comes from */
 
-$map-legend-height: 180px + 1px; // the height of the png legend
+$map-legend-height: 162px + 1px; // the height of the png legend
 /* Easier to measure things with this */
 body,div,span,header,footer,h1,h2,h3,h4 {
     @include box-sizing(border-box);
@@ -175,7 +175,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
             stroke: $negative-color;
         }
         .area {
-            opacity: 0.25;
+            opacity: 0.30;
         }
         .area.arrivals{
             fill: $positive-color;  

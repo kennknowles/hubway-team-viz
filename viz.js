@@ -2,7 +2,7 @@
 /* Colors found in sass/viz.scss but if there's a clever way to automate extraction */
 var positive_color = '#2c826b';//36ac9c';
 var negative_color = '#df6342'//'#8B2A2F';//f9a72b';
-var neutral_color = '#9b8978';// #6f5d4d';//'#c9baad';//'#b4aca8';//c7bb79';
+var neutral_color = '#a1988d';'#9b8978';// #6f5d4d';//'#c9baad';//'#b4aca8';//c7bb79';
 // by hand darkend in the gimp '#c0c29d';
 
 //With 25% opacity the mix is this: "#d1d3b1";//"#ac9faa"

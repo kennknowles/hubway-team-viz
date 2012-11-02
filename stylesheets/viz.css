@@ -103,7 +103,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 #map-panel #map-legend {
   position: relative;
   left: -1px;
-  top: -181px;
+  top: -163px;
   border: 1px solid black;
 }
 
@@ -149,7 +149,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 #hour-controls .hour.selected {
   border: 2px solid black;
   margin: -5px;
-  background-color: #dad3ad;
+  background-color: white;
   fill-opacity: 0.5;
 }
 
@@ -190,7 +190,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 }
 /* line 177, ../sass/viz.scss */
 #station-chart-panel #station-chart .area {
-  opacity: 0.25;
+  opacity: 0.30;
 }
 /* line 180, ../sass/viz.scss */
 #station-chart-panel #station-chart .area.arrivals {
@@ -253,7 +253,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 }
 /* line 225, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar.neutral {
-  fill: #6f5d4d;
+  fill: #a1988d;
 }
 /* line 226, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar.highlighted {
