@@ -671,7 +671,7 @@ $(document).ready(function() {
 	var trafficStr = ' --- Total Traffic: ' + Math.round(datum.traffic) + ' trips of which ' +
 	    Math.round(datum.arrivals/datum.traffic*100) + ' % are arriving';
 	
-	var titleString = 'All stations Total Traffic (sum of arrivals and departures) '
+	var titleString = 'Total traffic (sum of arrivals and departures) '
 	if (hour !== 'total'){
 	    $('#map-panel header').text(
 		titleString + ' between '+

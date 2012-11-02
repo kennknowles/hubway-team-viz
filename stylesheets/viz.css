@@ -164,8 +164,9 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 }
 /* line 152, ../sass/viz.scss */
 #station-chart-panel .title {
+  padding-top: 3px;
   height: 10px;
-  padding-left: 50px;
+  padding-left: 30px;
   font-size: 8pt;
   color: black;
 }
