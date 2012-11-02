@@ -482,7 +482,7 @@ var stations = [
     {
         id:"34",
         name: "Overland St at Brookline Ave",
-        short_name:"Overland St at Brookline Ave",
+        short_name:"Overland St / Brookline Ave",
         lat: 42.346171,
         lng: -71.099855,
         region:"Fenway",
@@ -500,7 +500,7 @@ var stations = [
     {
         id:"45",
         name: "Yawkey Way at Boylston St.",
-        short_name:"Yawkey Way at Boylston St",
+        short_name:"Yawkey Way / Boylston St",
         lat: 42.344763,
         lng: -71.09788,
         region:"Fenway",
