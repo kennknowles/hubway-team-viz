@@ -72,7 +72,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
         padding-top: 10px;
         padding-left: 30px;
         height: $panel-header-height;
-        
+      	background-color: white;  
         font-weight: bold;
         font-size: 10pt;
         border-bottom: 1px solid black;
@@ -81,16 +81,18 @@ body,div,span,header,footer,h1,h2,h3,h4 {
     div.content {
         display: block;
         height: $panel-content-height;
+	background-color: white;
     }
 
     footer {
-        height: $panel-footer-height;
+        height: $panel-footer-height+20;
         display: block;
         border-top: 1px solid black;
         padding-top: 5px;
         padding-left: 20px;
         font-style: italic;
         font-size: 10pt;
+	background-color: white;
     }
 }
 
@@ -121,7 +123,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
     padding-left: 10px;
     width: 100%;
     font-size: 8pt;
-    
+    background-color: #fdfdfd;
     .hour {
         margin: -3px;
         padding: 8px;
@@ -148,7 +150,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
     width: 400px;
 
     .title {
-    	margin-top: 3px;
+
         height: 10px;
         padding-left: 50px;
 
