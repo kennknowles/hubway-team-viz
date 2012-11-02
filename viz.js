@@ -544,9 +544,18 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
         .scale(x_scale)
         .orient("bottom")
     //  .tickValues([0,4,8,12,16, 20]); 
-    //.tickValues([2,6,10,14,18,22]);
+    //.tickValues([2,6,10,14,18,22])
+   // .tickSubdivide(1)
+	.tickSize(6, 3, 0)
+	//.ticksSubdivide(true)
         .tickValues([0, 4, 8, 12, 16, 20, 24, 28])
-        .tickSubdivide(4);
+	.tickFormat(function(d){
+	    return hourMap[parseInt(d)];
+	});
+	
+    
+    console.log(sc_x_axis);
+        
     sc_y_axis = d3.svg.axis()
         .scale(y_scale)
         .orient("right")
@@ -560,11 +569,6 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
         .attr("transform","translate(0, " + y_scale(0) + ")")
     //    .attr("transform", "translate(0,"+ (height - margin_bottom) + ")")
         .call(sc_x_axis);
-
-    chart_svg.selectAll(".axis text")
-        .text(function(d){
-            return hourMap[parseInt(d)];
-        });
     
     chart_svg.append("g")
         .attr("class", "y axis")
@@ -623,11 +627,12 @@ function postBlurb(b){
 }
 $(document).ready(function() {
 
-    intro = d3.select('#introduction').selectAll('p')
-	.data(introText)
-	.enter()
-	.append('p')
-	.text(function(d){return d;});
+    // intro = d3.select('#introduction').selectAll('p')
+    // 	.data(introText)
+    // 	.enter()
+    // 	.append('p')
+//	.text(function(d){return d;});
+
     // Display the blurbs for the user:
     _(blurbs).each(function(b){
 	postBlurb(b);
@@ -667,24 +672,27 @@ $(document).ready(function() {
 	
 	var datum = _(data).filter(function(d){return d.station_id == station_id;})[0];
 
-	var nameStr = "Station: " + stations_by_id[station_id].short_name;
-	var trafficStr = ' --- Total Traffic: ' + Math.round(datum.traffic) + ' trips of which ' +
+	var nameStr = stations_by_id[station_id].short_name;
+	var trafficStr = ' --- Average traffic: ' + Math.round(datum.traffic) + ' trips/hr of which ' +
 	    Math.round(datum.arrivals/datum.traffic*100) + ' % are arriving';
 	
 	var titleString = 'Total traffic (sum of arrivals and departures) '
+
+	$('#map-foot-station').text("Selected Station: ");
+
+	   
 	if (hour !== 'total'){
 	    $('#map-panel header').text(
 		titleString + ' between '+
 		    hourMap[hour] +' and '+hourMap[hour+1]);
-	    $('#map-panel footer').text(
-		nameStr + ' @ ' +hourMap[hour] +
+	    $('#map-foot-stats').text(nameStr +' @ ' +hourMap[hour] +
 		    trafficStr);
 	}else{
 	    // assume this means 24Hr total
 	    $('#map-panel header').text(
 		titleString + 'for typical weekeday.');
-	    $('#map-panel footer').text(
-		nameStr + ' 24 Hr ' +
+	    $('#map-foot-stats').text( nameStr +
+		' 24 Hr ' +
 		    trafficStr);
 	    }
 

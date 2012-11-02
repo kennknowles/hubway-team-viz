@@ -73,7 +73,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
         padding-left: 30px;
         height: $panel-header-height;
       	background-color: white;  
-        font-weight: normal;
+        font-weight: bold;
         font-size: 12pt;
         border-bottom: 1px solid black;
     } 
@@ -93,6 +93,10 @@ body,div,span,header,footer,h1,h2,h3,h4 {
         font-style: italic;
         font-size: 10pt;
 	background-color: white;
+    }
+    #map-foot-stats{
+	float: right;
+	padding-right: 20px;
     }
 }
 
