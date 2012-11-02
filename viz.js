@@ -301,8 +301,8 @@ function set_up_map(view_model) {
     var min_lng = _.chain(stations).map(function(s) { return s.lng }).min().value();
     var max_lng = _.chain(stations).map(function(s) { return s.lng }).max().value();
 
-    map.fitBounds(L.latLngBounds([min_lat, min_lng], [max_lat, max_lng]));
-    // map.setView([42.355, -71.095], 13);
+    //map.fitBounds(L.latLngBounds([min_lat, min_lng], [max_lat, max_lng]));
+    map.setView([42.355, -71.095], 13);
 
     /* Initialize circles - mouseover to highlight the station, click to select it */
     var circles = {};
