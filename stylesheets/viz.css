@@ -75,7 +75,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
   height: 30px;
   background-color: white;
   font-weight: bold;
-  font-size: 10pt;
+  font-size: 12pt;
   border-bottom: 1px solid black;
 }
 /* line 81, ../sass/viz.scss */
