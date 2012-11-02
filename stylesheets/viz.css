@@ -170,174 +170,182 @@ body, div, span, header, footer, h1, h2, h3, h4 {
   font-size: 8pt;
   color: black;
 }
-/* line 161, ../sass/viz.scss */
-#station-chart-panel #station-chart {
-  height: 380px;
+/* line 160, ../sass/viz.scss */
+#station-chart-panel #capacity {
+  color: gray;
+  float: right;
+  padding-top: 10px;
+  padding-right: 24px;
+  font-size: 8pt;
 }
-/* line 164, ../sass/viz.scss */
+/* line 168, ../sass/viz.scss */
+#station-chart-panel #station-chart {
+  height: 410px;
+}
+/* line 171, ../sass/viz.scss */
 #station-chart-panel #station-chart .title {
   font-family: sans-serif;
   font-size: 12px;
 }
-/* line 169, ../sass/viz.scss */
+/* line 176, ../sass/viz.scss */
 #station-chart-panel #station-chart .line {
   fill: none;
   stroke-width: 3px;
 }
-/* line 173, ../sass/viz.scss */
+/* line 180, ../sass/viz.scss */
 #station-chart-panel #station-chart .line.arrivals {
   stroke: #2c826b;
 }
-/* line 176, ../sass/viz.scss */
+/* line 183, ../sass/viz.scss */
 #station-chart-panel #station-chart .line.departures {
   stroke: #df6342;
 }
-/* line 179, ../sass/viz.scss */
+/* line 186, ../sass/viz.scss */
 #station-chart-panel #station-chart .area {
   opacity: 0.30;
 }
-/* line 182, ../sass/viz.scss */
+/* line 189, ../sass/viz.scss */
 #station-chart-panel #station-chart .area.arrivals {
   fill: #2c826b;
 }
-/* line 185, ../sass/viz.scss */
+/* line 192, ../sass/viz.scss */
 #station-chart-panel #station-chart .area.departures {
   fill: #df6342;
 }
-/* line 190, ../sass/viz.scss */
+/* line 197, ../sass/viz.scss */
 #station-chart-panel #station-chart .axis path,
 #station-chart-panel #station-chart .axis line {
   fill: none;
   stroke: black;
   shape-rendering: crispEdges;
 }
-/* line 196, ../sass/viz.scss */
+/* line 203, ../sass/viz.scss */
 #station-chart-panel #station-chart .axis text {
   font-family: sans-serif;
   font-size: 11px;
 }
-/* line 200, ../sass/viz.scss */
+/* line 207, ../sass/viz.scss */
 #station-chart-panel #station-chart .y.axis path {
   display: none;
 }
 
 /* Accumulation bar chart */
-/* line 208, ../sass/viz.scss */
+/* line 215, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart {
   height: 350px;
   margin-top: 30px;
   margin-bottom: 30px;
 }
-/* line 214, ../sass/viz.scss */
+/* line 221, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar-label {
   font-size: 8pt;
 }
-/* line 215, ../sass/viz.scss */
+/* line 222, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar-label.positive {
   text-anchor: end;
 }
-/* line 216, ../sass/viz.scss */
+/* line 223, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar-label.negative {
   text-anchor: start;
 }
-/* line 218, ../sass/viz.scss */
+/* line 225, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar {
   stroke: black;
   stroke-width: 1px;
   border: 1px solid black;
   fill-opacity: 0.8;
 }
-/* line 225, ../sass/viz.scss */
+/* line 232, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar.positive {
   fill: #2c826b;
 }
-/* line 226, ../sass/viz.scss */
+/* line 233, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar.negative {
   fill: #df6342;
 }
-/* line 227, ../sass/viz.scss */
+/* line 234, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar.neutral {
   fill: #a1988d;
 }
-/* line 228, ../sass/viz.scss */
+/* line 235, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar.highlighted {
   fill: white;
   stroke-width: 2px;
 }
-/* line 231, ../sass/viz.scss */
+/* line 238, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .axis path,
 #accumulation-chart-container #accumulation-chart .axis line {
   fill: none;
   stroke: black;
   shape-rendering: crispEdges;
 }
-/* line 237, ../sass/viz.scss */
+/* line 244, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .axis text {
   font-family: sans-serif;
   font-size: 11px;
 }
-/* line 241, ../sass/viz.scss */
+/* line 248, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bary.axis path {
   display: none;
 }
-/* line 245, ../sass/viz.scss */
+/* line 252, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .activator {
   stroke-width: 0px;
   fill-opacity: 0.0;
 }
-/* line 250, ../sass/viz.scss */
+/* line 257, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .activator.highlighted {
   fill-opacity: 0.5;
   fill: #ffffff;
 }
-/* line 255, ../sass/viz.scss */
+/* line 262, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .activator.selected {
   fill: #cccccc;
   fill-opacity: 0.5;
 }
 
 /* Nicer styles for the english-language accompanying this. */
-/* line 263, ../sass/viz.scss */
+/* line 270, ../sass/viz.scss */
 #narrative * {
   font-family: "Century Schoolbook";
   margin-left: 10px;
 }
-/* line 267, ../sass/viz.scss */
+/* line 274, ../sass/viz.scss */
 #narrative * h2 {
   font-family: inherit;
   font-weight: bold;
   margin-bottom: 1em;
 }
-/* line 272, ../sass/viz.scss */
+/* line 279, ../sass/viz.scss */
 #narrative * ul {
   list-style: circle outside none;
 }
-/* line 273, ../sass/viz.scss */
+/* line 280, ../sass/viz.scss */
 #narrative * em {
   font-style: italic;
 }
-/* line 274, ../sass/viz.scss */
+/* line 281, ../sass/viz.scss */
 #narrative * p {
   margin-bottom: 1em;
 }
 
 /* Hacks for the help */
-/* line 279, ../sass/viz.scss */
+/* line 286, ../sass/viz.scss */
 #help td em {
   white-space: nowrap;
 }
-/* line 280, ../sass/viz.scss */
+/* line 287, ../sass/viz.scss */
 #help td {
   padding: 1em;
   vertical-align: top;
 }
 
-/* line 288, ../sass/viz.scss */
+/* line 295, ../sass/viz.scss */
 #blurbs .blurb-head {
   padding-left: 30px;
   font-size: 20pt;
 }
-/* line 292, ../sass/viz.scss */
+/* line 299, ../sass/viz.scss */
 #blurbs .blurb-body {
   padding-left: 30px;
   font-size: 10pt;

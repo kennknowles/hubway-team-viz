@@ -416,6 +416,7 @@ function set_up_station_chart() {
     // Margin convention from here: http://bl.ocks.org/3019563
     var width = $('#station-chart').width();    // TODO how to make width '100%' again dynamically?, use width of parent?
     var height = $('#station-chart').height();
+    console.log(height);
     var margin_bottom = 30; // This has to be within the SVG, to make room for x axis labels, but nothing else does
 
     var chart_svg = d3.select('#station-chart').append('svg')
@@ -480,6 +481,7 @@ function set_up_station_chart() {
 function bind_station_chart_data(chart_svg, one_station_departures, one_station_arrivals, capacity) {
     var width = $('#station-chart').width();    // TODO how to make width '100%' again dynamically?, use width of parent?
     var height = $('#station-chart').height();
+    console.log(height);
     var margin_bottom = 30; // This has to be within the SVG, to make room for x axis labels, but nothing else does
 
     var negValues = (_.min(one_station_departures) < 0);
@@ -510,7 +512,7 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
         .domain([(negValues? -one_station_max: 0), one_station_max])
         .range([height-margin_bottom, 5]);
 
-    var interp = "cardinal"; // "basis" keeps all data points true
+    var interp = "cardinal";//"monotone";"linear"; // "basis" keeps all data points true
     var line = d3.svg.line()
         .x(function(d, i) { return x_scale(i); })
         .y(function(d) { return y_scale(d); })
@@ -667,7 +669,7 @@ $(document).ready(function() {
 	
 	var datum = _(data).filter(function(d){return d.station_id == station_id;})[0];
 
-	var nameStr = "Selected station summary for " + stations_by_id[station_id].short_name;
+	var nameStr = "Station: " + stations_by_id[station_id].short_name;
 	var trafficStr = ' --- Total Traffic: ' + Math.round(datum.traffic) + ' trips of which ' +
 	    Math.round(datum.arrivals/datum.traffic*100) + ' % are arriving';
 	
@@ -725,8 +727,8 @@ $(document).ready(function() {
             }
             bind_station_chart_data(station_chart_svg, arrivals, departures, capacity);
 
-            $('#station-chart-panel footer').text(
-                formatStats(capacity, arrivals, departures, hour));
+            $('#capacity').text('[Capacity: '+ capacity +']');
+
 
             $('#station-chart').attr('style', 'opacity: 1.0');
         } else {

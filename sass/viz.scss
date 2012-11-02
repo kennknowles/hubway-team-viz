@@ -157,9 +157,16 @@ body,div,span,header,footer,h1,h2,h3,h4 {
         font-size: 8pt;
         color: black;
     }
+    #capacity {
+    	color: gray;
+	float: right;
+	padding-top: 10px;
+	padding-right: 24px;
+	font-size: 8pt;
+    }
     
     #station-chart {
-        height: $panel-content-height - 10px;
+        height: $panel-content-height + $panel-footer-height;
         
         .title {
             font-family: sans-serif;    
