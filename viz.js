@@ -633,8 +633,6 @@ $(document).ready(function() {
 	postBlurb(b);
     });
     /* Massage the initial data to make life a little easier */
-    stations = _(stations).filter(function(station) { return !station.temporary });
-    
     var stations_by_id = {};
     _(stations).each(function(station) { stations_by_id[station.id] = station; });
     _(hourly_data).each(function(d) { 
