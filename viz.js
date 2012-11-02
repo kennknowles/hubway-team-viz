@@ -418,7 +418,6 @@ function set_up_station_chart() {
     // Margin convention from here: http://bl.ocks.org/3019563
     var width = $('#station-chart').width();    // TODO how to make width '100%' again dynamically?, use width of parent?
     var height = $('#station-chart').height();
-    console.log(height);
     var margin_bottom = 30; // This has to be within the SVG, to make room for x axis labels, but nothing else does
 
     var chart_svg = d3.select('#station-chart').append('svg')
@@ -483,7 +482,6 @@ function set_up_station_chart() {
 function bind_station_chart_data(chart_svg, one_station_departures, one_station_arrivals, capacity) {
     var width = $('#station-chart').width();    // TODO how to make width '100%' again dynamically?, use width of parent?
     var height = $('#station-chart').height();
-    console.log(height);
     var margin_bottom = 30; // This has to be within the SVG, to make room for x axis labels, but nothing else does
 
     var negValues = (_.min(one_station_departures) < 0);
