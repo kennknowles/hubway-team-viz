@@ -334,14 +334,16 @@ function set_up_map(view_model) {
     ko.computed(function() {
         var selected_hour = view_model.selected_hour();
         var highlighted_hour = view_model.highlighted_hour();
-        var hour = _(highlighted_hour).isNumber() ? highlighted_hour : selected_hour;
-	var hack_24hr_divisor = (hour === "total")?4:1; // fudge the circles smaller for the totals, illegible otherwise.
+	var hour = (highlighted_hour !== null) ? highlighted_hour : selected_hour;
+        //var hour = _(highlighted_hour).isNumber() ? highlighted_hour : selected_hour;
+	//var hack_24hr_divisor = (hour === "total")?6:1; // fudge the circles smaller for the totals, illegible otherwise.
 
         var highlighted_station = view_model.highlighted_station();
         var selected_station = view_model.selected_station();
         var data = view_model.accumulation_data();
         var black = "#000000";
         var gray = "#5f5e5e";
+	var normal_op = (hour === "total")?0.3:0.5; // fudge the circles smaller for the totals, illegible otherwise.
         _(data).each(function(d) {
 
             var fillColor =
@@ -355,9 +357,9 @@ function set_up_map(view_model) {
             var weight = 
                 (d.station.id == highlighted_station) ? 4 : 2;
             var fillOpacity =
-                (d.station.id == selected_station) ? 1.0: 0.5;
+                (d.station.id == selected_station) ? 1.0: normal_op;
         
-            circles[d.station.id].setRadius(circle_scale * Math.sqrt(Math.abs(d.traffic/hack_24hr_divisor)));
+            circles[d.station.id].setRadius(circle_scale * Math.sqrt(Math.abs(d.traffic/*/hack_24hr_divisor*/)));
             
             circles[d.station.id].setStyle({
                 color: color, fillColor: fillColor,
