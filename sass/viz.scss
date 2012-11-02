@@ -3,11 +3,11 @@
 
 /* Overall color scheme, etc */
 $positive-color : #2c826b;//36ac9c;
-$negative-color : #8B2A2F;//F65650; //f9a72b;
+$negative-color : #df6342;//#8B2A2F;//F65650; //f9a72b;
 $highlighted-color: #fddf24;
 $selected-color: #dad3ad; // #c7bb79;//#d9c702;
 $border-radius: 20px;
-$neutral-color: #b4aca8;//c7bb79;
+$neutral-color: #6f5d4d;// #9b8978; //#b4aca8;//c7bb79;
 
 /* Constants that CSS could calculate, but we hard-code so Leaflet can work */
 $panel-header-height: 30px;
@@ -217,7 +217,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
             stroke: black;
             stroke-width: 1px;
             border: 1px solid black;
-            fill-opacity: 0.6;
+            fill-opacity: 0.8;
         }
         
         .bar.positive { fill: $positive-color; }

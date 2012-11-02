@@ -186,7 +186,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 }
 /* line 174, ../sass/viz.scss */
 #station-chart-panel #station-chart .line.departures {
-  stroke: #8b2a2f;
+  stroke: #df6342;
 }
 /* line 177, ../sass/viz.scss */
 #station-chart-panel #station-chart .area {
@@ -198,7 +198,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 }
 /* line 183, ../sass/viz.scss */
 #station-chart-panel #station-chart .area.departures {
-  fill: #8b2a2f;
+  fill: #df6342;
 }
 /* line 188, ../sass/viz.scss */
 #station-chart-panel #station-chart .axis path,
@@ -241,7 +241,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
   stroke: black;
   stroke-width: 1px;
   border: 1px solid black;
-  fill-opacity: 0.6;
+  fill-opacity: 0.8;
 }
 /* line 223, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar.positive {
@@ -249,11 +249,11 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 }
 /* line 224, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar.negative {
-  fill: #8b2a2f;
+  fill: #df6342;
 }
 /* line 225, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar.neutral {
-  fill: #b4aca8;
+  fill: #6f5d4d;
 }
 /* line 226, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar.highlighted {
