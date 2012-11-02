@@ -147,13 +147,13 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 #hour-controls .hour:hover {
   border: 1px solid black;
   margin: -4px;
-  background-color: #fddf24;
+  background-color: white;
 }
 /* line 140, ../sass/viz.scss */
 #hour-controls .hour.selected {
   border: 2px solid black;
   margin: -5px;
-  background-color: white;
+  background-color: #fddf24;
   fill-opacity: 0.5;
 }
 
@@ -260,7 +260,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 }
 /* line 228, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar.highlighted {
-  fill: #fddf24;
+  fill: white;
   stroke-width: 2px;
 }
 /* line 231, ../sass/viz.scss */
