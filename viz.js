@@ -510,7 +510,7 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
         .domain([(negValues? -one_station_max: 0), one_station_max])
         .range([height-margin_bottom, 5]);
 
-    var interp = "monotone";
+    var interp = "cardinal"; // "basis" keeps all data points true
     var line = d3.svg.line()
         .x(function(d, i) { return x_scale(i); })
         .y(function(d) { return y_scale(d); })
