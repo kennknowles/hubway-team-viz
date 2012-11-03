@@ -66,16 +66,23 @@ body,div,span,header,footer,h1,h2,h3,h4 {
  */
 
 .introduction {
-	      max-width:75%;
-          padding-left: 30px;
+	     font-family: "Century Schoolbook";
+	  max-width:80%;
+          padding-left: 20px;
 	  padding-right: 30px;
 	  margin-bottom: 10px;
-   h1 {
+   h1,h2 {
+      font-family: "Century Schoolbook";
       font-weight: bold;
       margin-bottom: 5px;
   
    }
-   p {      font-size: 10pt;
+   li{
+      list-style: disc none outside;
+      margin-left: 30px;
+   }
+  
+   p {
    }
    b {
      font-weight: bold;
@@ -300,18 +307,24 @@ body,div,span,header,footer,h1,h2,h3,h4 {
 }
 
 /* Nicer styles for the english-language accompanying this. */
-#narrative * {
+#narrative {
     font-family: "Century Schoolbook";
-    margin-left: 10px;
+    margin-left: 30px;
     
-    h2 {
+    width: 1100px; 
+    h2,h1 {
         font-family: inherit;
         font-weight: bold;
         margin-bottom: 1em;
     }
     ul { list-style: circle outside none; }
     em { font-style: italic; }
-    p { margin-bottom: 1em; }
+    p { margin-bottom: 1em;
+     
+    }
+    div {
+    font-family: inherit;
+    }
 }
 
 /* Hacks for the help */
@@ -325,22 +338,22 @@ td em{ white-space:nowrap; }
 }
 
 #insights-holder {
-	width: 1100px; 
+	
 	
   h2 {
-       font-size: 14pt;
+#       font-size: 14pt;
       
    }
    p {
-	max-width: 600px;
-        font-size: 10pt;
+#	max-width: 600px;
+ #       font-size: 10pt;
    }
 
    .pics {
    	# position: relative;
    	      float: right;
    	      margin-left: 0px;
-   	      padding-left: 0;
+   	      padding-left: 20px;
   	      margin-right: 0px;
 	      margin-bottom: 10px;
    }
@@ -351,10 +364,11 @@ td em{ white-space:nowrap; }
    .story{
       clear: both;
 	
-	margin-left: 10px;
+#	margin-left: 10px;
    }
    .story-text{
     padding-top: 20px;
-	width-max: 50%
+	width-max: 50%;
+	
    }
 }
