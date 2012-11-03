@@ -457,7 +457,7 @@ function set_up_station_chart() {
         .attr("y1", legend.y_first)
         .attr("y2", legend.y_first);
     chart_svg.append("text")
-	.text("Arrivals")
+	.text("Bikes In")
 	.attr("class", "title")
 	.attr("x", legend.t_start)
 	.attr("y", legend.y_first+legend.yt_fudge);
@@ -470,7 +470,7 @@ function set_up_station_chart() {
         .attr("y1", legend.y_second)
         .attr("y2", legend.y_second);
     chart_svg.append("text")
-	.text("Departures")
+	.text("Bikes Out")
 	.attr("class", "title")
 	.attr("x", legend.t_start)
 	.attr("y", legend.y_second+legend.yt_fudge);
