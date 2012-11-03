@@ -25,7 +25,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
 }
 
 .link {
-      color: orange;
+      color: $negative-color;
       font-size: 8pt;
 }
 /* 
@@ -66,6 +66,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
  */
 
 .introduction {
+	      max-width:75%;
           padding-left: 30px;
 	  padding-right: 30px;
 	  margin-bottom: 10px;
@@ -74,8 +75,10 @@ body,div,span,header,footer,h1,h2,h3,h4 {
       margin-bottom: 5px;
   
    }
-   p {
-      font-size: 10pt;
+   p {      font-size: 10pt;
+   }
+   b {
+     font-weight: bold;
    }
  }
 /* General bits for the chart panel with rounded corners, a header, and a footer */

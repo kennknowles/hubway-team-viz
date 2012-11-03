@@ -34,23 +34,22 @@
     <script src="hourlyAverage.js"></script>
     <script src="stationCap.js"></script>
     <script src="station_names.js"></script>
-    <script src="blurbs.js"></script>
     <script src="viz.js"></script>
   </head>
   <body>
 
     <div id="container">
       <div class="introduction">
-    <h1> Hubway Bikes In / Bikes Out</h2>
-<p>In order for the Hubway system to work, there must always be bikes and empty docks at each station when needed. One of Hubway's challenges is to redistrubute bikes in the system (on a daily or even hourly basis) to keep up with imbalances in rider's usage. While some stations show a dynamic equilibrium of departures and arrivals throughout the course of the day, popular commuting stations experience high net losses or gains in the morning and evening. We visualized traffic for each station and hour of the day and analyzed how different user groups contributed to this.</p>
+      
+	<h1>Hubway Bikes In / Bikes Out</h1>
+      
 
-<p>Since usage patterns change as new stations are installed, this graphic focuses only on the recent busy months of August and September 2012. Also the data here is restricted to Weekdays in order to highlight the critical imbalances that Hubway must account for to keep the system working. Weekend traffic represents more casual users and a more balanced overall usage.</p>
-      </div>
-      <div id="titlebar">
-        Hourly Balance of Hubway Bicycle Departures and Arrivals
-	<span id="sub-title"> for Weekday Traffic in August and September 2012</span>
-
-        <a class="link" id="help-link" href="#help">How to use this chart.</a>
+<p>Explore this interactive to discover the flow of Hubway Bikes around Boston on a typical week day:
+  <br />&nbsp;&nbsp;&bull;<b> Select different hours</b> to see the total average of bikes in and out of stations on the map, and the net gains and losses in the bars below.
+  <br />&nbsp;&nbsp;&bull;<b>  Select circles on the map or bars below</b> to see the character of the various stations in the hourly usage curves in the left panel. Note the commuter usage spikes at many stations, and more distributed afternoon usage in more touristy areas.
+  <a class="link" id="help-link" href="#insights">More insights below</a> |
+  <a class="link" id="help-link" href="#help">How to use this chart</a></p>
+    
       </div>
 
       <div id="body">
@@ -119,10 +118,14 @@
 
  <section id="insights">
    <div id="insights-holder">
-        <h2>Some Insights</h2>
+        <h2>Some Insights  <a class="link" href="#body">back to top</a></h2>
         <p>
           Spoiler alert! Beyond this point, we describe some insights that we found in the process of exploring this data, and how to bring them out
-          using the above interface.
+          using the above interface. 
+<p>In order for the Hubway system to work, there must always be bikes and empty docks at each station when needed. One of Hubway's challenges is to redistrubute bikes in the system (on a daily or even hourly basis) to keep up with imbalances in rider's usage. While some stations show a dynamic equilibrium of departures and arrivals throughout the course of the day, popular commuting stations experience high net losses or gains in the morning and evening. We visualized traffic for each station and hour of the day and analyzed how different user groups contributed to this.</p>
+
+<p>Since usage patterns change as new stations are installed, this graphic focuses only on the recent busy months of August and September 2012. Also the data here is restricted to Weekdays in order to highlight the critical imbalances that Hubway must account for to keep the system working. Weekend traffic represents more casual users and a more balanced overall usage.</p>
+
         </p>
 
 	<div class="story">
@@ -171,7 +174,7 @@
  
       <section id="help">
 	<hr />
-        <h2>How to use these charts <a class="link" href="#titlebar">back to top</a></h2>
+        <h2>How to use these charts <a class="link" href="#body">back to top</a></h2>
         <p>The three charts above present some complex data in an interactive way. Here is some explanation in addition to the various legends:</p>
         <table>
           <tbody>
