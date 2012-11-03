@@ -16,6 +16,8 @@ $panel-content-height: 390px;
 $panel-height: $panel-header-height + $panel-footer-height + $panel-content-height + 8px; /* No idea where the 10px comes from */
 
 $map-legend-height: 162px + 1px; // the height of the png legend
+$text-percent: 30%;
+
 /* Easier to measure things with this */
 body,div,span,header,footer,h1,h2,h3,h4 {
     @include box-sizing(border-box);
@@ -311,29 +313,45 @@ body,div,span,header,footer,h1,h2,h3,h4 {
 
 /* Hacks for the help */
 #help {
-    td em { white-space:nowrap; }
+     clear: both; 
+td em{ white-space:nowrap; }
     td {
         padding: 1em;
         vertical-align: top;
     }
 }
 
-#blurbs {
-	padding-left: 0px;
-	padding-right: 60px;
+#insights-holder {
+	width: 1100px; 
+	
   h2 {
-
-       
+       font-size: 14pt;
+      
    }
    p {
-
+	max-width: 600px;
         font-size: 10pt;
    }
-   .blurb-img {
-   	      float: left;
-   	      margin-left: 0;
+
+   .pics {
+   	# position: relative;
+   	      float: right;
+   	      margin-left: 0px;
    	      padding-left: 0;
-  	      margin-right: 30px;
+  	      margin-right: 0px;
 	      margin-bottom: 10px;
+   }
+   img {
+       #position: abosolute;
+       #top: 10px;
+   }
+   .story{
+      clear: both;
+	
+	margin-left: 10px;
+   }
+   .story-text{
+    padding-top: 20px;
+	width-max: 50%
    }
 }
