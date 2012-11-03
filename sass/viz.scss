@@ -4,7 +4,8 @@
 /* Overall color scheme, etc */
 $positive-color : #2c826b;//36ac9c;
 $negative-color : #df6342;//#8B2A2F;//F65650; //f9a72b;
-$highlighted-color: #ffffff;
+$highlighted-color: #ff0000;
+
 $selected-color: #fddf24;// #dad3ad; // #c7bb79;//#d9c702;
 $border-radius: 20px;
 $neutral-color: #a1988d;// ##6f5d4d;// #9b8978; //#b4aca8;//c7bb79;
@@ -254,8 +255,8 @@ body,div,span,header,footer,h1,h2,h3,h4 {
 #accumulation-chart-container {
     #accumulation-chart {
         height: 350px;
-        margin-top: 30px;
-        margin-bottom: 30px;
+        margin-top: 20px;
+        margin-bottom: 20px;
     
     
         .bar-label { font-size: 8pt;}
@@ -300,7 +301,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
         }
         
         .activator.selected {
-            fill: #cccccc;
+            fill: $selected-color;//#cccccc;
             fill-opacity: 0.5;
         }
     }

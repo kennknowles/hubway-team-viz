@@ -270,6 +270,7 @@ function set_up_station_accumulations(view_model) {
 
     $('#accumulation-chart').on("click", 'rect[class~="activator"]', function() {
         $('#accumulation-chart .activator.selected').attr("class", "activator");
+	// if we re-run the hour can we get it in back?
         view_model.selected_station( $(this).attr('data-station') );
     });
 
@@ -503,7 +504,8 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
     // small. Ex. South Bay Plaza, greatly improves ability to detect
     // fractional bikes per day.
     var min_thr = Math.min(3, one_station_max*2);
-    one_station_max = Math.max(min_thr, one_station_max);
+    one_station_max = Math.max(min_thr, one_station_max)*1.1;
+    
     var x_scale = d3.scale.ordinal()
         .domain(_.range(-1,30))
         .rangeRoundBands([0, width]);
@@ -553,9 +555,6 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
 	    return hourMap[parseInt(d)];
 	});
 	
-    
-    console.log(sc_x_axis);
-        
     sc_y_axis = d3.svg.axis()
         .scale(y_scale)
         .orient("right")
