@@ -559,7 +559,10 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
     sc_y_axis = d3.svg.axis()
         .scale(y_scale)
         .orient("right")
-        .ticks(5);
+        .ticks(5)
+	.tickFormat(function(d){
+	    return (d == "0"? '': d); // remove the zero that is lying on the x axis
+	});
 
     // TODO: mutate axis if it is too ugly
     chart_svg.selectAll('g.axis').remove();
