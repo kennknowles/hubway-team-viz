@@ -22,6 +22,10 @@ body,div,span,header,footer,h1,h2,h3,h4 {
     font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
 }
 
+.link {
+      color: orange;
+      font-size: 8pt;
+}
 /* 
  * Principle layout
  */
@@ -37,7 +41,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
 	    font-size: 12pt;
 	    font-style: italic;	
 	}
-        #help-link {
+        .link#help-link {
             float: right;
             font-size: 8pt;
         }
@@ -59,6 +63,19 @@ body,div,span,header,footer,h1,h2,h3,h4 {
  * Various components pulled out and referenced by id to reduce SCSS indentation
  */
 
+.introduction {
+          padding-left: 30px;
+	  padding-right: 30px;
+	  margin-bottom: 10px;
+   h1 {
+      font-weight: bold;
+      margin-bottom: 5px;
+  
+   }
+   p {
+      font-size: 10pt;
+   }
+ }
 /* General bits for the chart panel with rounded corners, a header, and a footer */
 .panel {
     height: $panel-height;
@@ -179,7 +196,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
     
         .line {
             fill: none;
-            stroke-width: 3px;
+            stroke-width: 4px;
         }
         .line.arrivals {
             stroke: $positive-color;
@@ -188,7 +205,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
             stroke: $negative-color;
         }
         .area {
-            opacity: 0.30;
+            opacity: 0.15;
         }
         .area.arrivals{
             fill: $positive-color;  
@@ -222,7 +239,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
         margin-bottom: 30px;
     
     
-        .bar-label { font-size: 8pt; }
+        .bar-label { font-size: 8pt;}
         .bar-label.positive { text-anchor: end; }
         .bar-label.negative { text-anchor: start; }
     
@@ -274,7 +291,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
 #narrative * {
     font-family: "Century Schoolbook";
     margin-left: 10px;
-
+    
     h2 {
         font-family: inherit;
         font-weight: bold;
@@ -295,13 +312,21 @@ body,div,span,header,footer,h1,h2,h3,h4 {
 }
 
 #blurbs {
-	
-  .blurb-head {
-        padding-left: 30px;
-        font-size: 20pt;
+	padding-left: 0px;
+	padding-right: 60px;
+  h2 {
+
+       
    }
-   .blurb-body{
-        padding-left: 30px;
+   p {
+
         font-size: 10pt;
+   }
+   .blurb-img {
+   	      float: left;
+   	      margin-left: 0;
+   	      padding-left: 0;
+  	      margin-right: 30px;
+	      margin-bottom: 10px;
    }
 }

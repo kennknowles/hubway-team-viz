@@ -613,18 +613,7 @@ function formatStats(cap, arrivals, departures, selectedHour){
         //  ' delta: ' + (sa+sd)    :'');
 
 }
-function postBlurb(b){
 
-    bs = d3.select('#blurbs');
-    bs.append('div')
-	.attr('class', 'blurb-head')
-	.text(b.title);
-   bs
-	.append('div')
-	.attr('class', 'blurb-body')
-	.text(b.body);
-   
-}
 $(document).ready(function() {
 
     // intro = d3.select('#introduction').selectAll('p')
@@ -633,10 +622,6 @@ $(document).ready(function() {
     // 	.append('p')
 //	.text(function(d){return d;});
 
-    // Display the blurbs for the user:
-    _(blurbs).each(function(b){
-	postBlurb(b);
-    });
     /* Massage the initial data to make life a little easier */
     var stations_by_id = {};
     _(stations).each(function(station) { stations_by_id[station.id] = station; });
