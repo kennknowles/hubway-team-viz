@@ -582,7 +582,7 @@ function bind_station_chart_data(chart_svg, one_station_departures, one_station_
 	.attr("x", -30)
 	.attr("dy", ".71em")
         .style("text-anchor", "end")
-        .text("Trips per Day");
+        .text("Trips per Hour");
 }
 
 function sum24HrsData(trips){
@@ -678,7 +678,7 @@ $(document).ready(function() {
 	}else{
 	    // assume this means 24Hr total
 	    $('#map-panel header').text(
-		titleString + 'for typical weekeday.');
+		titleString + 'for typical weekday.');
 	    $('#map-foot-stats').text( nameStr +
 		' 24 Hr ' +
 		    trafficStr);
