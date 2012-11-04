@@ -211,12 +211,12 @@ function set_up_station_accumulations(view_model) {
             .attr("class", "bary axis")// TODO: create a style for this
             .call(yAxis)
             .append("text")
-            .attr("y",-40)
+            .attr("y",-35)
             .attr("x", -50)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
             .attr("transform", "rotate(-90)")
-            .text("net accumulation of bikes");
+            .text("Net Accumulation of Bikes");
 
         svg.append("g")
             .attr("class", "bary axis")// TODO: create a style for this
