@@ -35,7 +35,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
 #container {
     margin: 5px 20px 20px 20px;
     width: 1220px;
-
+    
     #titlebar {
         padding-left: 30px;
         margin-bottom: -3px; /* To lay exactly on the border of the body */
@@ -68,10 +68,12 @@ body,div,span,header,footer,h1,h2,h3,h4 {
 
 .introduction {
 	     font-family: "Century Schoolbook";
+	     color: #333333;
 	  max-width:80%;
           padding-left: 37px;
 	  padding-right: 30px;
 	  margin-bottom: 20px;
+	  padding-top: 20px;
    h1,h2 {
       font-family: "Century Schoolbook";
       font-weight: bold;
@@ -315,7 +317,7 @@ body,div,span,header,footer,h1,h2,h3,h4 {
 #narrative {
     font-family: "Century Schoolbook";
     margin-left: 55px;
-    
+    color: #333333;
     width: 1100px; 
     h2,h1 {
         font-family: inherit;
@@ -334,11 +336,13 @@ body,div,span,header,footer,h1,h2,h3,h4 {
 
 /* Hacks for the help */
 #help {
-     clear: both; 
-td em{ white-space:nowrap; }
+     clear: both;
+    
+     td em{ white-space:nowrap; }
     td {
         padding: 1em;
         vertical-align: top;
+	 color: #333333;
     }
 }
 
