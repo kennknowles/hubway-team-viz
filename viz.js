@@ -1,16 +1,16 @@
-
+ 
 /* Colors found in sass/viz.scss but if there's a clever way to automate extraction */
 var positive_color = '#2c826b';//36ac9c';
 var negative_color = '#df6342'//'#8B2A2F';//f9a72b';
 var neutral_color = '#a1988d';'#9b8978';// #6f5d4d';//'#c9baad';//'#b4aca8';//c7bb79';
-// by hand darkend in the gimp '#c0c29d';
+// by hand darkened in the gimp '#c0c29d';
 
 //With 25% opacity the mix is this: "#d1d3b1";//"#ac9faa"
 var acc_y_ax_pad = 50;
 var highlighted_color = '#ffffff';
 var selected_color = '#fddf24';
-var excessFactor = 0.2; // corredonds to Zia's old value of 1.5, with new math arrive/depart > (1+F)/(1-F).
-// arrive = 1.5*depart >> arrive = 60% of total traffic, which seems like the easiest way to talk abot it. .2 means 20% of middle is considered neutral...
+var excessFactor = 0.2; // corresponds to Zia's old value of 1.5, with new math arrive/depart > (1+F)/(1-F).
+// arrive = 1.5*depart >> arrive = 60% of total traffic, which seems like the easiest way to talk about it. .2 means 20% of middle is considered neutral...
 
 var plotNegativeDepartures = false;
 
