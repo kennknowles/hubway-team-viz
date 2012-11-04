@@ -183,7 +183,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 #hour-controls .hour:hover {
   border: 1px solid black;
   margin: -4px;
-  background-color: red;
+  background-color: white;
 }
 /* line 177, ../sass/viz.scss */
 #hour-controls .hour.selected {
@@ -309,7 +309,7 @@ body, div, span, header, footer, h1, h2, h3, h4 {
 }
 /* line 276, ../sass/viz.scss */
 #accumulation-chart-container #accumulation-chart .bar.highlighted {
-  fill: red;
+  fill: white;
   stroke-width: 2px;
 }
 /* line 279, ../sass/viz.scss */
